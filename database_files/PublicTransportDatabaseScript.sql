@@ -59,6 +59,7 @@ CREATE TABLE Prevoznik(
     naziv NVARCHAR(50) NOT NULL,
     email NVARCHAR(100) NOT NULL,
     telefon NVARCHAR(20) NOT NULL,
+    passwordHash NVARCHAR(256) NOT NULL,
     tip_id INT NOT NULL,
     grad_id INT NOT NULL,
     CONSTRAINT PK_Prevoznik PRIMARY KEY (id_prevoznik),
@@ -184,8 +185,10 @@ CREATE TABLE Relacija(
 	id_relacija INT AUTO_INCREMENT,
     cijena FLOAT(3,2) NOT NULL,
     interval_id INT NOT NULL,
+    tipVozila_id INT NOT NULL,
     CONSTRAINT PK_Relacija PRIMARY KEY (id_relacija),
-    CONSTRAINT FK_Relacija_TipRelacije FOREIGN KEY (interval_id) REFERENCES IntervalRelacije(id_interval)
+    CONSTRAINT FK_Relacija_TipRelacije FOREIGN KEY (interval_id) REFERENCES IntervalRelacije(id_interval),
+    CONSTRAINT FK_Relacija_TipVozila FOREIGN KEY (tipVozila_id) REFERENCES TipVozila(id_tip)
 );
 
 /* 21 */

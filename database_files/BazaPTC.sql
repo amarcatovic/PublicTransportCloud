@@ -1,3 +1,5 @@
+drop database PublicTransportCloud;
+
 CREATE DATABASE PublicTransportCloud;
 USE PublicTransportCloud;
 

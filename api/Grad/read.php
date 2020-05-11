@@ -3,14 +3,14 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Grad.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $city = new Grad($db);
 
-  $result = $county->get();
+  $result = $city->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +22,9 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'id' => $id_grad,
+            'naziv' => $naziv,
+            'drzava_Id' => $drzava_id 
           );
 
           array_push($cat_arr['data'], $cat_item);
@@ -33,6 +34,6 @@
 
   } else {
         echo json_encode(
-          array('message' => 'No Categories Found')
+          array('message' => 'Nema Gradova')
         );
   }

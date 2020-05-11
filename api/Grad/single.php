@@ -3,25 +3,21 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/KorisnikAplikacije.php';
+  include_once '../../models/Grad.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $user = new KorisnikAplikacije($db);
+  $city = new Grad($db);
 
-  $user->id_korisnik = isset($_GET['id']) ? $_GET['id'] : die();
+  $city->id_grad = isset($_GET['id']) ? $_GET['id'] : die();
 
-  $user->read_single();
+  $city->read_single();
 
   $category_arr = array(
-    'id' => $user->id_korisnik,
-    'ime' => $user->ime,
-    'prezime' => $user->prezime,
-    'email' => $user->email,
-    'passwordHash' => $user->passwordHash,
-    'grad' => $user->Grad,
-    'uloga' => $user->Uloga
+    'id' => $city->id_grad,
+    'naziv' => $city->naziv,
+    'prezime' => $city->drzava_id
   );
 
   print_r(json_encode($category_arr));

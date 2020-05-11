@@ -15,7 +15,7 @@ class Grad{
 
     // GET
     public function get() {
-      $query = 'CALL ';
+      $query = 'CALL GetGradovi()';
 
       $stmt = $this->conn->prepare($query);
       $stmt->execute();
@@ -24,31 +24,28 @@ class Grad{
     }
 
   public function read_single(){
-    $query = 'CALL ';
+    $query = 'CALL GetGrad(?)';
 
       $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(1, $this->id_korisnik);
+      $stmt->bindParam(1, $this->id_grad, PDO::PARAM_STR);
       $stmt->execute();
 
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $this->id_korisnik = $row['id_korisnik'];
-      $this->ime = $row['ime'];
-      $this->prezime = $row['prezime'];
-      $this->email = $row['email'];
-      $this->passwordHash = $row['passwordHash'];
-      $this->Grad = $row['Grad'];
-      $this->Uloga = $row['Uloga'];
+      $this->id_grad = $row['id_grad'];
+      $this->naziv = $row['naziv'];
+      $this->drzava_id = $row['drzava_id'];
   }
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+    $query = 'INSERT INTO ' . $this->table . ' (naziv, drzava_id) VALUES(:name, :country)';
 
   $stmt = $this->conn->prepare($query);
   $this->naziv = htmlspecialchars(strip_tags($this->naziv));
 
   $stmt-> bindParam(':name', $this->naziv);
+  $stmt-> bindParam(':country', $this->drzava_id);
 
   if($stmt->execute()) {
     return true;

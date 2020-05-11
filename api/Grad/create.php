@@ -6,21 +6,22 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Grad.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $country = new Drzava($db);
+  $city = new Grad($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $country->naziv = $data->naziv;
+  $city->naziv = $data->naziv;
+  $city->drzava_id = $data->drzava_id;
 
-  if($country->naziv == '')
+  if($city->naziv == '')
     die;
     
-  if($country->create()) {
+  if($city->create()) {
     echo json_encode(
       array('status' => 'OK')
     );

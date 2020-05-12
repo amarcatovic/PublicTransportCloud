@@ -1,0 +1,78 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+nav{
+    background-color: lightskyblue;
+    padding: 15px;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+}
+
+h2{
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#unos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    background-color: lightskyblue;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 20px;
+    border: 1px solid #333;
+}
+
+#polje{
+    display: flex;
+    width: 80%;
+    margin: 15px;
+}
+
+label{
+    width: 10em;
+    margin-right: 1em;
+    text-align: right;
+}
+
+input{
+    flex-grow: 100;
+    margin-right: 15px;
+    height: 2em;
+    padding-left: 5px;
+}
+
+#btnDodaj{
+    width: 20%;
+    height: 50px;
+    margin-top: 20px;
+    background-color: lightskyblue;
+    border: 2px solid #333;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#btnDodaj:hover{
+    background-color: lightsteelblue;
+}
+
+.data-table_wrapper{
+    padding-right: 0px;
+}
+
+@media (max-width: 700px){
+    #unos{
+        width: 100vw;
+        border-radius: 0px;
+        border: none;
+    }
+}

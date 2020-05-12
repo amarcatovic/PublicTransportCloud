@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dodaj stanice relaciji</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <nav id="navigacija">Appobus - Administracija</nav>
+
+    <h2>Dodaj stanice relaciji</h2>
+    <div id="unos">
+        <div id="polje">
+            <label for="relacija-dropdown">Relacija:</label>
+            <select id="relacija-dropdown" onchange="getIdRelacijaFromSelect()">
+                <option value="" disabled selected hidden>Odabir...</option>
+            </select>
+        </div>
+        <div id="polje">
+            <label for="stanica-relacija">Stanica:</label>
+            <input type="text" id="stanica-relacija">
+        </div>
+        <button id="btnDodaj" onclick="clearInput()" onclick="dodajStanica()">Dodaj</button>
+    </div>
+    
+    <script>
+        let relacijaDropdown = document.getElementById('relacija-dropdown')
+        relacijaDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Odabir...';
+
+        relacijaDropdown.add(defaultOption)
+        relacijaDropdown.selectedIndex = 0
+
+        const url = 'http://192.168.0.15/PublicTransportCloud/api/Relacija/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                relacijaDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdRelacijaFromSelect = () => {
+            var r = document.getElementById("relacija-dropdown").options[document.getElementById("relacija-dropdown").selectedIndex].value;
+        }
+
+    </script>
+
+    <script>
+    function clearInput(){
+        document.getElementById("relacija-dropdown").value="Odabir...";
+        document.getElementById("stanica-relacija").value="";
+    }
+
+    function dodajStanica(){
+        let nizStanica = [];
+        nizStanica.add(option.dataset.stanicaID);
+    }
+
+    const data = {}
+    
+    const dodajRelacija = () => {
+        data.relacija_id = r;
+        data.nizStanica.add(option.dataset.stanicaID);
+        fetch('http://192.168.0.15/PublicTransportCloud/api/Relacija/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+    }
+
+    </script>
+
+<table id="data-table" class="table table-bordered">  
+    <thead>  
+         <tr>  
+              <th>Relacija</th>
+         </tr>  
+    </thead>  
+</table>  
+
+<script>  
+    $(document).ready(function(){  
+         $('#data-table').DataTable({  
+              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Relacija/read.php",  
+              "columns"     :     [  
+                   {     "data"     :     "relacija"},
+                   {     "data"     :     "nizStanica"}
+              ]  
+         }); 
+    }); 
+    </script>  
+
+<select id="relacija-dropdown" name="relacija"></select>
+<button onclick="getIdFromSelect()">Provjeri ID odabrane relacije</button>
+<p id="id-relacija"></p>
+
+<script>
+    let dropdown = document.getElementById('relacija-dropdown')
+    dropdown.length = 0
+
+    let defaultOption = document.createElement('option')
+    defaultOption.text = 'Odabir...';
+
+    dropdown.add(defaultOption)
+    dropdown.selectedIndex = 0
+
+    const url = 'http://192.168.0.15/PublicTransportCloud/api/Relacija/read.php'
+
+    fetch(url).then(  
+        function(response) {  
+        if (response.status !== 200) {  
+            console.warn('Error: ' + response.status)  
+            return 
+        }
+        response.json().then(function(data) {  
+            let option
+            for (let i = 0; i < data.data.length; i++) {
+            option = document.createElement('option')
+            option.text = data.data[i].naziv
+            option.value = data.data[i].id
+            dropdown.add(option)
+            }    
+        });  
+        }  
+    )  
+    .catch(function(err) {  
+        console.error('Error -', err)
+    })
+
+    const getIdFromSelect = () => {
+        var e = document.getElementById("relacija-dropdown");
+        document.getElementById("id-relacija").innerHTML = e.options[e.selectedIndex].value
+    }
+
+</script>
+
+
+
+</body>
+</html>

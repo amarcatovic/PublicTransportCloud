@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dodaj automobil</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <nav id="navigacija">Appobus - Administracija</nav>
+
+    <h2>Dodaj automobil</h2>
+    <div id="unos">
+        <div id="polje">
+            <label for="id-automobil">Registracija:</label>
+            <input id="id-automobil" type="text">
+        </div>
+        <div id="polje">
+            <label for="proizvodjac-automobil">Proizvođač:</label>
+            <input id="proizvodjac-automobil" type="text">
+        </div>
+        <div id="polje">
+            <label for="model-automobil">Model:</label>
+            <input id="model-automobil" type="text">
+        </div>
+        <div id="polje">
+            <label for="boja-automobil">Boja:</label>
+            <input id="boja-automobil" type="text">
+        </div>
+        
+        <button id="btnDodaj" onclick="clearInput()" onclick="dodajAutomobil()" >Dodaj</button>
+    </div>
+    
+
+    <script>
+    function clearInput(){
+        document.getElementById("id-automobil").value="";
+        document.getElementById("proizvodjac-automobil").value="";
+        document.getElementById("model-automobil").value="";
+        document.getElementById("boja-automobil").value="";
+    }
+
+    const data = {}
+    
+    const dodajAutomobil = () => {
+        data.id = document.querySelector('#id-automobil').value
+        data.adresa = document.querySelector('#proizvodjac-automobil').value
+        data.lat = document.querySelector('#model-automobil').value
+        data.lon = document.querySelector('#boja-automobil').value
+        fetch('http://192.168.0.15/PublicTransportCloud/api/Automobil/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+    }
+    </script>
+
+<table id="data-table" class="table table-bordered">  
+    <thead>  
+         <tr>  
+              <th>Id</th>  
+              <th>Registracija</th>
+              <th>Proizvođač</th>
+              <th>Model</th>
+              <th>Boja</th>
+         </tr>  
+    </thead>  
+</table>  
+
+<script>  
+    $(document).ready(function(){  
+         $('#data-table').DataTable({  
+              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Automobil/read.php",  
+              "columns"     :     [  
+                   {     "data"     :     "id"     },
+                   {     "data"     :     "registracija"},
+                   {     "data"     :     "proizvodjac"},
+                   {     "data"     :     "model"},
+                   {     "data"     :     "boja"},
+              ]  
+         }); 
+    }); 
+    </script>  
+
+<select id="automobil-dropdown" name="automobil"></select>
+<button onclick="getIdFromSelect()">Provjeri ID odabranog automobila</button>
+<p id="id-automobil"></p>
+
+<script>
+    let dropdown = document.getElementById('automobil-dropdown')
+    dropdown.length = 0
+
+    let defaultOption = document.createElement('option')
+    defaultOption.text = 'Odabir...';
+
+    dropdown.add(defaultOption)
+    dropdown.selectedIndex = 0
+
+    const url = 'http://192.168.0.15/PublicTransportCloud/api/Automobil/read.php'
+
+    fetch(url).then(  
+        function(response) {  
+        if (response.status !== 200) {  
+            console.warn('Error: ' + response.status)  
+            return 
+        }
+        response.json().then(function(data) {  
+            let option
+            for (let i = 0; i < data.data.length; i++) {
+            option = document.createElement('option')
+            option.text = data.data[i].registracija
+            option.value = data.data[i].id
+            dropdown.add(option)
+            }    
+        });  
+        }  
+    )  
+    .catch(function(err) {  
+        console.error('Error -', err)
+    })
+
+    const getIdFromSelect = () => {
+        var e = document.getElementById("automobil-dropdown");
+        document.getElementById("id-automobil").innerHTML = e.options[e.selectedIndex].value
+    }
+
+</script>
+
+
+
+</body>
+</html>

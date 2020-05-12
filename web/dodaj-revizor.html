@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dodaj revizora</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <nav id="navigacija">Appobus - Administracija</nav>
+
+    <h2>Dodaj revizora</h2>
+    <div id="unos">
+        <div id="polje">
+            <label for="ime-korisnikAplikacije">Ime:</label>
+            <input id="ime-korisnikAplikacije" type="text">
+        </div>
+        <div id="polje">
+            <label for="prezime-korisnikAplikacije">Prezime:</label>
+            <input id="prezime-korisnikAplikacije" type="text">
+        </div>
+        <div id="polje">
+            <label for="email-korisnikAplikacije">Email adresa:</label>
+            <input id="email-korisnikAplikacije" type="email">
+        </div>
+        <div id="polje">
+            <label for="password-korisnikAplikacije">Password:</label>
+            <input id="password-korisnikAplikacije" type="password">
+        </div>
+        <div id="polje">
+            <label for="datumRodjenja-korisnikAplikacije">Datum rođenja:</label>
+            <input id="datumRodjenja-korisnikAplikacije" type="date">
+        </div>
+        <div id="polje">
+            <label for="grad-dropdown">Grad:</label>
+            <select id="grad-dropdown" onchange="getIdGradFromSelect()">
+                <option value="" disabled selected hidden>Odabir...</option>
+            </select>
+        </div>
+        <div id="polje">
+            <label for="brojDozvole-korisnikAplikacije">Broj dozvole:</label>
+            <input id="brojDozvole-korisnikAplikacije" type="text">
+        </div>
+        <div id="polje">
+            <label for="prevoznik-dropdown">Prevoznik:</label>
+            <select id="prevoznik-dropdown" onchange="getIdPrevoznikFromSelect()">
+                <option value="" disabled selected hidden>Odabir...</option>
+            </select>
+        </div>
+        
+        <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajRevizor()">Dodaj</button>
+    </div>
+    
+    <script>
+        let gradDropdown = document.getElementById('grad-dropdown')
+        gradDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Odabir...';
+
+        gradDropdown.add(defaultOption)
+        gradDropdown.selectedIndex = 0
+
+        const url = 'http://192.168.0.15/PublicTransportCloud/api/Grad/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdGradFromSelect = () => {
+            var g = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        }
+
+        {
+            let prevoznikDropdown = document.getElementById('prevoznik-dropdown')
+            prevoznikDropdown.length = 0
+
+            let defaultOption = document.createElement('option')
+            defaultOption.text = 'Odabir...';
+
+            prevoznikDropdown.add(defaultOption)
+            prevoznikDropdown.selectedIndex = 0
+
+            const url = 'http://192.168.0.15/PublicTransportCloud/api/Prevoznik/read.php'
+
+            fetch(url).then(  
+                function(response) {  
+                if (response.status !== 200) {  
+                    console.warn('Error: ' + response.status)  
+                    return 
+                }
+                response.json().then(function(data) {  
+                    let option
+                    for (let i = 0; i < data.data.length; i++) {
+                    option = document.createElement('option')
+                    option.text = data.data[i].naziv
+                    option.value = data.data[i].id
+                    prevoznikDropdown.add(option)
+                    }    
+                });  
+                }  
+            )  
+            .catch(function(err) {  
+                console.error('Error -', err)
+            })
+
+            const getIdPrevoznikFromSelect = () => {
+                var p = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
+        }
+        }
+    </script>
+
+    <script>
+    function clearInput(){
+        document.getElementById("ime-korisnikAplikacije").value="";
+        document.getElementById("prezime-korisnikAplikacije").value="";
+        document.getElementById("email-korisnikAplikacije").value="";
+        document.getElementById("password-korisnikAplikacije").value="";
+        document.getElementById("datumRodjenja-korisnikAplikacije").value="";
+        document.getElementById("grad-dropdown").value="Odabir...";
+        document.getElementById("brojDozvole-korisnikAplikacije").value="";
+        document.getElementById("prevoznik-dropdown").value="Odabir...";
+    }
+
+    const data = {}
+    
+    const dodajKorisnikAplikacije = () => {
+        data.ime = document.querySelector('#ime-korisnikAplikacije').value
+        data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
+        data.email = document.querySelector('#email-korisnikAplikacije').value
+        data.password = document.querySelector('#password-korisnikAplikacije').value
+        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+        data.grad_id = g;
+        fetch('http://192.168.0.15/PublicTransportCloud/api/KorisnikAplikacije/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+    }
+
+    const dodajRevizor = () => {
+        data.ime = document.querySelector('#ime-korisnikAplikacije').value
+        data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
+        data.email = document.querySelector('#email-korisnikAplikacije').value
+        data.password = document.querySelector('#password-korisnikAplikacije').value
+        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+        data.grad_id = g;
+        data.brojDozvole = document.querySelector('#brojDozvole-korisnikAplikacije').value
+        data.prevoznik_id = p;
+        fetch('http://192.168.0.15/PublicTransportCloud/api/Revizor/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+    }
+    </script>
+
+<table id="data-table" class="table table-bordered">  
+    <thead>  
+         <tr>  
+              <th>Id</th>  
+              <th>Ime</th>
+              <th>Prezime</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Datum rođenja</th>
+              <th>Grad</th>
+              <th>Broj dozvole</th>
+              <th>Prevoznik</th>
+         </tr>  
+    </thead>  
+</table>  
+
+<script>  
+    $(document).ready(function(){  
+         $('#data-table').DataTable({  
+              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Revizor/read.php",  
+              "columns"     :     [  
+                   {     "data"     :     "id"     },  
+                   {     "data"     :     "ime"},
+                   {     "data"     :     "prezime"},
+                   {     "data"     :     "email"},
+                   {     "data"     :     "password"},
+                   {     "data"     :     "datumRodjenja"},
+                   {     "data"     :     "grad_id"},
+                   {     "data"     :     "brojDozvole"},
+                   {     "data"     :     "prevoznik_id"}
+              ]  
+         }); 
+    }); 
+    </script>  
+
+<select id="revizor-dropdown" name="revizor"></select>
+<button onclick="getIdFromSelect()">Provjeri ID odabranog revizor</button>
+<p id="id-revizor"></p>
+
+<script>
+    let dropdown = document.getElementById('revizor-dropdown')
+    dropdown.length = 0
+
+    let defaultOption = document.createElement('option')
+    defaultOption.text = 'Odabir...';
+
+    dropdown.add(defaultOption)
+    dropdown.selectedIndex = 0
+
+    const url = 'http://192.168.0.15/PublicTransportCloud/api/Revizor/read.php'
+
+    fetch(url).then(  
+        function(response) {  
+        if (response.status !== 200) {  
+            console.warn('Error: ' + response.status)  
+            return 
+        }
+        response.json().then(function(data) {  
+            let option
+            for (let i = 0; i < data.data.length; i++) {
+            option = document.createElement('option')
+            option.text = data.data[i].naziv
+            option.value = data.data[i].id
+            dropdown.add(option)
+            }    
+        });  
+        }  
+    )  
+    .catch(function(err) {  
+        console.error('Error -', err)
+    })
+
+    const getIdFromSelect = () => {
+        var e = document.getElementById("revizor-dropdown");
+        document.getElementById("id-revizor").innerHTML = e.options[e.selectedIndex].value
+    }
+
+</script>
+
+
+
+</body>
+</html>

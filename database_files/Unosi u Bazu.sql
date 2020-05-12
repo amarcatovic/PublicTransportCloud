@@ -69,3 +69,156 @@ insert into KorisnikAplikacije (ime, prezime, email, passwordHash, datumRodjenja
 insert into KorisnikAplikacije (ime, prezime, email, passwordHash, datumRodjenja, grad_id, uloga_id) values ('Camella', 'Postance', 'cpostancen@pen.io', '8326406682421b294e25e92087573d856f7f2d80', '1981-02-15 22:36:52', 6, 2);
 insert into KorisnikAplikacije (ime, prezime, email, passwordHash, datumRodjenja, grad_id, uloga_id) values ('Abbe', 'Ximenez', 'aximenezo@yellowbook.com', '501be7a826d9e649a7109d5a13ff33931ec15f00', '1973-03-01 02:54:19', 2, 2);
 insert into KorisnikAplikacije (ime, prezime, email, passwordHash, datumRodjenja, grad_id, uloga_id) values ('Amar', 'Ćatović', 'amarzenica@gmail.com', '$2y$10$hTcQ4qzY1JwQvgJUi8p9iuIfXeEKnpFA6Ff4BIzzRgv/mmj3lKk.C', '1998-03-17 18:45:19', 1, 1); /* amaramar */
+
+insert into TipPrevoznika(naziv) VALUES ('Gradski Saobraćaj');
+insert into TipPrevoznika(naziv) VALUES ('Međunarodni Saobraćaj');
+insert into TipPrevoznika(naziv) VALUES ('Međugradski Saobraćaj');
+insert into TipPrevoznika(naziv) VALUES ('Taxi');
+
+insert into Prevoznik(naziv, email, telefon, passwordHash, tip_id, grad_id) 
+values('Zenicatrans', 'zetrans@gmail.com', '+38761555555', '3gtrss8fdk94**/sd4wesdf', 1, 1);
+insert into Prevoznik(naziv, email, telefon, passwordHash, tip_id, grad_id) 
+values('Gras', 'gras@gmail.com', '+38762123456', '3gtrss8fdk94**/sd4wesdf', 1, 2);
+insert into Prevoznik(naziv, email, telefon, passwordHash, tip_id, grad_id) 
+values('Sarajevo Taxi', 'taxi@sarajevo.ba', '+38760116342', '3gtrss8fdk94**/sd4wesdf', 4, 2);
+insert into Prevoznik(naziv, email, telefon, passwordHash, tip_id, grad_id) 
+values('FlixBus', 'flix@bus.de', '+38760777333', '3gtrss8fdk94**/sd4wesdf', 2, 2);
+insert into Prevoznik(naziv, email, telefon, passwordHash, tip_id, grad_id) 
+values('Centrotrans', 'centrotrans@gmail.com', '+38760115555', '3gtrss8fdk94**/sd4wesdf', 3, 2);
+
+INSERT INTO ProdajnoMjesto(naziv, lat, lng, adresa, grad_id) 
+VALUES ('Centar', 44.199813, 17.909691, 'Trg Alije Izetbegovića', 1);
+INSERT INTO ProdajnoMjesto(naziv, lat, lng, adresa, grad_id) 
+VALUES ('Autobuska Stanica', 44.210116, 17.912022, 'Bulevar Kralja Tvrtka I', 1);
+INSERT INTO ProdajnoMjesto(naziv, lat, lng, adresa, grad_id) 
+VALUES ('Crkvice', 44.200630, 17.920434, 'Crkvice', 1);
+INSERT INTO ProdajnoMjesto(naziv, lat, lng, adresa, grad_id) 
+VALUES ('Autobuska Stanica', 43.858876, 18.397693, 'Put života 8', 2);
+INSERT INTO ProdajnoMjesto(naziv, lat, lng, adresa, grad_id) 
+VALUES ('Sarajevo City Center', 43.855333, 18.407649, 'Vrbanja 1', 2);
+
+INSERT INTO Automobil(id_automobil, marka, model, boja) VALUES ('A12-A-345', 'Volfswagen', 'Polo', 'Crvena');
+INSERT INTO Automobil(id_automobil, marka, model, boja) VALUES ('A54-A-321', 'Volfswagen', 'Golf', 'Crna');
+INSERT INTO Automobil(id_automobil, marka, model, boja) VALUES ('M66-A-001', 'Renault', 'Megane', 'Plava');
+INSERT INTO Automobil(id_automobil, marka, model, boja) VALUES ('A11-M-395', 'Audi', 'A4', 'Siva');
+
+INSERT INTO Korisnik(id_korisnik, brojKartice, stanje) VALUES (1, '100000', 14.54);
+INSERT INTO Korisnik(id_korisnik, brojKartice, stanje) VALUES (2, '100001', 11.89);
+INSERT INTO Korisnik(id_korisnik, brojKartice, stanje) VALUES (3, '100002', 0);
+INSERT INTO Korisnik(id_korisnik, brojKartice, stanje) VALUES (4, '100003', 0);
+INSERT INTO Korisnik(id_korisnik, brojKartice, stanje) VALUES (5, '100004', 0.54);
+INSERT INTO Korisnik(id_korisnik, brojKartice, stanje) VALUES (6, '100005', 4.14);
+
+INSERT INTO Biletar(id_biletar, prodajnoMjesto_id) VALUES (7, 1);
+INSERT INTO Biletar(id_biletar, prodajnoMjesto_id) VALUES (8, 2);
+
+INSERT INTO Administracija(id_administrator, brojDozvole) VALUES(8, 'E53213');
+
+INSERT INTO Revizor(id_revizor, prevoznik_id, brojDozvole) VALUES (9, 1, 'A111TTE');
+INSERT INTO Revizor(id_revizor, prevoznik_id, brojDozvole) VALUES (10, 2, 'Z111TTE');
+
+INSERT INTO Vozac(id_vozac, prevoznik_id) VALUES (11, 1);
+INSERT INTO Vozac(id_vozac, prevoznik_id) VALUES (12, 2);
+
+INSERT INTO TaxiVozac(id_vozac, automobil_id, brojTaxiDozvole, prevoznik_id)
+VALUES (13, 'A12-A-345', 'TXI131', NULL);
+INSERT INTO TaxiVozac(id_vozac, automobil_id, brojTaxiDozvole, prevoznik_id)
+VALUES (14, 'A54-A-321', 'TXI190', 3);
+
+INSERT INTO TipVozila(naziv) VALUES ('Autobus');
+INSERT INTO TipVozila(naziv) VALUES ('Tramvaj');
+INSERT INTO TipVozila(naziv) VALUES ('Trolejbus');
+INSERT INTO TipVozila(naziv) VALUES ('Voz');
+INSERT INTO TipVozila(naziv) VALUES ('Metro');
+INSERT INTO TipVozila(naziv) VALUES ('Žičara');
+INSERT INTO TipVozila(naziv) VALUES ('Trajekt');
+INSERT INTO TipVozila(naziv) VALUES ('Taxi');
+
+INSERT INTO Vozilo(id_vozilo, kapacitet, naziv, tip_id, prevoznik_id)
+VALUES('E41-A-133', 60, 'Nissan', 1, 1);
+INSERT INTO Vozilo(id_vozilo, kapacitet, naziv, tip_id, prevoznik_id)
+VALUES('E11-J-133', 56, 'MAN', 1, 1);
+INSERT INTO Vozilo(id_vozilo, kapacitet, naziv, tip_id, prevoznik_id)
+VALUES('TR123', 100, 'T1', 2, 2);
+INSERT INTO Vozilo(id_vozilo, kapacitet, naziv, tip_id, prevoznik_id)
+VALUES('TR2', 100, 'T2', 2, 2);
+INSERT INTO Vozilo(id_vozilo, kapacitet, naziv, tip_id, prevoznik_id)
+VALUES('A15-J-669', 50, 'Volvo', 1, 2);
+
+INSERT INTO IntervalRelacije(naziv) VALUES ('Svakih pola sata');
+INSERT INTO IntervalRelacije(naziv) VALUES ('Svaki sat');
+INSERT INTO IntervalRelacije(naziv) VALUES ('Svaka dva sata');
+INSERT INTO IntervalRelacije(naziv) VALUES ('Dnevno');
+INSERT INTO IntervalRelacije(naziv) VALUES ('Sedmično');
+INSERT INTO IntervalRelacije(naziv) VALUES ('Charter');
+
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Bolnica', 44.207111, 17.923975, 'Crkvice', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Paviljon', 44.204585, 17.927269, 'Prve zeničke brigade', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Babina Rijeka', 44.198462, 17.925409, 'Prve zeničke brigade 11', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Ušće', 44.195423, 17.923027, 'Ušće', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Odmut', 44.194050, 17.918817, 'Bulevar Eze Arnautovića', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Sarajevska', 44.194369, 17.914931, 'Sarajevska bb', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Meokušnice', 44.196673, 17.909894, 'Sarajevska', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Carina', 44.201606, 17.904076, 'Branilaca Bosna', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Stadion', 44.206347, 17.906137, 'Aska Borića 23', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Autobuska Stanica 2', 44.208221, 17.911672, 'Bulevar Kralja Tvrtka ', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Blatuša', 44.211359, 17.914640, 'Blatuša ', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Autobuska Stanica', 44.209152, 17.911810, 'Bulevar Kralja Tvrtka ', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Stadion', 44.206965, 17.906680, 'Aska Borića 23', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Carina', 44.201019, 17.903954, 'Branilaca Bosna', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Dom Mladih', 44.196003, 17.911635, 'Sarajevska', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Odmut', 44.194673, 17.919099, 'Bulevar Eze Arnautovića', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Turbe', 44.194756, 17.921825, 'Ušće', 1);
+INSERT INTO Stanica(naziv, lat, lng, adresa, grad_id) VALUES ('Babina Rijeka', 44.197782, 17.924944, 'Prve zeničke brigade 11', 1);
+
+INSERT INTO Relacija(cijena, interval_id, tipVozila_id, polaziste_id, odrediste_id) VALUES(1, 2, 1, 2, 12);
+INSERT INTO Relacija(cijena, interval_id, tipVozila_id, polaziste_id, odrediste_id) VALUES(1, 2, 1, 12, 2);
+
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 2, 1);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 3, 2);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 4, 3);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 5, 4);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 6, 5);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 7, 6);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 8, 7);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 9, 8);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 10, 9);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 11, 10);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (2, 12, 11);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 12, 1);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 13, 2);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 14, 3);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 15, 4);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 16, 5);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 17, 6);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 18, 7);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 19, 8);
+INSERT INTO RelacijaStanica(relacija_id, stanica_id, rb_stanice) VALUES (1, 2, 9);
+
+INSERT INTO PrevoznikRelacija(prevoznik_id, relacija_id, datumUvodjenja) VALUES (1, 1, CURRENT_TIMESTAMP());
+INSERT INTO PrevoznikRelacija(prevoznik_id, relacija_id, datumUvodjenja) VALUES (1, 2, CURRENT_TIMESTAMP());
+
+select * from vozilo;
+INSERT INTO VozacVozilo(vozac_id, vozilo_id, datumZaduzenja, datumRazduzenja) 
+VALUES (11, 'A15-J-669', '2020-05-02 11:00:00', '2020-05-02 12:00:00');
+INSERT INTO VozacVozilo(vozac_id, vozilo_id, datumZaduzenja, datumRazduzenja) 
+VALUES (11, 'A15-J-669', CURRENT_TIMESTAMP(), NULL);
+
+INSERT INTO Nadopune(korisnik_id, prodajnoMjesto_id, kolicina) VALUES (1, 1, 5);
+INSERT INTO Nadopune(korisnik_id, prodajnoMjesto_id, kolicina) VALUES (1, 1, 1);
+
+
+INSERT INTO Linija(vozac_id, vozilo_id, relacija_id, sljedecaStanica_id, planiraniDolazak)
+VALUES (11, 'A15-J-669', 1, 13, '2020-05-12 11:55');
+INSERT INTO Linija(vozac_id, vozilo_id, relacija_id, sljedecaStanica_id, planiraniPolazak, planiraniDolazak, status)
+VALUES (11, 'A15-J-669', 2, 2, '2020-05-02 11:00:00', '2020-05-02 12:00:00', 'Završen');
+
+INSERT INTO LinijaPlacanje(linija_id, korisnik_id, kolicina) VALUES (1, 1, 1);
+INSERT INTO LinijaPlacanje(linija_id, korisnik_id, kolicina) VALUES (1, 2, 1);
+
+INSERT INTO TaxiZahtjev(korisnik_id, lokacija, opis, vrijemeZahtjeva, vozac_id, vrijemeDolaska, ocjena, cijena, status)
+VALUES (1, 'Crkvice', 'Kod studentskog doma na pjesackom', CURRENT_TIMESTAMP(), NULL, NULL, NULL, NULL, 'Na Čekanju');
+INSERT INTO TaxiZahtjev(korisnik_id, lokacija, opis, vrijemeZahtjeva, vozac_id, vrijemeDolaska, ocjena, cijena, status)
+VALUES (1, 'Odmut', 'Kod autobuske', '2020-05-05 11:14:11', 13, '2020-05-05 11:15:11', 5, 2.5, 'Završen');
+INSERT INTO TaxiZahtjev(korisnik_id, lokacija, opis, vrijemeZahtjeva, vozac_id, vrijemeDolaska, ocjena, cijena, status)
+VALUES (2, 'Carina', 'na autobuskoj', '2020-05-05 11:14:11', NULL, NULL, NULL, NULL, 'Na Čekanju');

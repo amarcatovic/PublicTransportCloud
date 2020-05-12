@@ -72,6 +72,12 @@ CREATE TABLE ProdajnoMjesto(
     CONSTRAINT PK_ProdajnoMjesto PRIMARY KEY (id_prodajnoMjesto)
 );
 
+ALTER TABLE prodajnomjesto
+ADD grad_id INT NOT NULL;
+
+ALTER TABLE prodajnomjesto
+ADD CONSTRAINT FK_prodajnomjesto_grad FOREIGN KEY (grad_id) REFERENCES Grad(id_grad);
+
 /* 8 */
 CREATE TABLE Automobil(
 	id_automobil CHAR(9),
@@ -138,6 +144,8 @@ CREATE TABLE TaxiVozac(
     CONSTRAINT FK_TaxiVozac_Automobil FOREIGN KEY(automobil_id) REFERENCES Automobil(id_automobil)
 );
 
+ALTER TABLE taxivozac MODIFY prevoznik_id INT;
+
 /* 15 */
 CREATE TABLE TipVozila(
 	id_tip INT AUTO_INCREMENT,
@@ -175,6 +183,13 @@ CREATE TABLE Stanica(
     CONSTRAINT PK_Stanica PRIMARY KEY (id_stanica)
 );
 
+ALTER TABLE Stanica
+ADD grad_id INT NOT NULL;
+
+ALTER TABLE prodajnomjesto
+ADD CONSTRAINT FK_stanica_grad FOREIGN KEY (grad_id) REFERENCES Grad(id_grad);
+
+
 /* 19 */
 CREATE TABLE Relacija(
 	id_relacija INT AUTO_INCREMENT,
@@ -186,6 +201,18 @@ CREATE TABLE Relacija(
     CONSTRAINT FK_Relacija_TipVozila FOREIGN KEY (tipVozila_id) REFERENCES TipVozila(id_tip)
 );
 
+ALTER TABLE Relacija
+ADD polaziste_id INT NOT NULL;
+
+ALTER TABLE relacija
+ADD CONSTRAINT FK_relacija_stanica01 FOREIGN KEY (polaziste_id) references Stanica(id_stanica);
+
+ALTER TABLE Relacija
+ADD odrediste_id INT NOT NULL;
+
+ALTER TABLE relacija
+ADD CONSTRAINT FK_relacija_stanica02 FOREIGN KEY (odrediste_id) references Stanica(id_stanica);
+
 /* 20 */
 CREATE TABLE RelacijaStanica(
 	relacija_id INT,
@@ -194,6 +221,9 @@ CREATE TABLE RelacijaStanica(
     CONSTRAINT FK_RS_Relacija FOREIGN KEY (relacija_id) REFERENCES Relacija(id_relacija),
     CONSTRAINT FK_RS_Stanica FOREIGN KEY (stanica_id) REFERENCES Stanica(id_stanica)
 );
+
+ALTER TABLE RelacijaStanica
+ADD rb_stanice INT NOT NULL;
 
 /* 21 */
 CREATE TABLE PrevoznikRelacija(

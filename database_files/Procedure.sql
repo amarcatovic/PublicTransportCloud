@@ -2,6 +2,7 @@
 
 USE PublicTransportCloud;
 
+/* KORISNIK APLIKACIJE */
 DELIMITER //
 CREATE PROCEDURE `GetKorisnikeAplikacije` ()
 BEGIN
@@ -27,7 +28,7 @@ DELIMITER;
 DROP PROCEDURE GetKorisnikAplikacije
 CALL GetKorisnikAplikacije(26)
 
-
+/* LOGIN */
 DELIMITER //
 CREATE PROCEDURE `Login` (_email NVARCHAR(100))
 BEGIN
@@ -40,3 +41,43 @@ END//
 DELIMITER;                           
 DROP PROCEDURE Login;
 CALL Login('amarzenica@gmail.com'); /* Primjer poziva */
+
+/* DRŽAVA */
+DELIMITER //
+CREATE PROCEDURE `GetDrzave` ()
+BEGIN
+	SELECT * FROM Drzava;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetDrzave;
+CALL GetDrzave(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `NovaDrzava` (_drzava NVARCHAR(30))
+BEGIN
+	INSERT INTO Drzava(naziv) VALUES (_drzava);
+END//
+DELIMITER;                           
+DROP PROCEDURE NovaDrzava;
+CALL NovaDrzava("Austria"); /* Primjer poziva */
+
+/* GRAD */
+DELIMITER //
+CREATE PROCEDURE `GetGradovi` ()
+BEGIN
+	SELECT * FROM Grad;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetGradovi;
+CALL GetGradovi(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetGrad` (_id INT)
+BEGIN
+	SELECT * 
+    FROM Grad
+    WHERE id_grad = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetGrad;
+CALL GetGrad(1); /* Primjer poziva */

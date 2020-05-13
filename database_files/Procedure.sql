@@ -112,3 +112,34 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetTipPrevoznika;
 CALL GetTipPrevoznika(1); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													PREVOZNIK
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetPrevoznike`()
+BEGIN
+	SELECT P.id_prevoznik, P.naziv, P.email, P.telefon, TP.id_tip, TP.naziv tip, G.id_grad, G.naziv grad
+    FROM Prevoznik P JOIN Grad G 
+    ON P.grad_id = G.id_grad JOIN TipPrevoznika TP
+    ON P.tip_id = TP.id_tip;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTipPrevoznika;
+CALL GetTipPrevoznika(1); /* Primjer poziva */
+ 
+DELIMITER //
+CREATE PROCEDURE `GetPrevoznik` (_id INT)
+BEGIN
+	SELECT P.id_prevoznik, P.naziv, P.email, P.telefon, TP.id_tip, TP.naziv tip, G.id_grad, G.naziv grad
+    FROM Prevoznik P JOIN Grad G 
+    ON P.grad_id = G.id_grad JOIN TipPrevoznika TP
+    ON P.tip_id = TP.id_tip
+    WHERE P.id_prevoznik = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetPrevoznik;
+CALL GetPrevoznik(1); /* Primjer poziva */
+
+ 
+ 

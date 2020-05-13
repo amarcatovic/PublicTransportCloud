@@ -2,7 +2,9 @@
 
 USE PublicTransportCloud;
 
-/* KORISNIK APLIKACIJE */
+/* ---------------------------------------------------------------------------------------------------------------------------
+													KORISNIK APLIKACIJE 
+--------------------------------------------------------------------------------------------------------------------------- */
 DELIMITER //
 CREATE PROCEDURE `GetKorisnikeAplikacije` ()
 BEGIN
@@ -28,7 +30,9 @@ DELIMITER;
 DROP PROCEDURE GetKorisnikAplikacije
 CALL GetKorisnikAplikacije(26)
 
-/* LOGIN */
+/* ---------------------------------------------------------------------------------------------------------------------------
+														LOGIN 
+--------------------------------------------------------------------------------------------------------------------------- */
 DELIMITER //
 CREATE PROCEDURE `Login` (_email NVARCHAR(100))
 BEGIN
@@ -42,7 +46,9 @@ DELIMITER;
 DROP PROCEDURE Login;
 CALL Login('amarzenica@gmail.com'); /* Primjer poziva */
 
-/* DRŽAVA */
+/* ---------------------------------------------------------------------------------------------------------------------------
+														DRŽAVA
+--------------------------------------------------------------------------------------------------------------------------- */
 DELIMITER //
 CREATE PROCEDURE `GetDrzave` ()
 BEGIN
@@ -61,7 +67,9 @@ DELIMITER;
 DROP PROCEDURE NovaDrzava;
 CALL NovaDrzava("Austria"); /* Primjer poziva */
 
-/* GRAD */
+/* ---------------------------------------------------------------------------------------------------------------------------
+															GRAD 
+--------------------------------------------------------------------------------------------------------------------------- */
 DELIMITER //
 CREATE PROCEDURE `GetGradovi` ()
 BEGIN
@@ -81,3 +89,26 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetGrad;
 CALL GetGrad(1); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													TIP PREVOZNIKA
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetTipovePrevoznika` ()
+BEGIN
+	SELECT * FROM TipPrevoznika;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTipovePrevoznika;
+CALL GetTipovePrevoznika(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetTipPrevoznika` (_id INT)
+BEGIN
+	SELECT * 
+    FROM TipPrevoznika
+    WHERE id_tip = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTipPrevoznika;
+CALL GetTipPrevoznika(1); /* Primjer poziva */

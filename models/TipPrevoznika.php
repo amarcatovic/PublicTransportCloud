@@ -14,7 +14,7 @@ public function __construct($db) {
 
 // GET
 public function get() {
-  $query = 'CALL )';
+  $query = 'CALL GetTipovePrevoznika()';
 
   $stmt = $this->conn->prepare($query);
   $stmt->execute();
@@ -23,21 +23,16 @@ public function get() {
 }
 
 public function read_single(){
-$query = 'CALL ';
+$query = 'CALL GetTipPrevoznika(?)';
 
   $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(1, $this->id_korisnik);
+  $stmt->bindParam(1, $this->id_tip);
   $stmt->execute();
 
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  $this->id_korisnik = $row['id_korisnik'];
-  $this->ime = $row['ime'];
-  $this->prezime = $row['prezime'];
-  $this->email = $row['email'];
-  $this->passwordHash = $row['passwordHash'];
-  $this->Grad = $row['Grad'];
-  $this->Uloga = $row['Uloga'];
+  $this->id_tip = $row['id_tip'];
+  $this->naziv = $row['naziv'];
 }
 
 // POST

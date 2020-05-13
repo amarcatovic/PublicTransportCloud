@@ -242,4 +242,19 @@ END//
 DELIMITER;                           
 DROP PROCEDURE UpdateStanjeByCard;
 CALL UpdateStanjeByCard('100002', -1); /* Primjer poziva */
- 
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													BILETAR
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetBiletare`()
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, B.prodajnoMjesto_id, PM.naziv
+    FROM KorisnikAplikacije KA JOIN Biletar B
+    ON KA.id_korisnik = B.id_biletar JOIN Grad G
+    ON KA.grad_id = G.id_grad JOIN ProdajnoMjesto PM
+    ON B.prodajnoMjesto_id = PM.id_prodajnoMjesto;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetBiletare;
+CALL GetBiletare(); /* Primjer poziva */

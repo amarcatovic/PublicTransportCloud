@@ -1,10 +1,11 @@
 <?php
-class Biletar{
+ include_once '../../models/KorisnikAplikacije.php';
+class Biletar extends KorisnikAplikacije{
 private $conn;
 private $table='Biletar';
 
-public id_biletar;
-public prodajnoMjesto_id;
+public $id_biletar;
+public $prodajnoMjesto_id;
 
 // METODE
 public function __construct($db) {
@@ -13,7 +14,7 @@ public function __construct($db) {
 
 // GET
 public function get() {
-  $query = 'CALL ';
+  $query = 'CALL GetBiletare()';
 
   $stmt = $this->conn->prepare($query);
   $stmt->execute();
@@ -22,7 +23,7 @@ public function get() {
 }
 
 public function read_single(){
-$query = 'CALL ';
+$query = 'CALL';
 
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(1, $this->id_korisnik);
@@ -41,18 +42,21 @@ $query = 'CALL ';
 
 // POST
 public function create() {
-$query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+  $query = 'INSERT INTO ' . $this->table . ' (id_biletar, prodajnoMjesto_id)
+  VALUES(:id, :place)';
+  
+  $stmt = $this->conn->prepare($query);
+  $this->naziv = htmlspecialchars(strip_tags($this->prodajnoMjesto_id));
+  
+  $stmt-> bindParam(':id', $this->id_biletar);
+  $stmt-> bindParam(':place', $this->prodajnoMjesto_id);
 
-$stmt = $this->conn->prepare($query);
-$this->naziv = htmlspecialchars(strip_tags($this->naziv));
-
-$stmt-> bindParam(':name', $this->naziv);
-
-if($stmt->execute()) {
-return true;
-}
-printf("Greška: $s.\n", $stmt->error);
-
-return false;
-}
+  
+  if($stmt->execute()) {
+  return true;
+  }
+  printf("Greška: $s.\n", $stmt->error);
+  
+  return false;
+  }
 }

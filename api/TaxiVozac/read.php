@@ -3,14 +3,14 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/TaxiVozac.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $user = new TaxiVozac($db);
 
-  $result = $county->get();
+  $result = $user->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +22,19 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'id' => $id_korisnik,
+            'ime' => $ime,
+            'prezime' => $prezime,
+            'email' => $email,
+            'datumRodjenja' => $datumRodjenja,
+            'grad_id' => $grad_id,
+            'grad' => $grad,
+            'prevoznik_id' => $prevoznik_id,
+            'registracija' => $automobil_id,
+            'marka' => $marka,
+            'model' => $model,
+            'boja' => $boja,
+            'brojTaxiDozvole' => $brojTaxiDozvole 
           );
 
           array_push($cat_arr['data'], $cat_item);

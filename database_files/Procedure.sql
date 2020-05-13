@@ -290,3 +290,50 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetVozace;
 CALL GetVozace(); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													TAXI VOZAC
+ ---------------------------------------------------------------------------------------------------------------------------*/
+ SELECT * FROM TaxiVozac;
+ 
+DELIMITER //
+CREATE PROCEDURE `GetTaxiVozace`()
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, TV.prevoznik_id, TV.automobil_id, A.marka, A.model, A.boja, TV.brojTaxiDozvole
+    FROM TaxiVozac TV JOIN KorisnikAplikacije KA
+    ON KA.id_korisnik = TV.id_vozac JOIN Grad G
+    ON KA.grad_id = G.id_grad JOIN Automobil A
+    ON TV.automobil_id = A.id_automobil;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTaxiVozace;
+CALL GetTaxiVozace(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetTaxiVozac`(_id INT)
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, TV.prevoznik_id, TV.automobil_id, A.marka, A.model, A.boja, TV.brojTaxiDozvole
+    FROM TaxiVozac TV JOIN KorisnikAplikacije KA
+    ON KA.id_korisnik = TV.id_vozac JOIN Grad G
+    ON KA.grad_id = G.id_grad JOIN Automobil A
+    ON TV.automobil_id = A.id_automobil
+    WHERE KA.id_korisnik = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTaxiVozac;
+CALL GetTaxiVozac(14); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetTaxiVozacaByRegistracija`(_registracija CHAR(9))
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, TV.prevoznik_id, TV.automobil_id, A.marka, A.model, A.boja, TV.brojTaxiDozvole
+    FROM TaxiVozac TV JOIN KorisnikAplikacije KA
+    ON KA.id_korisnik = TV.id_vozac JOIN Grad G
+    ON KA.grad_id = G.id_grad JOIN Automobil A
+    ON TV.automobil_id = A.id_automobil
+    WHERE TV.automobil_id = _registracija;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTaxiVozacaByRegistracija;
+CALL GetTaxiVozacaByRegistracija('A54-A-321'); /* Primjer poziva */
+

@@ -10,12 +10,11 @@
 
   $user = new TaxiVozac($db);
 
-  $user->id_vozac = isset($_GET['id']) ? $_GET['id'] : die();
+  $user->automobil_id = isset($_GET['reg']) ? $_GET['reg'] : die();
 
-  $user->read_single();
+  $user->read_single_registracija();
 
-  if($user->ime == null)
-    die;
+  
 
   $category_arr = array(
     'id' => $user->id_vozac,
@@ -26,6 +25,7 @@
     'grad_id' => $user->grad_id,
     'grad' => $user->grad,
     'prevoznik_id' => $user->prevoznik_id,
+    'prevoznik' => $user->prevoznik,
     'registracija' => $user->automobil_id,
     'marka' => $user->marka,
     'model' => $user->model,

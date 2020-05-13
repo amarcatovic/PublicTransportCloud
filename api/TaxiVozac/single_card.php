@@ -3,34 +3,27 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/TaxiVozac.php';
+  include_once '../../models/Korisnik.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $user = new TaxiVozac($db);
+  $user = new Korisnik($db);
 
-  $user->id_vozac = isset($_GET['id']) ? $_GET['id'] : die();
+  $user->id_korisnik = isset($_GET['card']) ? $_GET['card'] : die();
 
-  $user->read_single();
-
-  if($user->ime == null)
-    die;
+  $user->read_single_kartica();
 
   $category_arr = array(
-    'id' => $user->id_vozac,
+    'id' => $user->id_korisnik,
     'ime' => $user->ime,
     'prezime' => $user->prezime,
     'email' => $user->email,
     'datumRodjenja' => $user->datumRodjenja,
     'grad_id' => $user->grad_id,
     'grad' => $user->grad,
-    'prevoznik_id' => $user->prevoznik_id,
-    'registracija' => $user->automobil_id,
-    'marka' => $user->marka,
-    'model' => $user->model,
-    'boja' => $user->boja,
-    'brojTaxiDozvole' => $user->brojTaxiDozvole,
+    'brojKartice' => $user->brojKartice,
+    'stanje' => $user->stanje
   );
 
   print_r(json_encode($category_arr));

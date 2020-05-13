@@ -166,4 +166,29 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetProdajnaMjesta;
 CALL GetProdajnoMjesto(1); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													AUTOMOBIL
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetAutomobili`()
+BEGIN
+	SELECT *
+    FROM Automobil;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetAutomobili;
+CALL GetAutomobili(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetAutomobil`(_id CHAR(9))
+BEGIN
+	SELECT *
+    FROM Automobil
+    WHERE id_automobil = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetAutomobil;
+CALL GetAutomobil('A11-M-395'); /* Primjer poziva */
+
  

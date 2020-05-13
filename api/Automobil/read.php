@@ -3,14 +3,14 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Automobil.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $car = new Automobil($db);
 
-  $result = $county->get();
+  $result = $car->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +22,10 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'registracija' => $id_automobil,
+            'marka' => $marka,
+            'model' => $model,
+            'boja' => $boja  
           );
 
           array_push($cat_arr['data'], $cat_item);

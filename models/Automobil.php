@@ -15,7 +15,7 @@ public function __construct($db) {
 
 // GET
 public function get() {
-  $query = 'CALL ';
+  $query = 'CALL GetAutomobili()';
 
   $stmt = $this->conn->prepare($query);
   $stmt->execute();
@@ -24,31 +24,36 @@ public function get() {
 }
 
 public function read_single(){
-$query = 'CALL ';
+$query = 'CALL GetAutomobil(?)';
 
   $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(1, $this->id_korisnik);
+  $stmt->bindParam(1, $this->id_automobil, PDO::PARAM_STR);
   $stmt->execute();
 
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-  $this->id_korisnik = $row['id_korisnik'];
-  $this->ime = $row['ime'];
-  $this->prezime = $row['prezime'];
-  $this->email = $row['email'];
-  $this->passwordHash = $row['passwordHash'];
-  $this->Grad = $row['Grad'];
-  $this->Uloga = $row['Uloga'];
+  $this->id_automobil = $row['id_automobil'];
+  $this->marka = $row['marka'];
+  $this->model = $row['model'];
+  $this->boja = $row['boja'];
 }
 
 // POST
 public function create() {
-$query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+$query = 'INSERT INTO ' . $this->table . ' (id_automobil, marka, model, boja)
+ VALUES(:reg, :marka, :model, :color)';
 
 $stmt = $this->conn->prepare($query);
-$this->naziv = htmlspecialchars(strip_tags($this->naziv));
 
-$stmt-> bindParam(':name', $this->naziv);
+$this->id_automobil = htmlspecialchars(strip_tags($this->id_automobil));
+$this->marka = htmlspecialchars(strip_tags($this->marka));
+$this->model = htmlspecialchars(strip_tags($this->model));
+$this->boja = htmlspecialchars(strip_tags($this->boja));
+
+$stmt-> bindParam(':reg', $this->id_automobil);
+$stmt-> bindParam(':marka', $this->marka);
+$stmt-> bindParam(':model', $this->model);
+$stmt-> bindParam(':color', $this->boja);
 
 if($stmt->execute()) {
 return true;

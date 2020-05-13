@@ -10,9 +10,9 @@
 
   $user = new Korisnik($db);
 
-  $user->id_korisnik = isset($_GET['id']) ? $_GET['id'] : die();
+  $user->id_korisnik = isset($_GET['card']) ? $_GET['card'] : die();
 
-  $user->read_single();
+  $user->read_single_kartica();
 
   $category_arr = array(
     'id' => $user->id_korisnik,

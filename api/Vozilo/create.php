@@ -6,21 +6,25 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Vozilo.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $country = new Drzava($db);
+  $vehicle = new Vozilo($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $country->naziv = $data->naziv;
+  $vehicle->id_vozilo = $data->registracija;
+  $vehicle->kapacitet = $data->kapacitet;
+  $vehicle->naziv = $data->naziv;
+  $vehicle->tip_id = $data->tip_id;
+  $vehicle->prevoznik_id = $data->prevoznik_id;
 
-  if($country->naziv == '')
+  if($vehicle->naziv == '')
     die;
     
-  if($country->create()) {
+  if($vehicle->create()) {
     echo json_encode(
       array('status' => 'OK')
     );

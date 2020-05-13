@@ -3,25 +3,25 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/KorisnikAplikacije.php';
+  include_once '../../models/Vozilo.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $user = new KorisnikAplikacije($db);
+  $vehicle = new Vozilo($db);
 
-  $user->id_korisnik = isset($_GET['id']) ? $_GET['id'] : die();
+  $vehicle->id_vozilo = isset($_GET['reg']) ? $_GET['reg'] : die();
 
-  $user->read_single();
+  $vehicle->read_single();
 
   $category_arr = array(
-    'id' => $user->id_korisnik,
-    'ime' => $user->ime,
-    'prezime' => $user->prezime,
-    'email' => $user->email,
-    'passwordHash' => $user->passwordHash,
-    'grad' => $user->Grad,
-    'uloga' => $user->Uloga
+    'registracija' => $vehicle->id_vozilo,
+    'kapacitet' => $vehicle->kapacitet,
+    'naziv' => $vehicle->naziv,
+    'tip_id' => $vehicle->tip_id,
+    'tip' => $vehicle->tip,
+    'prevoznik_id' => $vehicle->prevoznik_id,
+    'prevoznik' => $vehicle->prevoznik
   );
 
   print_r(json_encode($category_arr));

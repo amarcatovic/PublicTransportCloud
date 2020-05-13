@@ -8,9 +8,7 @@
 <body>
 TEST
 <?php
-echo '<h1>'.password_hash('amaramar', PASSWORD_DEFAULT).'</h1>';
-if(password_verify ( 'amaramar' , '$2y$10$hTcQ4qzY1JwQvgJUi8p9iuIfXeEKnpFA6Ff4BIzzRgv/mmj3lKk.C' ))
-    echo 'TAČNO'
+echo $_GET['id'];
 ?>
 </body>
 </html>

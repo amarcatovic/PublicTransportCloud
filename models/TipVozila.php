@@ -14,7 +14,7 @@ class TipVozila{
 
     // GET
     public function get() {
-      $query = 'CALL ';
+      $query = 'CALL GetTipoveVozila()';
 
       $stmt = $this->conn->prepare($query);
       $stmt->execute();
@@ -31,13 +31,8 @@ class TipVozila{
 
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $this->id_korisnik = $row['id_korisnik'];
-      $this->ime = $row['ime'];
-      $this->prezime = $row['prezime'];
-      $this->email = $row['email'];
-      $this->passwordHash = $row['passwordHash'];
-      $this->Grad = $row['Grad'];
-      $this->Uloga = $row['Uloga'];
+      $this->id_korisnik = $row['id_tip'];
+      $this->ime = $row['naziv'];
   }
 
   // POST

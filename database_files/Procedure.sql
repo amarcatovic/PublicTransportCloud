@@ -337,3 +337,43 @@ DELIMITER;
 DROP PROCEDURE GetTaxiVozacaByRegistracija;
 CALL GetTaxiVozacaByRegistracija('A54-A-321'); /* Primjer poziva */
 
+/* ---------------------------------------------------------------------------------------------------------------------------
+													TIP VOZILA
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetTipoveVozila`()
+BEGIN
+	SELECT * FROM TipVozila;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTipoveVozila;
+CALL GetTipoveVozila(); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													VOZILO
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetVozila`()
+BEGIN
+	SELECT V.id_vozilo, V.kapacitet, V.naziv, V.tip_id, TV.naziv tip, V.prevoznik_id, P.naziv prevoznik 
+    FROM Vozilo V JOIN TipVozila TV 
+    ON V.tip_id = TV.id_tip JOIN Prevoznik P
+    ON V.prevoznik_id = P.id_prevoznik;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetVozila;
+CALL GetVozila(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetVozilo`(_reg CHAR(9))
+BEGIN
+	SELECT V.id_vozilo, V.kapacitet, V.naziv, V.tip_id, TV.naziv tip, V.prevoznik_id, P.naziv prevoznik 
+    FROM Vozilo V JOIN TipVozila TV 
+    ON V.tip_id = TV.id_tip JOIN Prevoznik P
+    ON V.prevoznik_id = P.id_prevoznik
+    WHERE V.id_vozilo = _reg;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetVozilo;
+CALL GetVozilo('E11-J-133'); /* Primjer poziva */
+

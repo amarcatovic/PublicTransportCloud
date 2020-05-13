@@ -18,6 +18,7 @@
   $user->ime = $data->ime;
   $user->prezime = $data->prezime;
   $user->email = $data->email;
+  $user->datumRodjenja = $data->datumRodjenja;
   $user->passwordHash = $data->password;
   $user->datumRodjenja = $data->datumRodjenja;
   $user->grad_id = $data->grad_id;

@@ -31,7 +31,7 @@ CREATE TABLE KorisnikAplikacije(
 	id_korisnik INT auto_increment,
     ime NVARCHAR(30) NOT NULL,
     prezime NVARCHAR(30) NOT NULL,
-    email NVARCHAR(100) NOT NULL,
+    email NVARCHAR(100) NOT NULL UNIQUE,
     passwordHash NVARCHAR(256) NOT NULL,
     datumRodjenja DATETIME NOT NULL,
     grad_id INT NOT NULL,

@@ -8,11 +8,12 @@ class KorisnikAplikacije {
     public $ime;
     public $prezime;
     public $email;
+    public $datumRodjenja;
     public $passwordHash;
     public $grad_id;
-    public $Grad;
+    public $grad;
     public $uloga_id;
-    public $Uloga;
+    public $uloga;
 
     // METODE
     public function __construct($db) {
@@ -42,6 +43,7 @@ class KorisnikAplikacije {
     $this->ime = $row['ime'];
     $this->prezime = $row['prezime'];
     $this->email = $row['email'];
+    $this->datumRodjenja = $row['datumRodjenja'];
     $this->passwordHash = $row['passwordHash'];
     $this->grad_id = $row['grad_id'];
     $this->Grad = $row['Grad'];
@@ -62,6 +64,7 @@ class KorisnikAplikacije {
       $this->ime = $row['ime'];
       $this->prezime = $row['prezime'];
       $this->email = $row['email'];
+      $this->datumRodjenja = $row['datumRodjenja'];
       $this->passwordHash = $row['passwordHash'];
       $this->Grad = $row['Grad'];
       $this->Uloga = $row['Uloga'];
@@ -91,7 +94,7 @@ class KorisnikAplikacije {
   $stmt-> bindParam(':role', $this->uloga_id);
 
   if($stmt->execute()) {
-    return true;
+    return $this->conn->lastInsertId();
   }
   printf("Greška: $s.\n", $stmt->error);
 

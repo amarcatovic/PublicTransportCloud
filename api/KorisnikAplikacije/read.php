@@ -23,12 +23,13 @@
 
           $cat_item = array(
             'id' => $id_korisnik,
-            'firstName' => $ime,
-            'lastName' => $prezime,
+            'ime' => $ime,
+            'prezime' => $prezime,
             'email' => $email,
+            'datumRodjenja' => $datumRodjenja,
             'passwordHash' => $passwordHash,
-            'grad' => $Grad,
-            'uloga' => $Uloga,
+            'grad' => $grad,
+            'uloga' => $uloga,
           );
 
           array_push($cat_arr['data'], $cat_item);

@@ -8,7 +8,7 @@ USE PublicTransportCloud;
 DELIMITER //
 CREATE PROCEDURE `GetKorisnikeAplikacije` ()
 BEGIN
-	SELECT K.id_korisnik, K.ime, K.prezime, K.email, K.passwordHash, G.naziv Grad, U.naziv Uloga
+	SELECT K.id_korisnik, K.ime, K.prezime, K.email, K.datumRodjenja, K.passwordHash, G.naziv grad, U.naziv uloga
     FROM Uloga U JOIN KorisnikAplikacije K 
     ON K.uloga_id = U.id_uloga JOIN Grad G
     ON K.grad_id = G.id_grad;
@@ -191,4 +191,55 @@ DELIMITER;
 DROP PROCEDURE GetAutomobil;
 CALL GetAutomobil('A11-M-395'); /* Primjer poziva */
 
+/* ---------------------------------------------------------------------------------------------------------------------------
+													AUTOMOBIL
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetKorisnici`()
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, K.brojKartice, K.stanje
+    FROM KorisnikAplikacije KA JOIN Korisnik K
+    ON KA.id_korisnik = K.id_korisnik JOIN Grad G
+    ON KA.grad_id = G.id_grad;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetKorisnici;
+CALL GetKorisnici(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetKorisnik`(_id INT)
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, K.brojKartice, K.stanje
+    FROM KorisnikAplikacije KA JOIN Korisnik K
+    ON KA.id_korisnik = K.id_korisnik JOIN Grad G
+    ON KA.grad_id = G.id_grad
+    WHERE KA.id_korisnik = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetKorisnik;
+CALL GetKorisnik(2); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetKorisnikByCard`(_card NVARCHAR(10))
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, K.brojKartice, K.stanje
+    FROM KorisnikAplikacije KA JOIN Korisnik K
+    ON KA.id_korisnik = K.id_korisnik JOIN Grad G
+    ON KA.grad_id = G.id_grad
+    WHERE K.brojKartice = _card;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetKorisnikByCard;
+CALL GetKorisnikByCard('100002'); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `UpdateStanjeByCard`(_card NVARCHAR(10), _stanje FLOAT)
+BEGIN
+	UPDATE Korisnik
+    SET stanje = stanje + _stanje
+    WHERE brojKartice = _card;
+END//
+DELIMITER;                           
+DROP PROCEDURE UpdateStanjeByCard;
+CALL UpdateStanjeByCard('100002', -1); /* Primjer poziva */
  

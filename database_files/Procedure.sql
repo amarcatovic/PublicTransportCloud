@@ -377,3 +377,15 @@ DELIMITER;
 DROP PROCEDURE GetVozilo;
 CALL GetVozilo('E11-J-133'); /* Primjer poziva */
 
+/* ---------------------------------------------------------------------------------------------------------------------------
+													INTERVAL RELACIJE
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetIntervali`()
+BEGIN
+	SELECT I.id_interval, I.naziv
+    FROM IntervalRelacije I;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetIntervali;
+CALL GetIntervali(); /* Primjer poziva */

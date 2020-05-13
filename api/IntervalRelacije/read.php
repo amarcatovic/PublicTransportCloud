@@ -3,14 +3,14 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/IntervalRelacije.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $interval = new IntervalRelacije($db);
 
-  $result = $county->get();
+  $result = $interval->get();
   
   $num = $result->rowCount();
 
@@ -22,7 +22,7 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
+            'id' => $id_interval,
             'naziv' => $naziv  
           );
 

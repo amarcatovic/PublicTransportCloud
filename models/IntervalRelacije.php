@@ -15,7 +15,7 @@ class IntervalRelacije{
 
     // GET
     public function get() {
-      $query = 'CALL ';
+      $query = 'CALL GetIntervali()';
 
       $stmt = $this->conn->prepare($query);
       $stmt->execute();

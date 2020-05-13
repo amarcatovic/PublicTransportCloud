@@ -141,5 +141,29 @@ DELIMITER;
 DROP PROCEDURE GetPrevoznik;
 CALL GetPrevoznik(1); /* Primjer poziva */
 
+/* ---------------------------------------------------------------------------------------------------------------------------
+													PRODAJNO MJESTO
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetProdajnaMjesta`()
+BEGIN
+	SELECT PM.id_prodajnoMjesto, PM.naziv, PM.lat, PM.lng, PM.adresa, G.id_grad, G.naziv grad
+    FROM ProdajnoMjesto PM JOIN Grad G
+    ON PM.grad_id = G.id_grad;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetProdajnaMjesta;
+CALL GetProdajnaMjesta(); /* Primjer poziva */
  
+ DELIMITER //
+CREATE PROCEDURE `GetProdajnoMjesto`(_id INT)
+BEGIN
+	SELECT PM.id_prodajnoMjesto, PM.naziv, PM.lat, PM.lng, PM.adresa, G.id_grad, G.naziv grad
+    FROM ProdajnoMjesto PM JOIN Grad G
+    ON PM.grad_id = G.id_grad
+    WHERE PM.id_prodajnoMjesto = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetProdajnaMjesta;
+CALL GetProdajnoMjesto(1); /* Primjer poziva */
  

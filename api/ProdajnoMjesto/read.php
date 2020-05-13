@@ -3,14 +3,14 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/ProdajnoMjesto.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $shop = new ProdajnoMjesto($db);
 
-  $result = $county->get();
+  $result = $shop->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +22,13 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'id' => $id_prodajnoMjesto,
+            'naziv' => $naziv,
+            'lat' => $lat,
+            'lng' => $lng,
+            'adresa' => $adresa,
+            'grad_id' => $id_grad,
+            'grad' => $grad  
           );
 
           array_push($cat_arr['data'], $cat_item);

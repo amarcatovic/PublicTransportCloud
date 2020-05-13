@@ -6,21 +6,25 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/ProdajnoMjesto.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $country = new Drzava($db);
+  $shop = new ProdajnoMjesto($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $country->naziv = $data->naziv;
+  $shop->naziv = $data->naziv;
+  $shop->lat = $data->lat;
+  $shop->lng = $data->lng;
+  $shop->adresa = $data->adresa;
+  $shop->grad_id = $data->grad_id;
 
-  if($country->naziv == '')
+  if($shop->naziv == '')
     die;
     
-  if($country->create()) {
+  if($shop->create()) {
     echo json_encode(
       array('status' => 'OK')
     );

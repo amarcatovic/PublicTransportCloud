@@ -258,3 +258,19 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetBiletare;
 CALL GetBiletare(); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													BILETAR
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetRevizore`()
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, R.brojDozvole, R.prevoznik_id, P.naziv prevoznik
+    FROM KorisnikAplikacije KA JOIN Revizor R
+    ON KA.id_korisnik = R.id_revizor JOIN Grad G
+    ON KA.grad_id = G.id_grad JOIN Prevoznik P
+    ON P.id_prevoznik = R.prevoznik_id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetRevizore;
+CALL GetRevizore(); /* Primjer poziva */

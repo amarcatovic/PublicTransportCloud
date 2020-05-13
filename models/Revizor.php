@@ -1,5 +1,6 @@
 <?php
-class Revizor{
+include_once '../../models/KorisnikAplikacije.php';
+class Revizor extends KorisnikAplikacije{
 private $conn;
 private $table='Revizor';
 
@@ -16,7 +17,7 @@ public function __construct($db) {
 
 // GET
 public function get() {
-  $query = 'CALL ';
+  $query = 'CALL GetRevizore()';
 
   $stmt = $this->conn->prepare($query);
   $stmt->execute();
@@ -44,18 +45,21 @@ $query = 'CALL ';
 
 // POST
 public function create() {
-$query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+  $query = 'INSERT INTO ' . $this->table . ' (id_revizor, prevoznik_id, brojDozvole)
+  VALUES(:id, :company, :serial)';
+  
+  $stmt = $this->conn->prepare($query);
+  $this->naziv = htmlspecialchars(strip_tags($this->brojDozvole));
+  
+  $stmt-> bindParam(':id', $this->id_biletar);
+  $stmt-> bindParam(':company', $this->prevoznik_id);
+  $stmt-> bindParam(':serial', $this->brojDozvole);
 
-$stmt = $this->conn->prepare($query);
-$this->naziv = htmlspecialchars(strip_tags($this->naziv));
-
-$stmt-> bindParam(':name', $this->naziv);
-
-if($stmt->execute()) {
-return true;
-}
-printf("Greška: $s.\n", $stmt->error);
-
-return false;
-}
+  if($stmt->execute()) {
+  return true;
+  }
+  printf("Greška: $s.\n", $stmt->error);
+  
+  return false;
+  }
 }

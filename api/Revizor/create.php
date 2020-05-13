@@ -6,21 +6,33 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Revizor.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $country = new Drzava($db);
+  $user = new Revizor($db);
+  $appUser = new KorisnikAplikacije($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $country->naziv = $data->naziv;
+  $appUser->ime = $data->ime;
+  $appUser->prezime = $data->prezime;
+  $appUser->email = $data->email;
+  $appUser->passwordHash = $data->password;
+  $appUser->grad_id = $data->grad_id;
+  $appUser->uloga_id = 6;
+  $appUser->datumRodjenja = $data->datum;
 
-  if($country->naziv == '')
+  $user->brojDozvole = $data->brojDozvole;
+  $user->prevoznik_id = $data->prevoznik_id;
+
+  if($appUser->ime == '')
     die;
     
-  if($country->create()) {
+  $user->id_biletar = $appUser->create();
+
+  if($user->create()) {
     echo json_encode(
       array('status' => 'OK')
     );

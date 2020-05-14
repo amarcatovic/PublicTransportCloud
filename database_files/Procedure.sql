@@ -299,7 +299,8 @@ CALL GetVozace(); /* Primjer poziva */
 DELIMITER //
 CREATE PROCEDURE `GetTaxiVozace`()
 BEGIN
-	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, TV.prevoznik_id, TV.automobil_id, A.marka, A.model, A.boja, TV.brojTaxiDozvole
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, TV.prevoznik_id, TV.automobil_id, A.marka, A.model, A.boja, TV.brojTaxiDozvole,
+		   (SELECT AVG(ocjena) FROM TaxiZahtjev WHERE vozac_id = KA.id_korisnik) ocjena
     FROM TaxiVozac TV JOIN KorisnikAplikacije KA
     ON KA.id_korisnik = TV.id_vozac JOIN Grad G
     ON KA.grad_id = G.id_grad JOIN Automobil A
@@ -313,6 +314,7 @@ DELIMITER //
 CREATE PROCEDURE `GetTaxiVozac`(_id INT)
 BEGIN
 	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, TV.prevoznik_id, TV.automobil_id, A.marka, A.model, A.boja, TV.brojTaxiDozvole
+    ,(SELECT AVG(ocjena) FROM TaxiZahtjev WHERE vozac_id = KA.id_korisnik) ocjena
     FROM TaxiVozac TV JOIN KorisnikAplikacije KA
     ON KA.id_korisnik = TV.id_vozac JOIN Grad G
     ON KA.grad_id = G.id_grad JOIN Automobil A

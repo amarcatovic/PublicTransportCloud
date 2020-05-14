@@ -9,6 +9,7 @@ class TaxiVozac extends KorisnikAplikacije{
     public $prevoznik_id;
     public $automobil_id;
     public $brojTaxiDozvole;
+    public $ocjena;
 
     // METODE
     public function __construct($db) {
@@ -40,11 +41,13 @@ class TaxiVozac extends KorisnikAplikacije{
       $this->datumRodjenja = $row['datumRodjenja'];
       $this->grad_id = $row['grad_id'];
       $this->grad = $row['grad'];
-      $this->prevoznik_id = $row['registracija'];
+      $this->prevoznik_id = $row['prevoznik_id'];
+      $this->automobil_id = $row['automobil_id'];
       $this->marka = $row['marka'];
       $this->model = $row['model'];
       $this->boja = $row['boja'];
       $this->brojTaxiDozvole = $row['brojTaxiDozvole'];
+      $this->ocjena = $row['ocjena'];
   }
 
   public function read_single_registracija(){

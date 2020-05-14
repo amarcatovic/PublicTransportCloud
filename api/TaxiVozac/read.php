@@ -34,7 +34,8 @@
             'marka' => $marka,
             'model' => $model,
             'boja' => $boja,
-            'brojTaxiDozvole' => $brojTaxiDozvole 
+            'brojTaxiDozvole' => $brojTaxiDozvole,
+            'ocjena' => $ocjena
           );
 
           array_push($cat_arr['data'], $cat_item);

@@ -11,6 +11,14 @@ class Linija{
     public $sljedecaStanica_id;
     public $planiraniPolazak;
     public $planiraniDolazak;
+    public $polaziste;
+    public $odrediste;
+    public $sljedecaStanica;
+    public $cijena;
+    public $status;
+    
+    public $grad;
+    public $tip;
 
     // METODE
     public function __construct($db) {
@@ -19,46 +27,110 @@ class Linija{
 
     // GET
     public function get() {
-      $query = 'CALL ';
+      $query = 'CALL GetAktivneLinije(?, ?)';
 
       $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->grad);
+      $stmt->bindParam(2, $this->tip);
       $stmt->execute();
 
       return $stmt;
     }
 
   public function read_single(){
-    $query = 'CALL ';
+    $query = 'CALL GetAktivnaLinija(?)';
 
       $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(1, $this->id_korisnik);
+      $stmt->bindParam(1, $this->id_linija);
       $stmt->execute();
 
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $this->id_korisnik = $row['id_korisnik'];
-      $this->ime = $row['ime'];
-      $this->prezime = $row['prezime'];
-      $this->email = $row['email'];
-      $this->passwordHash = $row['passwordHash'];
-      $this->Grad = $row['Grad'];
-      $this->Uloga = $row['Uloga'];
+      $this->polaziste = $row['polaziste'];
+      $this->odrediste = $row['odrediste'];
+      $this->planiraniPolazak = $row['planiraniPolazak'];
+      $this->planiraniDolazak = $row['planiraniDolazak'];
+      $this->sljedecaStanica = $row['sljedecaStanica'];
+      $this->cijena = $row['cijena'];
+      $this->tip = $row['tip'];
+      $this->status = $row['status'];
+  }
+
+  public function getRelacijaId()
+  {
+    $query = 'SELECT relacija_id FROM Linija WHERE id_linija = ' . $this->id_linija;
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row['relacija_id'];
+  }
+
+  public function getStaniceLinije() {
+    $query = 'CALL GetStaniceLinije(?)';
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->relacija_id);
+    $stmt->execute();
+
+    return $stmt;
   }
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+    $query = 'INSERT INTO ' . $this->table . ' (vozac_id, vozilo_id, relacija_id, sljedecaStanica_id, planiraniPolazak, planiraniDolazak)
+    VALUES(:vozac, :vozilo, :rel, :next, :dep, :arr)';
 
   $stmt = $this->conn->prepare($query);
-  $this->naziv = htmlspecialchars(strip_tags($this->naziv));
-
-  $stmt-> bindParam(':name', $this->naziv);
+  
+  $stmt-> bindParam(':vozac', $this->vozac_id);
+  $stmt-> bindParam(':vozilo', $this->vozilo_id);
+  $stmt-> bindParam(':rel', $this->relacija_id);
+  $stmt-> bindParam(':next', $this->sljedecaStanica_id);
+  $stmt-> bindParam(':dep', $this->planiraniPolazak);
+  $stmt-> bindParam(':arr', $this->planiraniDolazak);
 
   if($stmt->execute()) {
-    return true;
+    return $this->conn->lastInsertId();
   }
   printf("Greška: $s.\n", $stmt->error);
 
   return false;
   }
+
+  public function zavrsiLiniju() {
+    $query = 'UPDATE ' . $this->table . '
+             SET status = \'Završen\'
+             WHERE id_linija = :id';
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $this->id_linija);
+
+    if($stmt->execute()) {
+      return true;
+    }
+
+    printf("Error: %s.\n", $stmt->error);
+
+    return false;
+}
+
+public function updateStanicu() {
+  $query = 'UPDATE ' . $this->table . '
+           SET sljedecaStanica_id = :station
+           WHERE id_linija = :id';
+
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':station', $this->sljedecaStanica_id);
+  $stmt->bindParam(':id', $this->id_linija);
+
+  if($stmt->execute()) {
+    return true;
+  }
+
+  printf("Error: %s.\n", $stmt->error);
+
+  return false;
+}
 }

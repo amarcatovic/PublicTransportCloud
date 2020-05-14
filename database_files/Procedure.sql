@@ -463,6 +463,17 @@ DELIMITER;
 DROP PROCEDURE GetRelacija;
 CALL GetRelacija(3); /* Primjer poziva */
 
+DELIMITER //
+CREATE PROCEDURE `GetSljedecaStanica`(_rel INT)
+BEGIN
+	SELECT R.polaziste_id 
+	FROM Relacija R
+    WHERE id_relacija = _rel;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetSljedecaStanica;
+CALL GetSljedecaStanica(1); /* Primjer poziva */
+
 /* ---------------------------------------------------------------------------------------------------------------------------
 													RELACIJA STANICA
  ---------------------------------------------------------------------------------------------------------------------------*/
@@ -515,8 +526,71 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetNadopune;
 CALL GetNadopune(1); /* Primjer poziva */
- 
- 
- 
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													LINIJA
+ ---------------------------------------------------------------------------------------------------------------------------*/ 
+ select * from linija;
+ select * from relacija;
+DELIMITER //
+CREATE PROCEDURE `GetAktivneLinije`(_grad INT, _tip INT)
+BEGIN
+	SELECT 
+		L.id_linija,
+		(SELECT naziv FROM Stanica WHERE id_stanica = R.polaziste_id) polaziste, 
+        (SELECT naziv FROM Stanica WHERE id_stanica = R.odrediste_id) odrediste,
+        L.planiraniPolazak,
+        L.planiraniDolazak,
+        S.naziv sljedecaStanica,
+        R.cijena,
+        TV.naziv tip,
+        L.status        
+    FROM Linija L JOIN Relacija R
+    ON L.relacija_id = R.id_relacija JOIN Stanica S
+    ON L.sljedecaStanica_id = S.id_stanica JOIN TipVozila TV
+    ON R.tipVozila_id = TV.id_tip
+    WHERE NOT L.status = 'Završen' AND S.grad_id = _grad AND TV.id_tip = _tip;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetAktivneLinije;
+CALL GetAktivneLinije(1, 1); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetAktivnaLinija`(_id INT)
+BEGIN
+	SELECT 
+		L.id_linija,
+		(SELECT naziv FROM Stanica WHERE id_stanica = R.polaziste_id) polaziste, 
+        (SELECT naziv FROM Stanica WHERE id_stanica = R.odrediste_id) odrediste,
+        L.planiraniPolazak,
+        L.planiraniDolazak,
+        S.naziv sljedecaStanica,
+        R.cijena,
+        TV.naziv tip,
+        L.status  
+    FROM Linija L JOIN Relacija R
+    ON L.relacija_id = R.id_relacija JOIN Stanica S
+    ON L.sljedecaStanica_id = S.id_stanica JOIN TipVozila TV
+    ON R.tipVozila_id = TV.id_tip
+    WHERE L.id_linija = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetAktivnaLinija;
+CALL GetAktivnaLinija(1); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetStaniceLinije`(_relacija INT)
+BEGIN
+	SELECT S.naziv, S.lat, S.lng
+    FROM RelacijaStanica RS JOIN Stanica S
+    ON RS.stanica_id = S.id_stanica
+    WHERE RS.relacija_id = _relacija
+    ORDER BY rb_stanice;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetStaniceLinije;
+CALL GetStaniceLinije(1); /* Primjer poziva */ 
+
+
  
  

@@ -3,14 +3,16 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Linija.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $linija = new Linija($db);
 
-  $result = $county->get();
+  $linija->grad = isset($_GET['g']) ? $_GET['g'] : die();
+  $linija->tip = isset($_GET['t']) ? $_GET['t'] : die();
+  $result = $linija->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +24,15 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'id' => $id_linija,
+            'polaziste' => $polaziste,
+            'odrediste' => $odrediste,
+            'planiraniPolazak' => $planiraniPolazak,
+            'planiraniDolazak' => $planiraniDolazak,
+            'sljedecaStanica' => $sljedecaStanica,
+            'cijena' => $cijena,
+            'tip' => $tip,
+            'status' => $status, 
           );
 
           array_push($cat_arr['data'], $cat_item);
@@ -33,6 +42,6 @@
 
   } else {
         echo json_encode(
-          array('message' => 'No Categories Found')
+          array('message' => 'Nije pronađena ni jedna aktivna linija')
         );
   }

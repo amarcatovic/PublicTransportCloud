@@ -64,6 +64,23 @@ class Vozilo{
       $this->prevoznik = $row['prevoznik'];
   }
 
+  public function voziloAktivno(){
+    $query = 'CALL VoziloUAktivnojLiniji(?)';
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->id_vozilo, PDO::PARAM_STR);
+      $stmt->execute();
+
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      if($row['broj'] == 1)
+      {
+        return $row['id_linija'];
+      }
+
+      return false;
+  }
+
   // POST
   public function create() {
     $query = 'INSERT INTO ' . $this->table . ' (id_vozilo, kapacitet, naziv, tip_id, prevoznik_id)

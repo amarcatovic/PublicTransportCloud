@@ -41,6 +41,17 @@ class Relacija{
       return $row['polaziste_id'];
   }
 
+  public function getCijena(){
+    $query = 'SELECT cijena FROM Relacija WHERE id_relacija = ?';
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->id_relacija);
+      $stmt->execute();
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      return $row['cijena'];
+  }
+
   // POST
   public function create() {
     $query = 'INSERT INTO ' . $this->table . ' (cijena, interval_id, tipVozila_id, polaziste_id, odrediste_id)

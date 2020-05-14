@@ -377,7 +377,17 @@ DELIMITER;
 DROP PROCEDURE GetVozilo;
 CALL GetVozilo('E11-J-133'); /* Primjer poziva */
 
-SELECT * from VozacVozilo;
+DELIMITER //
+CREATE PROCEDURE `VoziloUAktivnojLiniji`(_reg CHAR(9))
+BEGIN
+	SELECT COUNT(*) broj, L.id_linija
+    FROM Linija L
+    WHERE status = 'U toku' AND L.vozilo_id = _reg;
+END//
+DELIMITER;                           
+DROP PROCEDURE VoziloUAktivnojLiniji;
+CALL VoziloUAktivnojLiniji('E11-J-133'); /* Primjer poziva */
+
 
 DELIMITER //
 CREATE PROCEDURE `GetVozilaPrevoznika`(_prevoznik INT, _tip INT)
@@ -590,6 +600,21 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetStaniceLinije;
 CALL GetStaniceLinije(1); /* Primjer poziva */ 
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													LINIJA PLACANJE
+ ---------------------------------------------------------------------------------------------------------------------------*/ 
+DELIMITER //
+CREATE PROCEDURE `LinijaPlacena`(_korisnik INT, _linija INT)
+BEGIN
+	SELECT COUNT(*) broj
+    FROM LinijaPlacanje
+    WHERE korisnik_id = _korisnik AND linija_id = _linija;
+		
+END//
+DELIMITER;                           
+DROP PROCEDURE LinijaPlacena;
+CALL LinijaPlacena(1, 1); /* Primjer poziva */
 
 
  

@@ -3,14 +3,15 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/LinijaPlacanje.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $linija = new LinijaPlacanje($db);
 
-  $result = $county->get();
+  $linija->korisnik_id = isset($_GET['id']) ? $_GET['id'] : die();
+  $result = $linija->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +23,10 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'polaziste' => $polaziste,
+            'odrediste' => $odrediste,
+            'datum' => $vrijemePlacanja,
+            'cijena' => $kolicina
           );
 
           array_push($cat_arr['data'], $cat_item);
@@ -33,6 +36,6 @@
 
   } else {
         echo json_encode(
-          array('message' => 'No Categories Found')
+          array('message' => 'Error')
         );
   }

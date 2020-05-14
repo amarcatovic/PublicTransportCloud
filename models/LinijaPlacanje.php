@@ -16,40 +16,41 @@ class LinijaPlacanje{
 
     // GET
     public function get() {
-      $query = 'CALL ';
+      $query = 'CALL GetPlaceneLinije(?)';
 
       $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->korisnik_id);
       $stmt->execute();
 
       return $stmt;
     }
 
-  public function read_single(){
-    $query = 'CALL ';
+  public function LinijaPlacena(){
+    $query = 'CALL LinijaPlacena(?, ?)';
 
       $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(1, $this->id_korisnik);
+      $stmt->bindParam(1, $this->korisnik_id);
+      $stmt->bindParam(2, $this->linija_id);
       $stmt->execute();
 
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      $this->id_korisnik = $row['id_korisnik'];
-      $this->ime = $row['ime'];
-      $this->prezime = $row['prezime'];
-      $this->email = $row['email'];
-      $this->passwordHash = $row['passwordHash'];
-      $this->Grad = $row['Grad'];
-      $this->Uloga = $row['Uloga'];
+      if($row['broj'] == 1)
+        return true;
+      
+      return false;
   }
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+    $query = 'INSERT INTO ' . $this->table . ' (linija_id, korisnik_id, kolicina)
+    VALUES(:line, :user, :kol)';
 
   $stmt = $this->conn->prepare($query);
-  $this->naziv = htmlspecialchars(strip_tags($this->naziv));
 
-  $stmt-> bindParam(':name', $this->naziv);
+  $stmt-> bindParam(':line', $this->linija_id);
+  $stmt-> bindParam(':user', $this->korisnik_id);
+  $stmt-> bindParam(':kol', $this->kolicina);
 
   if($stmt->execute()) {
     return true;

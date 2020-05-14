@@ -58,9 +58,9 @@ class Linija{
 
   public function getRelacijaId()
   {
-    $query = 'SELECT relacija_id FROM Linija WHERE id_linija = ' . $this->id_linija;
-
+    $query = 'SELECT relacija_id FROM Linija WHERE id_linija = ?';
     $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->id_linija);
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 

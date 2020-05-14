@@ -377,6 +377,33 @@ DELIMITER;
 DROP PROCEDURE GetVozilo;
 CALL GetVozilo('E11-J-133'); /* Primjer poziva */
 
+SELECT * from VozacVozilo;
+
+DELIMITER //
+CREATE PROCEDURE `GetVozilaPrevoznika`(_prevoznik INT, _tip INT)
+BEGIN
+	SELECT V.id_vozilo, V.kapacitet, V.naziv
+    FROM Vozilo V JOIN TipVozila TV 
+    ON V.tip_id = TV.id_tip JOIN Prevoznik P
+    ON V.prevoznik_id = P.id_prevoznik
+    WHERE V.prevoznik_id = _prevoznik AND V.tip_id = _tip;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetVozilaPrevoznika;
+CALL GetVozilaPrevoznika(2, 2); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `DaLiJeVoziloSlobodno`(_reg CHAR(9))
+BEGIN
+	SELECT COUNT(*) broj
+    FROM Vozilo V JOIN VozacVozilo VV
+    ON V.id_vozilo = VV.vozilo_id
+    WHERE VV.datumRazduzenja IS NULL AND VV.vozilo_id = _reg;
+END//
+DELIMITER;                           
+DROP PROCEDURE DaLiJeVoziloSlobodno;
+CALL DaLiJeVoziloSlobodno('A15-J-669'); /* Primjer poziva */
+
 /* ---------------------------------------------------------------------------------------------------------------------------
 													INTERVAL RELACIJE
  ---------------------------------------------------------------------------------------------------------------------------*/

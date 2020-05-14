@@ -25,6 +25,28 @@ class Vozilo{
       return $stmt;
     }
 
+    public function getVozilaPrevoznika() {
+      $query = 'CALL GetVozilaPrevoznika(?, ?)';
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->prevoznik_id);
+      $stmt->bindParam(2, $this->tip_id);
+      $stmt->execute();
+
+      return $stmt;
+    }
+
+    public function slobodna() {
+      $query = 'CALL DaLiJeVoziloSlobodno(?)';
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->id_vozilo);
+      $stmt->execute();
+
+      return $stmt;
+    }
+
+
   public function read_single(){
     $query = 'CALL GetVozilo(?)';
 

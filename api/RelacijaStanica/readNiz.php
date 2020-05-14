@@ -11,27 +11,31 @@
   $stations = new RelacijaStanica($db);
 
   $stations->relacija_id = isset($_GET['id']) ? $_GET['id'] : die();
-  $result = $stations->get();
+  $result = $stations->getNiz();
   
   $num = $result->rowCount();
 
   if($num > 0) {
         $cat_arr = array();
         $cat_arr['data'] = array();
+        
+        $ids = array();
+        $ids['ids'] = array();
+
+        $imena = array();
+        $imena['imena'] = array();
+        
+
 
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
           extract($row);
 
-          $cat_item = array(
-            'naziv' => $naziv,
-            'lat' => $lat,
-            'lng' => $lng,
-            'adresa' => $adresa
-          );
-
-          array_push($cat_arr['data'], $cat_item);
+          array_push($ids['ids'], $stanica_id);
+          array_push($imena['imena'], $naziv);
         }
 
+        array_push($cat_arr['data'], $imena['imena']);
+        array_push($cat_arr['data'], $ids['ids']);
         echo json_encode($cat_arr);
 
   } else {

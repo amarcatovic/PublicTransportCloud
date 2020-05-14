@@ -434,4 +434,35 @@ BEGIN
 END//
 DELIMITER;                           
 DROP PROCEDURE GetRelacija;
-CALL GetRelacija(1); /* Primjer poziva */
+CALL GetRelacija(3); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													RELACIJA STANICA
+ ---------------------------------------------------------------------------------------------------------------------------*/
+SELECT * FROM RelacijaStanica;
+
+DELIMITER //
+CREATE PROCEDURE `GetStaniceZaRelaciju`(_relacija INT)
+BEGIN
+	SELECT S.naziv, S.lat, S.lng, S.adresa
+    FROM RelacijaStanica RS JOIN Stanica S
+    ON RS.stanica_id = S.id_stanica
+    WHERE RS.relacija_id = _relacija
+    ORDER BY RS.rb_stanice;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetStaniceZaRelaciju;
+CALL GetStaniceZaRelaciju(3); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetStaniceNiz`(_relacija INT)
+BEGIN
+	SELECT RS.stanica_id, S.naziv
+    FROM RelacijaStanica RS JOIN Stanica S
+    ON RS.stanica_id = S.id_stanica
+    WHERE RS.relacija_id = _relacija
+    ORDER BY RS.rb_stanice;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetStaniceNiz;
+CALL GetStaniceNiz(2); /* Primjer poziva */

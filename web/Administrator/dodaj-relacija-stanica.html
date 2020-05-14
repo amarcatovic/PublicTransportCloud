@@ -14,21 +14,39 @@
 
 </head>
 <body>
-    <nav id="navigacija">Appobus - Administracija</nav>
+    <div id="top">
+        <nav id="navigacija">Appobus - Administracija</nav>
 
-    <h2>Dodaj stanice relaciji</h2>
-    <div id="unos">
-        <div id="polje">
-            <label for="relacija-dropdown">Relacija:</label>
-            <select id="relacija-dropdown" onchange="getIdRelacijaFromSelect()">
-                <option value="" disabled selected hidden>Odabir...</option>
-            </select>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategorija
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
+              <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
+              <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
+              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
+              <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
+              <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
+              <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
+              <a class="dropdown-item" href="dodaj-vozac.html">Dodaj vozača</a>
+            </div>
+          </div>
+
+        <h2>Dodaj stanice relaciji</h2>
+        <div id="unos">
+            <div id="polje">
+                <!-- <label for="relacija-dropdown">Relacija:</label> -->
+                <select id="relacija-dropdown" onchange="getIdRelacijaFromSelect()">
+                    <option value="" disabled selected hidden>Relacija</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="stanica-relacija">Stanica:</label> -->
+                <input type="text" id="stanica-relacija" placeholder="Stanica">
+            </div>
+            <button id="btnDodaj" onclick="clearInput()" onclick="dodajStanica()">Dodaj</button>
         </div>
-        <div id="polje">
-            <label for="stanica-relacija">Stanica:</label>
-            <input type="text" id="stanica-relacija">
-        </div>
-        <button id="btnDodaj" onclick="clearInput()" onclick="dodajStanica()">Dodaj</button>
     </div>
     
     <script>
@@ -36,7 +54,7 @@
         relacijaDropdown.length = 0
 
         let defaultOption = document.createElement('option')
-        defaultOption.text = 'Odabir...';
+        defaultOption.text = 'Relacija';
 
         relacijaDropdown.add(defaultOption)
         relacijaDropdown.selectedIndex = 0
@@ -72,7 +90,7 @@
 
     <script>
     function clearInput(){
-        document.getElementById("relacija-dropdown").value="Odabir...";
+        document.getElementById("relacija-dropdown").value="Relacija";
         document.getElementById("stanica-relacija").value="";
     }
 

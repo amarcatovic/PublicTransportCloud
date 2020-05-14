@@ -14,46 +14,64 @@
 
 </head>
 <body>
-    <nav id="navigacija">Appobus - Administracija</nav>
+    <div id="top">
+        <nav id="navigacija">Appobus - Administracija</nav>
 
-    <h2>Dodaj korisnika</h2>
-    <div id="unos">
-        <div id="polje">
-            <label for="ime-korisnikAplikacije">Ime:</label>
-            <input id="ime-korisnikAplikacije" type="text">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategorija
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
+              <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
+              <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
+              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
+              <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
+              <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
+              <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
+              <a class="dropdown-item" href="dodaj-vozac.html">Dodaj vozača</a>
+            </div>
+          </div>
+
+        <h2>Dodaj korisnika</h2>
+        <div id="unos">
+            <div id="polje">
+                <!-- <label for="ime-korisnikAplikacije">Ime:</label> -->
+                <input id="ime-korisnikAplikacije" type="text" placeholder="Ime">
+            </div>
+            <div id="polje">
+                <!-- <label for="prezime-korisnikAplikacije">Prezime:</label> -->
+                <input id="prezime-korisnikAplikacije" type="text" placeholder="Prezime">
+            </div>
+            <div id="polje">
+                <!-- <label for="email-korisnikAplikacije">Email adresa:</label> -->
+                <input id="email-korisnikAplikacije" type="email" placeholder="Email adresa">
+            </div>
+            <div id="polje">
+                <!-- <label for="password-korisnikAplikacije">Password:</label> -->
+                <input id="password-korisnikAplikacije" type="password" placeholder="Password">
+            </div>
+            <div id="polje">
+                <!-- <label for="datumRodjenja-korisnikAplikacije">Datum rođenja:</label> -->
+                <input id="datumRodjenja-korisnikAplikacije" placeholder="Datum rođenja" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
+            </div>
+            <div id="polje">
+                <!-- <label for="grad-dropdown">Grad:</label> -->
+                <select id="grad-dropdown" onchange="getIdGradFromSelect()">
+                    <option value="" disabled selected hidden>Grad</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="brojKartice-korisnik">Broj kartice:</label> -->
+                <input id="brojKartice" type="text" placeholder="Broj kartice">
+            </div>
+            <div id="polje">
+                <!-- <label for="stanje-korisnik">Stanje:</label> -->
+                <input id="stanje" type="number" placeholder="Stanje">
+            </div>
+            
+            <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajKorisnik()">Dodaj</button>
         </div>
-        <div id="polje">
-            <label for="prezime-korisnikAplikacije">Prezime:</label>
-            <input id="prezime-korisnikAplikacije" type="text">
-        </div>
-        <div id="polje">
-            <label for="email-korisnikAplikacije">Email adresa:</label>
-            <input id="email-korisnikAplikacije" type="email">
-        </div>
-        <div id="polje">
-            <label for="password-korisnikAplikacije">Password:</label>
-            <input id="password-korisnikAplikacije" type="password">
-        </div>
-        <div id="polje">
-            <label for="datumRodjenja-korisnikAplikacije">Datum rođenja:</label>
-            <input id="datumRodjenja-korisnikAplikacije" type="date">
-        </div>
-        <div id="polje">
-            <label for="grad-dropdown">Grad:</label>
-            <select id="grad-dropdown" onchange="getIdGradFromSelect()">
-                <option value="" disabled selected hidden>Odabir...</option>
-            </select>
-        </div>
-        <div id="polje">
-            <label for="brojKartice-korisnik">Broj kartice:</label>
-            <input id="brojKartice" type="text">
-        </div>
-        <div id="polje">
-            <label for="stanje-korisnik">Stanje:</label>
-            <input id="stanje" type="number">
-        </div>
-        
-        <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajKorisnik()">Dodaj</button>
     </div>
     
     <script>
@@ -61,7 +79,7 @@
         gradDropdown.length = 0
 
         let defaultOption = document.createElement('option')
-        defaultOption.text = 'Odabir...';
+        defaultOption.text = 'Grad';
 
         gradDropdown.add(defaultOption)
         gradDropdown.selectedIndex = 0
@@ -102,9 +120,9 @@
         document.getElementById("email-korisnikAplikacije").value="";
         document.getElementById("password-korisnikAplikacije").value="";
         document.getElementById("datumRodjenja-korisnikAplikacije").value="";
-        document.getElementById("grad-dropdown").value="Odabir...";
-        document.getElementById("brojKartice-korisnik").value="";
-        document.getElementById("stanje-korisnik").value="";
+        document.getElementById("grad-dropdown").value="Grad";
+        document.getElementById("brojKartice").value="";
+        document.getElementById("stanje").value="";
     }
 
     const data = {}

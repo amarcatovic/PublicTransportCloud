@@ -616,6 +616,92 @@ DELIMITER;
 DROP PROCEDURE LinijaPlacena;
 CALL LinijaPlacena(1, 1); /* Primjer poziva */
 
+/* ---------------------------------------------------------------------------------------------------------------------------
+													TAXI ZAHTJEV
+ ---------------------------------------------------------------------------------------------------------------------------*/ 
+ SELECT * FROM TaxiZahtjev;
+ 
+DELIMITER //
+CREATE PROCEDURE `GetTaxiZahtjeviKorisnik`(_korisnik INT)
+BEGIN
+	SELECT TZ.lokacija, 
+		   IF((DATE_SUB(NOW(),INTERVAL 5 MINUTE) < TZ.vrijemeZahtjeva) OR TZ.vozac_id IS NOT NULL, TZ.vrijemeZahtjeva, 'Istekao') vrijeme, 
+		   TZ.ocjena, TZ.cijena, TZ.vrijemeDolaska, TZ.status
+    FROM TaxiZahtjev TZ
+    WHERE korisnik_id = _korisnik;
+		
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTaxiZahtjeviKorisnik;
+CALL GetTaxiZahtjeviKorisnik(1); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetTaxiZahtjeviVozac`()
+BEGIN
+	SELECT TZ.id_zahtjev, TZ.lokacija, TZ.opis, TZ.vrijemeZahtjeva, TZ.status
+    FROM TaxiZahtjev TZ
+    WHERE DATE_SUB(NOW(),INTERVAL 5 MINUTE) < TZ.vrijemeZahtjeva AND NOT status = 'Prihvaćen';		
+END//
+DELIMITER;                           
+DROP PROCEDURE GetTaxiZahtjeviVozac;
+CALL GetTaxiZahtjeviVozac(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `PrihvatiTaxiVoznju`(_id INT, _vozac INT, _time DATETIME)
+BEGIN
+	UPDATE TaxiZahtjev
+           SET vozac_id = _vozac, vrijemeDolaska = _time, status = 'Prihvaćen'
+           WHERE id_zahtjev = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE PrihvatiTaxiVoznju;
+CALL PrihvatiTaxiVoznju(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `PonistiTaxiVoznju`(_id INT)
+BEGIN
+	UPDATE TaxiZahtjev
+           SET vrijemeZahtjeva = CURRENT_TIMESTAMP(), vozac_id = NULL, vrijemeDolaska = NULL, status = 'Na Čekanju'
+           WHERE id_zahtjev = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE PonistiTaxiVoznju;
+CALL PonistiTaxiVoznju(4); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `NaplatiTaxiVoznju`(_id INT, _cijena FLOAT)
+BEGIN
+	UPDATE TaxiZahtjev
+           SET cijena = _cijena, status = 'Plaćanje'
+           WHERE id_zahtjev = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE NaplatiTaxiVoznju;
+CALL NaplatiTaxiVoznju(4); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `PlatiTaxiVoznju`(_id INT)
+BEGIN
+	UPDATE TaxiZahtjev
+           SET status = 'Ocijeni'
+           WHERE id_zahtjev = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE PlatiTaxiVoznju;
+CALL PlatiTaxiVoznju(4); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `OcijeniTaxiVoznju`(_id INT, _ocjena INT)
+BEGIN
+	UPDATE TaxiZahtjev
+           SET ocjena = _ocjena, status = 'Završen'
+           WHERE id_zahtjev = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE OcijeniTaxiVoznju;
+CALL OcijeniTaxiVoznju(4); /* Primjer poziva */
+
+
 
  
  

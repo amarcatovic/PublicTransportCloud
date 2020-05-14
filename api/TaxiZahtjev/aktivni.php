@@ -10,8 +10,7 @@
 
   $taxi = new TaxiZahtjev($db);
 
-  $taxi->korisnik_id = isset($_GET['id']) ? $_GET['id'] : die();
-  $result =  $taxi->get();
+  $result =  $taxi->GetAktivni();
   
   $num = $result->rowCount();
 
@@ -23,12 +22,10 @@
           extract($row);
 
           $cat_item = array(
+            'id' => $id_zahtjev,
             'lokacija' => $lokacija,
-            'vrijeme' => $vrijeme,
-            'ocjena' => $ocjena,
-            'cijena' => $cijena,
-            'vrijemeDolaska' => $vrijemeDolaska,
-            'status' => $status
+            'opis' => $opis,
+            'vrijeme' => $vrijemeZahtjeva
           );
 
           array_push($cat_arr['data'], $cat_item);
@@ -38,6 +35,6 @@
 
   } else {
         echo json_encode(
-          array('message' => 'Korisnik nema zahtjeva')
+          array('message' => 'Trenutno nema zahtjeva')
         );
   }

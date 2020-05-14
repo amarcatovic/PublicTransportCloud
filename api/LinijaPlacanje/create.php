@@ -44,6 +44,11 @@
   $pay->kolicina = $relacija->getCijena();
   $korisnik->stanje = -1 * $pay->kolicina;
 
+  /* -------------------------------------------------------- */
+  /* TODO: PROVJERA DA LI KORISNIK IMA NOVAC DA PLATI LINIJU */
+  /* -------------------------------------------------------- */
+
+
   if($pay->kolicina <= 0 || $korisnik->brojKartice == '')
      die;
     

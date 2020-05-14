@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dodaj vozača</title>
+    <title>Dodaj taxi vozača</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
@@ -34,7 +34,7 @@
             </div>
           </div>
 
-        <h2>Dodaj vozača</h2>
+        <h2>Dodaj taxi vozača</h2>
         <div id="unos">
             <div id="polje">
                 <!-- <label for="ime-korisnikAplikacije">Ime:</label> -->
@@ -54,7 +54,7 @@
             </div>
             <div id="polje">
                 <!-- <label for="datumRodjenja-korisnikAplikacije">Datum rođenja:</label> -->
-                <input id="datumRodjenja-korisnikAplikacije" placeholder="Datum rođenja" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
+                <input id="datumRodjenja-korisnikAplikacije" type="date" placeholder="Datum rođenja">
             </div>
             <div id="polje">
                 <!-- <label for="grad-dropdown">Grad:</label> -->
@@ -63,13 +63,23 @@
                 </select>
             </div>
             <div id="polje">
+                <!-- <label for="registracija-dropdown">Registracija:</label> -->
+                <select id="registracija-dropdown" onchange="getIdRegistracijaFromSelect()">
+                    <option value="" disabled selected hidden>Automobil (registracija)</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="brojDozvole-korisnikAplikacije">Broj dozvole:</label> -->
+                <input id="brojTaxiDozvole-korisnikAplikacije" type="text" placeholder="Broj taxi dozvole">
+            </div>
+            <div id="polje">
                 <!-- <label for="prevoznik-dropdown">Prevoznik:</label> -->
                 <select id="prevoznik-dropdown" onchange="getIdPrevoznikFromSelect()">
                     <option value="" disabled selected hidden>Prevoznik</option>
                 </select>
             </div>
             
-            <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajVozac()">Dodaj</button>
+            <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajTaxiVozac()">Dodaj</button>
         </div>
     </div>
     
@@ -147,6 +157,50 @@
                 var p = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
         }
         }
+
+        {
+            let registracijaDropdown = document.getElementById('registracija-dropdown')
+            registracijaDropdown.length = 0
+
+            let defaultOption = document.createElement('option')
+            defaultOption.text = 'Automobil (registracija)';
+
+            let prvaOpcija = document.createElement('option')
+            prvaOpcija.text = 'Individualac';
+            prvaOpcija.value = '0'
+
+            registracijaDropdown.add(defaultOption)
+            registracijaDropdown.selectedIndex = 0
+
+            registracijaDropdown.add(prvaOpcija);
+
+            const url = 'http://192.168.0.15/PublicTransportCloud/api/Automobil/read.php'
+
+            fetch(url).then(  
+                function(response) {  
+                if (response.status !== 200) {  
+                    console.warn('Error: ' + response.status)  
+                    return 
+                }
+                response.json().then(function(data) {  
+                    let option
+                    for (let i = 0; i < data.data.length; i++) {
+                    option = document.createElement('option')
+                    option.text = data.data[i].registracija
+                    option.value = data.data[i].id
+                    registracijaDropdown.add(option)
+                    }    
+                });  
+                }  
+            )  
+            .catch(function(err) {  
+                console.error('Error -', err)
+            })
+
+            const getIdRegistracijaFromSelect = () => {
+                var r = document.getElementById("registracija-dropdown").options[document.getElementById("registracija-dropdown").selectedIndex].value;
+        }
+        }
     </script>
 
     <script>
@@ -157,6 +211,8 @@
         document.getElementById("password-korisnikAplikacije").value="";
         document.getElementById("datumRodjenja-korisnikAplikacije").value="";
         document.getElementById("grad-dropdown").value="Grad";
+        document.getElementById("registracija-dropdown").value="Automobil (registracija)";
+        document.getElementById("brojTaxiDozvole-korisnikAplikacije").value="";
         document.getElementById("prevoznik-dropdown").value="Prevoznik";
     }
 
@@ -185,15 +241,17 @@
         })
     }
 
-    const dodajVozac = () => {
+    const dodajTaxiVozac = () => {
         data.ime = document.querySelector('#ime-korisnikAplikacije').value
         data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
         data.email = document.querySelector('#email-korisnikAplikacije').value
         data.password = document.querySelector('#password-korisnikAplikacije').value
         data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
         data.grad_id = g;
+        data.registracija = r;
+        data.brojTaxiDozvole = document.querySelector('#brojDozvole-korisnikAplikacije').value
         data.prevoznik_id = p;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/Vozac/create.php', {
+        fetch('http://192.168.0.15/PublicTransportCloud/api/TaxiVozac/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -220,6 +278,8 @@
               <th>Password</th>
               <th>Datum rođenja</th>
               <th>Grad</th>
+              <th>Automobil (registracija)</th>
+              <th>Broj taxi dozvole</th>
               <th>Prevoznik</th>
          </tr>  
     </thead>  
@@ -228,7 +288,7 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Vozac/read.php",  
+              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Revizor/read.php",  
               "columns"     :     [  
                    {     "data"     :     "id"     },  
                    {     "data"     :     "ime"},
@@ -237,11 +297,13 @@
                    {     "data"     :     "password"},
                    {     "data"     :     "datumRodjenja"},
                    {     "data"     :     "grad_id"},
+                   {     "data"     :     "registracija"},
+                   {     "data"     :     "brojTaxiDozvole"},
                    {     "data"     :     "prevoznik_id"}
               ]  
          }); 
     }); 
-    </script>  
+    </script>
 
 </body>
 </html>

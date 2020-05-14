@@ -192,7 +192,7 @@ DROP PROCEDURE GetAutomobil;
 CALL GetAutomobil('A11-M-395'); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
-													AUTOMOBIL
+													KORISNIK
  ---------------------------------------------------------------------------------------------------------------------------*/
 DELIMITER //
 CREATE PROCEDURE `GetKorisnici`()
@@ -498,3 +498,25 @@ CALL GetStaniceNiz(2); /* Primjer poziva */
 													VOZAC VOZILO
  ---------------------------------------------------------------------------------------------------------------------------*/
 select * from VozacVozilo;
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													NADOPUNE
+ ---------------------------------------------------------------------------------------------------------------------------*/ 
+DELIMITER //
+CREATE PROCEDURE `GetNadopune`(_id INT)
+BEGIN
+	SELECT N.kolicina, PM.naziv poslovnica, G.naziv grad, N.datumNadopune
+    FROM Nadopune N JOIN ProdajnoMjesto PM
+    ON N.prodajnoMjesto_id = PM.id_prodajnoMjesto JOIN Grad G
+    ON PM.grad_id = G.id_grad
+    WHERE N.korisnik_id = _id
+    ORDER BY N.datumNadopune DESC;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetNadopune;
+CALL GetNadopune(1); /* Primjer poziva */
+ 
+ 
+ 
+ 
+ 

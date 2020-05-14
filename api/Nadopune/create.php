@@ -6,23 +6,30 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Nadopune.php';
+  include_once '../../models/Korisnik.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $country = new Drzava($db);
+  $nadopuna = new Nadopune($db);
+  $korisnik = new Korisnik($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $country->naziv = $data->naziv;
+  $korisnik->brojKartice = $data->brojKartice;
+  $nadopuna->kolicina = $data->kolicina;
+  $korisnik->stanje = $data->kolicina;
+  $nadopuna->prodajnoMjesto_id = $data->prodajnoMjesto_id;
 
-  if($country->naziv == '')
+  if($nadopuna->kolicina <= 0 || $korisnik->brojKartice == '')
     die;
     
-  if($country->create()) {
+  $nadopuna->korisnik_id = $korisnik->getIdFromKartica(); 
+
+  if($nadopuna->create() && $korisnik->update()) {
     echo json_encode(
-      array('status' => 'OK')
+      array('status' => 'Nadopunjeno')
     );
   } else {
     echo json_encode(

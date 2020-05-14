@@ -3,14 +3,15 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Nadopune.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $nadopune = new Nadopune($db);
 
-  $result = $county->get();
+  $nadopune->korisnik_id = isset($_GET['id']) ? $_GET['id'] : die();
+  $result = $nadopune->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +23,10 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'kolicina' => $kolicina,
+            'poslovnica' => $poslovnica,
+            'grad' => $grad,
+            'datum' => $datumNadopune  
           );
 
           array_push($cat_arr['data'], $cat_item);

@@ -45,6 +45,18 @@ $query = 'CALL GetKorisnik(?)';
   $this->stanje = $row['stanje'];
 }
 
+public function getIdFromKartica(){
+  $query = 'CALL GetKorisnikByCard(?)';
+  
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(1, $this->brojKartice, PDO::PARAM_STR);
+  $stmt->execute();
+
+  $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  return $row['id_korisnik'];
+}
+
 public function read_single_kartica(){
   $query = 'CALL GetKorisnikByCard(?)';
   

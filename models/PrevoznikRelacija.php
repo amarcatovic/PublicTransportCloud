@@ -43,12 +43,14 @@ class PrevoznikRelacija{
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+    $query = 'INSERT INTO ' . $this->table . ' (prevoznik_id, relacija_id, datumUvodjenja)
+    VALUES(:prevoznik, :relacija, CURRENT_TIMESTAMP())';
 
   $stmt = $this->conn->prepare($query);
-  $this->naziv = htmlspecialchars(strip_tags($this->naziv));
+  $this->prevoznik_id = htmlspecialchars(strip_tags($this->prevoznik_id));
 
-  $stmt-> bindParam(':name', $this->naziv);
+  $stmt-> bindParam(':prevoznik', $this->prevoznik_id);
+  $stmt-> bindParam(':relacija', $this->relacija_id);
 
   if($stmt->execute()) {
     return true;

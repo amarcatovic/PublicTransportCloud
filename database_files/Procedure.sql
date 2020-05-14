@@ -391,7 +391,7 @@ DROP PROCEDURE GetIntervali;
 CALL GetIntervali(); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
-													INTERVAL RELACIJE
+													STANICA
  ---------------------------------------------------------------------------------------------------------------------------*/
 DELIMITER //
 CREATE PROCEDURE `GetStanice`(_grad INT)
@@ -414,3 +414,24 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetStanica;
 CALL GetStanica(1); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													RELACIJA
+ ---------------------------------------------------------------------------------------------------------------------------*/
+SELECT * FROM Relacija;
+
+DELIMITER //
+CREATE PROCEDURE `GetRelacija`(_prevoznik INT)
+BEGIN
+	SELECT R.id_relacija, S1.naziv polaziste, S2.naziv odrediste, R.cijena, IR.naziv intervalRelacije, TV.naziv tipVozila  
+    FROM Relacija R JOIN Stanica S1
+    ON R.polaziste_id = S1.id_stanica JOIN Stanica S2
+    ON R.odrediste_id = S2.id_stanica JOIN IntervalRelacije IR
+    ON R.interval_id = IR.id_interval JOIN TipVozila TV 
+    ON R.tipVozila_id = TV.id_tip JOIN PrevoznikRelacija RP
+    ON R.id_relacija = RP.relacija_id
+    WHERE RP.prevoznik_id = _prevoznik;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetRelacija;
+CALL GetRelacija(1); /* Primjer poziva */

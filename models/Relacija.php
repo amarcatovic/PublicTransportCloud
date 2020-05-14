@@ -6,17 +6,23 @@ class Relacija{
 
     public $id_relacija;
     public $cijena;
+    public $polaziste_id;
+    public $polaziste;
+    public $odrediste_id;
+    public $odrediste;
     public $interval_id;
+    public $interval;
     public $tipVozila_id;
+    public $tipVozila;
 
     // METODE
     public function __construct($db) {
       $this->conn = $db;
     }
 
-    // GET
-    public function get() {
-      $query = 'CALL ';
+    // GET SVE RELACIJE OD NEKOG PREVOZNIKA (potreban prevoznikID)
+    public function get($id) {
+      $query = 'CALL GetRelacija('. $id .')';
 
       $stmt = $this->conn->prepare($query);
       $stmt->execute();
@@ -44,15 +50,20 @@ class Relacija{
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+    $query = 'INSERT INTO ' . $this->table . ' (cijena, interval_id, tipVozila_id, polaziste_id, odrediste_id)
+    VALUES(:price, :interval, :type, :A, :B)';
 
   $stmt = $this->conn->prepare($query);
-  $this->naziv = htmlspecialchars(strip_tags($this->naziv));
+  $this->cijena = htmlspecialchars(strip_tags($this->cijena));
 
-  $stmt-> bindParam(':name', $this->naziv);
+  $stmt-> bindParam(':price', $this->cijena);
+  $stmt-> bindParam(':interval', $this->interval_id);
+  $stmt-> bindParam(':type', $this->tipVozila_id);
+  $stmt-> bindParam(':A', $this->polaziste_id);
+  $stmt-> bindParam(':B', $this->odrediste_id);
 
   if($stmt->execute()) {
-    return true;
+    return $this->conn->lastInsertId();
   }
   printf("Greška: $s.\n", $stmt->error);
 

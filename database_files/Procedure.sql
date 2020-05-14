@@ -389,3 +389,28 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetIntervali;
 CALL GetIntervali(); /* Primjer poziva */
+
+/* ---------------------------------------------------------------------------------------------------------------------------
+													INTERVAL RELACIJE
+ ---------------------------------------------------------------------------------------------------------------------------*/
+DELIMITER //
+CREATE PROCEDURE `GetStanice`(_grad INT)
+BEGIN
+	SELECT *
+    FROM Stanica
+    WHERE grad_id = _grad;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetStanice;
+CALL GetStanice(1); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetStanica`(_id INT)
+BEGIN
+	SELECT *
+    FROM Stanica
+    WHERE id_stanica = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetStanica;
+CALL GetStanica(1); /* Primjer poziva */

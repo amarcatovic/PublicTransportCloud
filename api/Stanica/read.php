@@ -3,14 +3,15 @@
   header('Content-Type: application/json');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Stanica.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $county = new Drzava($db);
+  $station = new Stanica($db);
 
-  $result = $county->get();
+  $station->grad_id = isset($_GET['id']) ? $_GET['id'] : die();
+  $result = $station->get();
   
   $num = $result->rowCount();
 
@@ -22,8 +23,11 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_drzava,
-            'naziv' => $naziv  
+            'id' => $id_stanica,
+            'naziv' => $naziv,
+            'lat' => $lat,
+            'lng' => $lng,
+            'adresa' => $adresa
           );
 
           array_push($cat_arr['data'], $cat_item);

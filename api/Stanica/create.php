@@ -6,21 +6,25 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/Stanica.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $country = new Drzava($db);
+  $station = new Stanica($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $country->naziv = $data->naziv;
+  $station->naziv = $data->naziv;
+  $station->lat = $data->lat;
+  $station->lng = $data->lng;
+  $station->adresa = $data->adresa;
+  $station->grad_id = $data->grad_id;
 
-  if($country->naziv == '')
+  if($station->naziv == '')
     die;
     
-  if($country->create()) {
+  if($station->create()) {
     echo json_encode(
       array('status' => 'OK')
     );

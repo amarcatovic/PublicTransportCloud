@@ -14,29 +14,48 @@
 
 </head>
 <body>
-    <nav id="navigacija">Appobus - Administracija</nav>
+    <div id="top">
+        <nav id="navigacija">Appobus - Administracija</nav>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategorija
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
+              <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
+              <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
+              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
+              <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
+              <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
+              <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
+              <a class="dropdown-item" href="dodaj-vozac.html">Dodaj vozača</a>
+            </div>
+          </div>
 
     <h2>Dodaj automobil</h2>
     <div id="unos">
         <div id="polje">
-            <label for="id-automobil">Registracija:</label>
-            <input id="id-automobil" type="text">
+            <!-- <label for="id-automobil">Registracija:</label> -->
+            <input id="id-automobil" type="text" placeholder="Registracija">
         </div>
         <div id="polje">
-            <label for="proizvodjac-automobil">Proizvođač:</label>
-            <input id="proizvodjac-automobil" type="text">
+            <!-- <label for="proizvodjac-automobil">Proizvođač:</label> -->
+            <input id="proizvodjac-automobil" type="text" placeholder="Proizvođač">
         </div>
         <div id="polje">
-            <label for="model-automobil">Model:</label>
-            <input id="model-automobil" type="text">
+            <!-- <label for="model-automobil">Model:</label> -->
+            <input id="model-automobil" type="text" placeholder="Model">
         </div>
         <div id="polje">
-            <label for="boja-automobil">Boja:</label>
-            <input id="boja-automobil" type="text">
+            <!-- <label for="boja-automobil">Boja:</label> -->
+            <input id="boja-automobil" type="text" placeholder="Boja">
         </div>
         
         <button id="btnDodaj" onclick="clearInput()" onclick="dodajAutomobil()" >Dodaj</button>
     </div>
+    </div>
+    
     
 
     <script>

@@ -207,7 +207,6 @@ VALUES (11, 'A15-J-669', CURRENT_TIMESTAMP(), NULL);
 INSERT INTO Nadopune(korisnik_id, prodajnoMjesto_id, kolicina) VALUES (1, 1, 5);
 INSERT INTO Nadopune(korisnik_id, prodajnoMjesto_id, kolicina) VALUES (1, 1, 1);
 
-
 INSERT INTO Linija(vozac_id, vozilo_id, relacija_id, sljedecaStanica_id, planiraniDolazak)
 VALUES (11, 'A15-J-669', 1, 13, '2020-05-12 11:55');
 INSERT INTO Linija(vozac_id, vozilo_id, relacija_id, sljedecaStanica_id, planiraniPolazak, planiraniDolazak, status)

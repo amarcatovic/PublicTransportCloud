@@ -6,23 +6,21 @@
   header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization,X-Requested-With');
 
   include_once '../../config/Database.php';
-  include_once '../../models/Drzava.php';
+  include_once '../../models/VozacVozilo.php';
 
   $database = new Database();
   $db = $database->connect();
 
-  $country = new Drzava($db);
+  $zaduzenje = new VozacVozilo($db);
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $country->naziv = $data->naziv;
-
-  if($country->naziv == '')
-    die;
-    
-  if($country->create()) {
+  $zaduzenje->vozac_id = $data->vozac_id;
+  $zaduzenje->vozilo_id = $data->vozilo_id;
+ 
+  if($zaduzenje->create()) {
     echo json_encode(
-      array('status' => 'OK')
+      array('status' => 'Zadužen')
     );
   } else {
     echo json_encode(

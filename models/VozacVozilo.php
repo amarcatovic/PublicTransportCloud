@@ -24,32 +24,31 @@ class VozacVozilo{
       return $stmt;
     }
 
-  public function read_single(){
-    $query = 'CALL ';
+  public function update() {
+    $query = 'UPDATE ' . $this->table . '
+                          SET datumRazduzenja = CURRENT_TIMESTAMP()
+                          WHERE vozilo_id = :id AND datumRazduzenja IS NULL';
 
-      $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(1, $this->id_korisnik);
-      $stmt->execute();
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $this->vozilo_id);
 
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($stmt->execute()) {
+      return true;
+    }
 
-      $this->id_korisnik = $row['id_korisnik'];
-      $this->ime = $row['ime'];
-      $this->prezime = $row['prezime'];
-      $this->email = $row['email'];
-      $this->passwordHash = $row['passwordHash'];
-      $this->Grad = $row['Grad'];
-      $this->Uloga = $row['Uloga'];
-  }
+    printf("Error: %s.\n", $stmt->error);
+    return false;
+}
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv) VALUES(:name)';
+    $query = 'INSERT INTO ' . $this->table . ' (vozac_id, vozilo_id, datumZaduzenja, datumRazduzenja)
+    VALUES(:driver, :vehicle, CURRENT_TIMESTAMP(), NULL)';
 
   $stmt = $this->conn->prepare($query);
-  $this->naziv = htmlspecialchars(strip_tags($this->naziv));
-
-  $stmt-> bindParam(':name', $this->naziv);
+ 
+  $stmt-> bindParam(':driver', $this->vozac_id);
+  $stmt-> bindParam(':vehicle', $this->vozilo_id);
 
   if($stmt->execute()) {
     return true;

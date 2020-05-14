@@ -29,6 +29,7 @@
               <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
               <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
               <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
+              <a class="dropdown-item" href="dodaj-taxi-vozac.html">Dodaj taxi vozača</a>
               <a class="dropdown-item" href="dodaj-vozac.html">Dodaj vozača</a>
             </div>
           </div>
@@ -241,52 +242,6 @@
          }); 
     }); 
     </script>  
-
-<select id="biletar-dropdown" name="biletar"></select>
-<button onclick="getIdFromSelect()">Provjeri ID odabranog biletara</button>
-<p id="id-biletar"></p>
-
-<script>
-    let dropdown = document.getElementById('biletar-dropdown')
-    dropdown.length = 0
-
-    let defaultOption = document.createElement('option')
-    defaultOption.text = 'Odabir...';
-
-    dropdown.add(defaultOption)
-    dropdown.selectedIndex = 0
-
-    const url = 'http://192.168.0.15/PublicTransportCloud/api/biletar/read.php'
-
-    fetch(url).then(  
-        function(response) {  
-        if (response.status !== 200) {  
-            console.warn('Error: ' + response.status)  
-            return 
-        }
-        response.json().then(function(data) {  
-            let option
-            for (let i = 0; i < data.data.length; i++) {
-            option = document.createElement('option')
-            option.text = data.data[i].naziv
-            option.value = data.data[i].id
-            dropdown.add(option)
-            }    
-        });  
-        }  
-    )  
-    .catch(function(err) {  
-        console.error('Error -', err)
-    })
-
-    const getIdFromSelect = () => {
-        var e = document.getElementById("biletar-dropdown");
-        document.getElementById("id-biletar").innerHTML = e.options[e.selectedIndex].value
-    }
-
-</script>
-
-
 
 </body>
 </html>

@@ -46,8 +46,8 @@ class KorisnikAplikacije {
     $this->datumRodjenja = $row['datumRodjenja'];
     $this->passwordHash = $row['passwordHash'];
     $this->grad_id = $row['grad_id'];
-    $this->Grad = $row['Grad'];
-    $this->Uloga = $row['Uloga'];
+    $this->grad = $row['grad'];
+    $this->uloga = $row['uloga'];
       
   }
 

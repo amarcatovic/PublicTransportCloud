@@ -31,6 +31,7 @@
     'model' => $user->model,
     'boja' => $user->boja,
     'brojTaxiDozvole' => $user->brojTaxiDozvole,
+    'ocjena' => $user->ocjena
   );
 
   print_r(json_encode($category_arr));

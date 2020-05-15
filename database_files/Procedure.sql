@@ -329,6 +329,7 @@ DELIMITER //
 CREATE PROCEDURE `GetTaxiVozacaByRegistracija`(_registracija CHAR(9))
 BEGIN
 	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, TV.prevoznik_id, TV.automobil_id, A.marka, A.model, A.boja, TV.brojTaxiDozvole
+    ,(SELECT AVG(ocjena) FROM TaxiZahtjev WHERE vozac_id = KA.id_korisnik) ocjena
     FROM TaxiVozac TV JOIN KorisnikAplikacije KA
     ON KA.id_korisnik = TV.id_vozac JOIN Grad G
     ON KA.grad_id = G.id_grad JOIN Automobil A
@@ -337,7 +338,7 @@ BEGIN
 END//
 DELIMITER;                           
 DROP PROCEDURE GetTaxiVozacaByRegistracija;
-CALL GetTaxiVozacaByRegistracija('A54-A-321'); /* Primjer poziva */
+CALL GetTaxiVozacaByRegistracija('M66-A-001'); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TIP VOZILA
@@ -602,6 +603,17 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetStaniceLinije;
 CALL GetStaniceLinije(1); /* Primjer poziva */ 
+
+DELIMITER //
+CREATE PROCEDURE `UpdateStanicuLinije`(_stanica INT, _linija INT)
+BEGIN
+	UPDATE Linija
+	SET sljedecaStanica_id = _stanica
+	WHERE id_linija = _linija;
+END//
+DELIMITER;                           
+DROP PROCEDURE UpdateStanicuLinije;
+CALL UpdateStanicuLinije(14, 5); /* Primjer poziva */ 
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													LINIJA PLACANJE

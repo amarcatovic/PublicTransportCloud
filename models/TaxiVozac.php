@@ -54,7 +54,7 @@ class TaxiVozac extends KorisnikAplikacije{
     $query = 'CALL GetTaxiVozacaByRegistracija(?)';
 
       $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(1, $this->id_vozac);
+      $stmt->bindParam(1, $this->automobil_id);
       $stmt->execute();
 
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -67,11 +67,11 @@ class TaxiVozac extends KorisnikAplikacije{
       $this->grad_id = $row['grad_id'];
       $this->grad = $row['grad'];
       $this->prevoznik_id = $row['prevoznik_id'];
-      $this->automobil_id = $row['registracija'];
       $this->marka = $row['marka'];
       $this->model = $row['model'];
       $this->boja = $row['boja'];
       $this->brojTaxiDozvole = $row['brojTaxiDozvole'];
+      $this->ocjena = $row['ocjena'];
   }
 
   // POST

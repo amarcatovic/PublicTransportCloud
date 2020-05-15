@@ -10,7 +10,7 @@
 
   $user = new Korisnik($db);
 
-  $user->id_korisnik = isset($_GET['card']) ? $_GET['card'] : die();
+  $user->brojKartice = isset($_GET['card']) ? $_GET['card'] : die();
 
   $user->read_single_kartica();
 

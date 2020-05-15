@@ -17,7 +17,7 @@
   $category_arr = array(
     'id' => $city->id_grad,
     'naziv' => $city->naziv,
-    'prezime' => $city->drzava_id
+    'drzava_id' => $city->drzava_id
   );
 
   print_r(json_encode($category_arr));

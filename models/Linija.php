@@ -117,13 +117,11 @@ class Linija{
 }
 
 public function updateStanicu() {
-  $query = 'UPDATE ' . $this->table . '
-           SET sljedecaStanica_id = :station
-           WHERE id_linija = :id';
+  $query = 'CALL UpdateStanicuLinije(?, ?)';
 
   $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(':station', $this->sljedecaStanica_id);
-  $stmt->bindParam(':id', $this->id_linija);
+  $stmt->bindParam(1, $this->sljedecaStanica_id);
+  $stmt->bindParam(2, $this->id_linija);
 
   if($stmt->execute()) {
     return true;

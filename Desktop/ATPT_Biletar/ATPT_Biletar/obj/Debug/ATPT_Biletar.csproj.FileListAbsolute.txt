@@ -1,0 +1,15 @@
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\bin\Debug\ATPT_Biletar.exe.config
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\bin\Debug\ATPT_Biletar.exe
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\bin\Debug\ATPT_Biletar.pdb
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.csprojAssemblyReference.cache
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Form1.resources
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Properties.Resources.resources
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.csproj.GenerateResource.cache
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.csproj.CoreCompileInputs.cache
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.exe
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.pdb
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.LoginForm.resources
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.AddUser.resources
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.OptionForm.resources
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Potvrda1.resources
+C:\Users\amar_\source\repos\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Nadopuna.resources

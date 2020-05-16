@@ -25,7 +25,6 @@
               <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
               <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
               <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
-              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
               <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
               <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
               <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
@@ -52,17 +51,61 @@
             <!-- <label for="lon-prodajnoMjesto">Geografska dužina:</label> -->
             <input id="lon-prodajnoMjesto" type="text" placeholder="Geografska dužina">
         </div>
+        <div id="polje">
+            <!-- <label for="grad-dropdown">Grad:</label> -->
+            <select id="grad-dropdown" onchange="getIdGradFromSelect()">
+                <option value="" disabled selected hidden>Grad</option>
+            </select>
+        </div>
         
-        <button id="btnDodaj" onclick="clearInput()" onclick="dodajProdajnoMjesto()" >Dodaj</button>
+        <button id="btnDodaj" onclick="dodajProdajnoMjesto()">Dodaj</button>
     </div>
     </div>
 
     <script>
+        let gradDropdown = document.getElementById('grad-dropdown')
+        gradDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Grad';
+
+        gradDropdown.add(defaultOption)
+        gradDropdown.selectedIndex = 0
+
+        const url = 'http://localhost/PublicTransportCloud/api/Grad/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdGradFromSelect = () => {
+            var g = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        }
+
     function clearInput(){
         document.getElementById("naziv-prodajnoMjesto").value="";
         document.getElementById("adresa-prodajnoMjesto").value="";
         document.getElementById("lat-prodajnoMjesto").value="";
         document.getElementById("lon-prodajnoMjesto").value="";
+        document.getElementById("grad-dropdown").value="Grad";
+        location.reload();
     }
 
     const data = {}
@@ -71,8 +114,9 @@
         data.naziv = document.querySelector('#naziv-prodajnoMjesto').value
         data.adresa = document.querySelector('#adresa-prodajnoMjesto').value
         data.lat = document.querySelector('#lat-prodajnoMjesto').value
-        data.lon = document.querySelector('#lon-prodajnoMjesto').value
-        fetch('http://192.168.0.15/PublicTransportCloud/api/ProdajnoMjesto/create.php', {
+        data.lng = document.querySelector('#lon-prodajnoMjesto').value
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        fetch('http://localhost/PublicTransportCloud/api/ProdajnoMjesto/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -82,6 +126,7 @@
         .then(response => response.json())
         .then(data => {
         console.log('Success:', data)
+        clearInput();
         })
         .catch((error) => {
         console.error('Error:', error)
@@ -94,9 +139,11 @@
          <tr>  
               <th>Id</th>  
               <th>Naziv</th>
-              <th>Adresa</th>
               <th>Geografska širina</th>
               <th>Geografska dužina</th>
+              <th>Adresa</th>
+              <th>Grad ID</th>
+              <th>Grad</th>
          </tr>  
     </thead>  
 </table>  
@@ -104,13 +151,15 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/ProdajnoMjesto/read.php",  
+              "ajax":     "http://localhost/publictransportcloud/api/ProdajnoMjesto/read.php",  
               "columns"     :     [  
-                   {     "data"     :     "id"     },  
+                   {     "data"     :     "id"},  
                    {     "data"     :     "naziv"},
-                   {     "data"     :     "adresa"},
                    {     "data"     :     "lat"},
-                   {     "data"     :     "lon"},
+                   {     "data"     :     "lng"},
+                   {     "data"     :     "adresa"},
+                   {     "data"     :     "grad_id"},
+                   {     "data"     :     "grad"},
               ]  
          }); 
     }); 

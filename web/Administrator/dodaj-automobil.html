@@ -25,7 +25,6 @@
               <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
               <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
               <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
-              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
               <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
               <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
               <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
@@ -53,7 +52,7 @@
             <input id="boja-automobil" type="text" placeholder="Boja">
         </div>
         
-        <button id="btnDodaj" onclick="clearInput()" onclick="dodajAutomobil()" >Dodaj</button>
+        <button id="btnDodaj" onclick="dodajAutomobil()" >Dodaj</button>
     </div>
     </div>
     
@@ -65,16 +64,17 @@
         document.getElementById("proizvodjac-automobil").value="";
         document.getElementById("model-automobil").value="";
         document.getElementById("boja-automobil").value="";
+        location.reload();
     }
 
     const data = {}
     
     const dodajAutomobil = () => {
-        data.id = document.querySelector('#id-automobil').value
-        data.adresa = document.querySelector('#proizvodjac-automobil').value
-        data.lat = document.querySelector('#model-automobil').value
-        data.lon = document.querySelector('#boja-automobil').value
-        fetch('http://192.168.0.15/PublicTransportCloud/api/Automobil/create.php', {
+        data.registracija = document.querySelector('#id-automobil').value
+        data.marka = document.querySelector('#proizvodjac-automobil').value
+        data.model = document.querySelector('#model-automobil').value
+        data.boja = document.querySelector('#boja-automobil').value
+        fetch('http://localhost/publictransportcloud/api/Automobil/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -88,13 +88,14 @@
         .catch((error) => {
         console.error('Error:', error)
         })
+
+        clearInput();
     }
     </script>
 
 <table id="data-table" class="table table-bordered">  
     <thead>  
-         <tr>  
-              <th>Id</th>  
+         <tr>
               <th>Registracija</th>
               <th>Proizvođač</th>
               <th>Model</th>
@@ -106,11 +107,10 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Automobil/read.php",  
-              "columns"     :     [  
-                   {     "data"     :     "id"     },
+              "ajax":     "http://localhost/publictransportcloud/api/Automobil/read.php",  
+              "columns"     :     [
                    {     "data"     :     "registracija"},
-                   {     "data"     :     "proizvodjac"},
+                   {     "data"     :     "marka"},
                    {     "data"     :     "model"},
                    {     "data"     :     "boja"},
               ]  

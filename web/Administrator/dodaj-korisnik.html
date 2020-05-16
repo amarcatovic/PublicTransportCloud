@@ -25,7 +25,6 @@
               <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
               <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
               <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
-              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
               <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
               <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
               <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
@@ -71,7 +70,7 @@
                 <input id="stanje" type="number" placeholder="Stanje">
             </div>
             
-            <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajKorisnik()">Dodaj</button>
+            <button id="btnDodaj" onclick="dodajKorisnik()">Dodaj</button>
         </div>
     </div>
     
@@ -85,7 +84,7 @@
         gradDropdown.add(defaultOption)
         gradDropdown.selectedIndex = 0
 
-        const url = 'http://192.168.0.15/PublicTransportCloud/api/Grad/read.php'
+        const url = 'http://localhost/PublicTransportCloud/api/Grad/read.php'
 
         fetch(url).then(  
             function(response) {  
@@ -124,43 +123,44 @@
         document.getElementById("grad-dropdown").value="Grad";
         document.getElementById("brojKartice").value="";
         document.getElementById("stanje").value="";
+        location.reload();
     }
+    
+    // const dodajKorisnikAplikacije = () => {
+    //     data.ime = document.querySelector('#ime-korisnikAplikacije').value
+    //     data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
+    //     data.email = document.querySelector('#email-korisnikAplikacije').value
+    //     data.password = document.querySelector('#password-korisnikAplikacije').value
+    //     data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+    //     data.grad_id = g;
+    //     fetch('http://192.168.0.15/PublicTransportCloud/api/KorisnikAplikacije/create.php', {
+    //     method: 'POST', 
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //     console.log('Success:', data)
+    //     })
+    //     .catch((error) => {
+    //     console.error('Error:', error)
+    //     })
+    // }
 
     const data = {}
-    
-    const dodajKorisnikAplikacije = () => {
-        data.ime = document.querySelector('#ime-korisnikAplikacije').value
-        data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
-        data.email = document.querySelector('#email-korisnikAplikacije').value
-        data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.grad_id = g;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/KorisnikAplikacije/create.php', {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-        console.log('Success:', data)
-        })
-        .catch((error) => {
-        console.error('Error:', error)
-        })
-    }
 
     const dodajKorisnik = () => {
         data.ime = document.querySelector('#ime-korisnikAplikacije').value
         data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
         data.email = document.querySelector('#email-korisnikAplikacije').value
         data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.grad_id = g;
-        data.brojKartice = document.querySelector('#brojKartice-korisnikAplikacije').value
-        data.stanje = document.querySelector('#stanje-korisnikAplikacije').value
-        fetch('http://192.168.0.15/PublicTransportCloud/api/Korisnik/create.php', {
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+        data.brojKartice = document.querySelector('#brojKartice').value
+        data.stanje = document.querySelector('#stanje').value
+        fetch('http://localhost/PublicTransportCloud/api/Korisnik/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -170,6 +170,7 @@
         .then(response => response.json())
         .then(data => {
         console.log('Success:', data)
+        clearInput();
         })
         .catch((error) => {
         console.error('Error:', error)
@@ -184,8 +185,8 @@
               <th>Ime</th>
               <th>Prezime</th>
               <th>Email</th>
-              <th>Password</th>
               <th>Datum rođenja</th>
+              <th>Grad ID</th>
               <th>Grad</th>
               <th>Broj kartice</th>
               <th>Stanje</th>
@@ -196,15 +197,15 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Korisnik/read.php",  
+              "ajax":     "http://localhost/PublicTransportCloud/api/Korisnik/read.php",  
               "columns"     :     [  
                    {     "data"     :     "id"     },  
                    {     "data"     :     "ime"},
                    {     "data"     :     "prezime"},
                    {     "data"     :     "email"},
-                   {     "data"     :     "password"},
                    {     "data"     :     "datumRodjenja"},
                    {     "data"     :     "grad_id"},
+                   {     "data"     :     "grad"},
                    {     "data"     :     "brojKartice"},
                    {     "data"     :     "stanje"}
               ]  

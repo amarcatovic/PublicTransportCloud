@@ -25,7 +25,6 @@
               <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
               <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
               <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
-              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
               <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
               <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
               <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
@@ -64,12 +63,12 @@
             </div>
             <div id="polje">
                 <!-- <label for="prevoznik-dropdown">Prevoznik:</label> -->
-                <select id="prevoznik-dropdown" onchange="getIdPrevoznikFromSelect()">
+                <select id="prevoznik-dropdown">
                     <option value="" disabled selected hidden>Prevoznik</option>
                 </select>
             </div>
             
-            <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajVozac()">Dodaj</button>
+            <button id="btnDodaj" onclick="dodajVozac()">Dodaj</button>
         </div>
     </div>
     
@@ -83,7 +82,7 @@
         gradDropdown.add(defaultOption)
         gradDropdown.selectedIndex = 0
 
-        const url = 'http://192.168.0.15/PublicTransportCloud/api/Grad/read.php'
+        const url = 'http://localhost/PublicTransportCloud/api/Grad/read.php'
 
         fetch(url).then(  
             function(response) {  
@@ -120,7 +119,7 @@
             prevoznikDropdown.add(defaultOption)
             prevoznikDropdown.selectedIndex = 0
 
-            const url = 'http://192.168.0.15/PublicTransportCloud/api/Prevoznik/read.php'
+            const url = 'http://localhost/PublicTransportCloud/api/Prevoznik/read.php'
 
             fetch(url).then(  
                 function(response) {  
@@ -158,42 +157,43 @@
         document.getElementById("datumRodjenja-korisnikAplikacije").value="";
         document.getElementById("grad-dropdown").value="Grad";
         document.getElementById("prevoznik-dropdown").value="Prevoznik";
+        location.reload();
     }
 
     const data = {}
     
-    const dodajKorisnikAplikacije = () => {
-        data.ime = document.querySelector('#ime-korisnikAplikacije').value
-        data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
-        data.email = document.querySelector('#email-korisnikAplikacije').value
-        data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.grad_id = g;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/KorisnikAplikacije/create.php', {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-        console.log('Success:', data)
-        })
-        .catch((error) => {
-        console.error('Error:', error)
-        })
-    }
+    // const dodajKorisnikAplikacije = () => {
+    //     data.ime = document.querySelector('#ime-korisnikAplikacije').value
+    //     data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
+    //     data.email = document.querySelector('#email-korisnikAplikacije').value
+    //     data.password = document.querySelector('#password-korisnikAplikacije').value
+    //     data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+    //     data.grad_id = g;
+    //     fetch('http://localhost/PublicTransportCloud/api/KorisnikAplikacije/create.php', {
+    //     method: 'POST', 
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //     console.log('Success:', data)
+    //     })
+    //     .catch((error) => {
+    //     console.error('Error:', error)
+    //     })
+    // }
 
     const dodajVozac = () => {
         data.ime = document.querySelector('#ime-korisnikAplikacije').value
         data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
         data.email = document.querySelector('#email-korisnikAplikacije').value
         data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.grad_id = g;
-        data.prevoznik_id = p;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/Vozac/create.php', {
+        data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;;
+        data.prevoznik_id = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
+        fetch('http://localhost/PublicTransportCloud/api/Vozac/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -203,6 +203,7 @@
         .then(response => response.json())
         .then(data => {
         console.log('Success:', data)
+        clearInput();
         })
         .catch((error) => {
         console.error('Error:', error)
@@ -217,9 +218,10 @@
               <th>Ime</th>
               <th>Prezime</th>
               <th>Email</th>
-              <th>Password</th>
               <th>Datum rođenja</th>
+              <th>Grad Id</th>
               <th>Grad</th>
+              <th>Prevoznik Id</th>
               <th>Prevoznik</th>
          </tr>  
     </thead>  
@@ -228,16 +230,17 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Vozac/read.php",  
+              "ajax":     "http://localhost/PublicTransportCloud/api/Vozac/read.php",  
               "columns"     :     [  
                    {     "data"     :     "id"     },  
                    {     "data"     :     "ime"},
                    {     "data"     :     "prezime"},
                    {     "data"     :     "email"},
-                   {     "data"     :     "password"},
                    {     "data"     :     "datumRodjenja"},
                    {     "data"     :     "grad_id"},
-                   {     "data"     :     "prevoznik_id"}
+                   {     "data"     :     "grad"},
+                   {     "data"     :     "prevoznik_id"},
+                   {     "data"     :     "prevoznik"}
               ]  
          }); 
     }); 

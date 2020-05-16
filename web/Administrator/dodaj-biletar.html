@@ -25,7 +25,6 @@
               <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
               <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
               <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
-              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
               <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
               <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
               <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
@@ -69,7 +68,7 @@
                 </select>
             </div>
             
-            <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajBiletar()">Dodaj</button>
+            <button id="btnDodaj" onclick="dodajBiletar()">Dodaj</button>
         </div>
     </div>
 
@@ -83,7 +82,7 @@
         gradDropdown.add(defaultOption)
         gradDropdown.selectedIndex = 0
 
-        const url = 'http://192.168.0.15/PublicTransportCloud/api/Grad/read.php'
+        const url = 'http://localhost/PublicTransportCloud/api/Grad/read.php'
 
         fetch(url).then(  
             function(response) {  
@@ -110,43 +109,41 @@
             var g = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
         }
 
-        {
-            let prodajnoMjestoDropdown = document.getElementById('prodajnoMjesto-dropdown')
-            prodajnoMjestoDropdown.length = 0
+        let prodajnoMjestoDropdown = document.getElementById('prodajnoMjesto-dropdown')
+        prodajnoMjestoDropdown.length = 0
 
-            let defaultOption = document.createElement('option')
-            defaultOption.text = 'Prodajno mjesto';
+        let defaultOptionp = document.createElement('option')
+        defaultOptionp.text = 'Prodajno mjesto';
 
-            prodajnoMjestoDropdown.add(defaultOption)
-            prodajnoMjestoDropdown.selectedIndex = 0
+        prodajnoMjestoDropdown.add(defaultOptionp)
+        prodajnoMjestoDropdown.selectedIndex = 0
 
-            const url = 'http://192.168.0.15/PublicTransportCloud/api/ProdajnoMjesto/read.php'
+        const urlp = 'http://localhost/PublicTransportCloud/api/ProdajnoMjesto/read.php'
 
-            fetch(url).then(  
-                function(response) {  
-                if (response.status !== 200) {  
-                    console.warn('Error: ' + response.status)  
-                    return 
-                }
-                response.json().then(function(data) {  
-                    let option
-                    for (let i = 0; i < data.data.length; i++) {
-                    option = document.createElement('option')
-                    option.text = data.data[i].naziv
-                    option.value = data.data[i].id
-                    prodajnoMjestoDropdown.add(option)
-                    }    
-                });  
-                }  
-            )  
-            .catch(function(err) {  
-                console.error('Error -', err)
-            })
+        fetch(urlp).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                prodajnoMjestoDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
 
-            const getIdProdajnoMjestoFromSelect = () => {
-                var p = document.getElementById("prodajnoMjesto-dropdown").options[document.getElementById("prodajnoMjesto-dropdown").selectedIndex].value;
-        }
-        }
+        const getIdProdajnoMjestoFromSelect = () => {
+            var p = document.getElementById("prodajnoMjesto-dropdown").options[document.getElementById("prodajnoMjesto-dropdown").selectedIndex].value;
+    }
     </script>
 
     <script>
@@ -158,42 +155,44 @@
         document.getElementById("datumRodjenja-korisnikAplikacije").value="";
         document.getElementById("grad-dropdown").value="Grad";
         document.getElementById("prodajnoMjesto-dropdown").value="Prodajno mjesto";
+        location.reload();
     }
+    
+    // const dodajKorisnikAplikacije = () => {
+    //     data.ime = document.querySelector('#ime-korisnikAplikacije').value
+    //     data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
+    //     data.email = document.querySelector('#email-korisnikAplikacije').value
+    //     data.password = document.querySelector('#password-korisnikAplikacije').value
+    //     data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+    //     data.grad_id = g;
+    //     fetch('http://localhost/PublicTransportCloud/api/Biletar/create.php', {
+    //     method: 'POST', 
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //     console.log('Success:', data)
+    //     })
+    //     .catch((error) => {
+    //     console.error('Error:', error)
+    //     })
+    //     clearInput();
+    // }
 
     const data = {}
-    
-    const dodajKorisnikAplikacije = () => {
-        data.ime = document.querySelector('#ime-korisnikAplikacije').value
-        data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
-        data.email = document.querySelector('#email-korisnikAplikacije').value
-        data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.grad_id = g;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/KorisnikAplikacije/create.php', {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-        console.log('Success:', data)
-        })
-        .catch((error) => {
-        console.error('Error:', error)
-        })
-    }
 
     const dodajBiletar = () => {
         data.ime = document.querySelector('#ime-korisnikAplikacije').value
         data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
         data.email = document.querySelector('#email-korisnikAplikacije').value
         data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.grad_id = g;
-        data.prodajnoMjesto_id = p;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/Biletar/create.php', {
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+        data.prodajnoMjesto_id = document.getElementById("prodajnoMjesto-dropdown").options[document.getElementById("prodajnoMjesto-dropdown").selectedIndex].value;
+        fetch('http://localhost/publictransportcloud/api/Biletar/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -203,6 +202,7 @@
         .then(response => response.json())
         .then(data => {
         console.log('Success:', data)
+        clearInput();
         })
         .catch((error) => {
         console.error('Error:', error)
@@ -217,7 +217,6 @@
               <th>Ime</th>
               <th>Prezime</th>
               <th>Email</th>
-              <th>Password</th>
               <th>Datum rođenja</th>
               <th>Grad</th>
               <th>Prodajno mjesto</th>
@@ -228,20 +227,19 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Biletar/read.php",  
+              "ajax":     "http://localhost/PublicTransportCloud/api/Biletar/read.php",  
               "columns"     :     [  
                    {     "data"     :     "id"     },  
                    {     "data"     :     "ime"},
                    {     "data"     :     "prezime"},
                    {     "data"     :     "email"},
-                   {     "data"     :     "password"},
                    {     "data"     :     "datumRodjenja"},
                    {     "data"     :     "grad_id"},
                    {     "data"     :     "prodajnoMjesto_id"}
               ]  
          }); 
     }); 
-    </script>  
+    </script>
 
 </body>
 </html>

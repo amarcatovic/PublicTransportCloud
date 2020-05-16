@@ -69,7 +69,7 @@
                 </select>
             </div>
             
-            <button id="btnDodaj" onclick="clearInput()" onclick="dodajKorisnikAplikacije()" onclick="dodajBiletar()">Dodaj</button>
+            <button id="btnDodaj" onclick="dodajBiletar()">Dodaj</button>
         </div>
     </div>
 
@@ -83,14 +83,10 @@
         gradDropdown.add(defaultOption)
         gradDropdown.selectedIndex = 0
 
-        const url = 'http://192.168.0.15/PublicTransportCloud/api/Grad/read.php'
+        const url = '​http://localhost/publictransportcloud/api/Grad/read.php'
 
         fetch(url).then(  
             function(response) {  
-            if (response.status !== 200) {  
-                console.warn('Error: ' + response.status)  
-                return 
-            }
             response.json().then(function(data) {  
                 let option
                 for (let i = 0; i < data.data.length; i++) {
@@ -120,7 +116,7 @@
             prodajnoMjestoDropdown.add(defaultOption)
             prodajnoMjestoDropdown.selectedIndex = 0
 
-            const url = 'http://192.168.0.15/PublicTransportCloud/api/ProdajnoMjesto/read.php'
+            const url = '​​http://localhost/publictransportcloud/api/ProdajnoMjesto/read.php'
 
             fetch(url).then(  
                 function(response) {  
@@ -162,38 +158,39 @@
 
     const data = {}
     
-    const dodajKorisnikAplikacije = () => {
-        data.ime = document.querySelector('#ime-korisnikAplikacije').value
-        data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
-        data.email = document.querySelector('#email-korisnikAplikacije').value
-        data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.grad_id = g;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/KorisnikAplikacije/create.php', {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-        console.log('Success:', data)
-        })
-        .catch((error) => {
-        console.error('Error:', error)
-        })
-    }
+    // const dodajKorisnikAplikacije = () => {
+    //     data.ime = document.querySelector('#ime-korisnikAplikacije').value
+    //     data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
+    //     data.email = document.querySelector('#email-korisnikAplikacije').value
+    //     data.password = document.querySelector('#password-korisnikAplikacije').value
+    //     data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+    //     data.grad_id = g;
+    //     fetch('http://localhost/publictransportcloud/api/Biletar/create.php', {
+    //     method: 'POST', 
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(data),
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //     console.log('Success:', data)
+    //     })
+    //     .catch((error) => {
+    //     console.error('Error:', error)
+    //     })
+    //     clearInput();
+    // }
 
     const dodajBiletar = () => {
         data.ime = document.querySelector('#ime-korisnikAplikacije').value
         data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
         data.email = document.querySelector('#email-korisnikAplikacije').value
         data.password = document.querySelector('#password-korisnikAplikacije').value
-        data.datumRodjenja = document.querySelector('#datumRodjenja-korisnikAplikacije').value
+        data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
         data.grad_id = g;
         data.prodajnoMjesto_id = p;
-        fetch('http://192.168.0.15/PublicTransportCloud/api/Biletar/create.php', {
+        fetch('​http://localhost/publictransportcloud/api/Biletar/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -207,6 +204,7 @@
         .catch((error) => {
         console.error('Error:', error)
         })
+        clearInput();
     }
     </script>
 
@@ -228,14 +226,14 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://192.168.0.15/PublicTransportCloud/api/Biletar/read.php",  
+              "ajax":     "​​http://localhost/publictransportcloud/api/Biletar/read.php",  
               "columns"     :     [  
                    {     "data"     :     "id"     },  
                    {     "data"     :     "ime"},
                    {     "data"     :     "prezime"},
                    {     "data"     :     "email"},
                    {     "data"     :     "password"},
-                   {     "data"     :     "datumRodjenja"},
+                   {     "data"     :     "datum"},
                    {     "data"     :     "grad_id"},
                    {     "data"     :     "prodajnoMjesto_id"}
               ]  

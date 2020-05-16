@@ -36,7 +36,7 @@ CALL GetKorisnikAplikacije(26)
 DELIMITER //
 CREATE PROCEDURE `Login` (_email NVARCHAR(100))
 BEGIN
-	SELECT K.id_korisnik, K.ime, K.prezime, K.email, K.passwordHash, K.grad_id, G.naziv Grad, U.naziv Uloga
+	SELECT K.id_korisnik, K.ime, K.prezime, K.email, K.passwordHash, K.datumRodjenja, K.grad_id, G.naziv grad, U.naziv uloga
     FROM Uloga U JOIN KorisnikAplikacije K 
     ON K.uloga_id = U.id_uloga JOIN Grad G
     ON K.grad_id = G.id_grad

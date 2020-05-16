@@ -35,7 +35,7 @@ class LinijaPlacanje{
 
       $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-      if($row['broj'] == 1)
+      if($row['broj'] != 0)
         return true;
       
       return false;

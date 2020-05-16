@@ -189,7 +189,7 @@ BEGIN
 END//
 DELIMITER;                           
 DROP PROCEDURE GetAutomobil;
-CALL GetAutomobil('A11-M-395'); /* Primjer poziva */
+CALL GetAutomobil(66); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													KORISNIK
@@ -218,6 +218,19 @@ END//
 DELIMITER;                           
 DROP PROCEDURE GetKorisnik;
 CALL GetKorisnik(2); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetStanjeById`(_id INT)
+BEGIN
+	SELECT K.stanje
+    FROM Korisnik K
+    WHERE K.id_korisnik = _id;
+END//
+DELIMITER;                           
+DROP PROCEDURE GetStanjeById;
+CALL GetStanjeById(58); /* Primjer poziva */
+
+
 
 DELIMITER //
 CREATE PROCEDURE `GetKorisnikByCard`(_card NVARCHAR(10))
@@ -628,7 +641,7 @@ BEGIN
 END//
 DELIMITER;                           
 DROP PROCEDURE LinijaPlacena;
-CALL LinijaPlacena(1, 1); /* Primjer poziva */
+CALL LinijaPlacena(58, 6); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TAXI ZAHTJEV

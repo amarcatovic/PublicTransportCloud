@@ -159,12 +159,8 @@
     const dodajPrevoznik = () => {
         data.naziv = document.querySelector('#naziv-prevoznik').value
         data.telefon = document.querySelector('#telefon-prevoznik').value
-        data.password = "12345"
         data.email = document.querySelector('#email-prevoznik').value
-<<<<<<< HEAD:web/Administracija - Amer/prevoznik-test.html
-=======
         data.password = document.querySelector('#password-prevoznik').value
->>>>>>> 0fc511ed0e7d757deb3f9d055d17047ef5a0fb4a:web/Administracija-AM/dodaj-prevoznika.html
         data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
         data.tip_id = document.getElementById("tipPrevoznika-dropdown").options[document.getElementById("tipPrevoznika-dropdown").selectedIndex].value;
         fetch('http://localhost/publictransportcloud/api/Prevoznik/create.php', {

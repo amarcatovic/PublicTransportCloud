@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dodaj stanicu</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div id="top">
+        <nav id="navigacija"><img src="../images/logo.svg" alt="ATPT logo" width="50px">Administracija</nav>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategorija
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="dodaj-stanica.html">Dodaj stanica</a>
+              <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
+              <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
+              <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
+              <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
+              <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
+              <a class="dropdown-item" href="dodaj-taxi-vozac.html">Dodaj taxi vozača</a>
+              <a class="dropdown-item" href="dodaj-vozac.html">Dodaj vozača</a>
+            </div>
+          </div>
+
+    <h2>Dodaj stanica</h2>
+    <div id="unos">
+        <div id="polje">
+            <!-- <label for="id-stanica">Naziv:</label> -->
+            <input id="id-stanica" type="text" placeholder="Naziv">
+        </div>
+        <div id="polje">
+            <!-- <label for="proizvodjac-stanica">Adresa:</label> -->
+            <input id="proizvodjac-stanica" type="text" placeholder="Adresa">
+        </div>
+        <div id="polje">
+            <!-- <label for="lat-stanica">Lat:</label> -->
+            <input id="lat-stanica" type="text" placeholder="Lat">
+        </div>
+        <div id="polje">
+            <!-- <label for="lng-stanica">Lng:</label> -->
+            <input id="lng-stanica" type="text" placeholder="Lng">
+        </div>
+        
+        <button id="btnDodaj" onclick="dodajStanica()" >Dodaj</button>
+    </div>
+    </div>
+    
+    
+
+    <script>
+    function clearInput(){
+        document.getElementById("id-stanica").value="";
+        document.getElementById("proizvodjac-stanica").value="";
+        document.getElementById("lat-stanica").value="";
+        document.getElementById("lng-stanica").value="";
+        location.reload();
+    }
+
+    const data = {}
+    
+    const dodajStanica = () => {
+        data.naziv = document.querySelector('#id-stanica').value
+        data.marka = document.querySelector('#proizvodjac-stanica').value
+        data.lat = document.querySelector('#lat-stanica').value
+        data.lng = document.querySelector('#lng-stanica').value
+        fetch('http://localhost/publictransportcloud/api/Stanica/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+
+        clearInput();
+    }
+    </script>
+
+<table id="data-table" class="table table-bordered">  
+    <thead>  
+         <tr>
+              <th>id</th>
+              <th>Naziv</th>
+              <th>Adresa</th>
+              <th>Lat</th>
+              <th>Lng</th>
+         </tr>  
+    </thead>  
+</table>  
+
+<script>  
+    $(document).ready(function(){  
+         $('#data-table').DataTable({  
+              "ajax":     "http://localhost/publictransportcloud/api/Stanica/read.php?id=1",  
+              "columns"     :     [
+                   {     "data"     :     "id"},
+                   {     "data"     :     "naziv"},
+                   {     "data"     :     "adresa"},
+                   {     "data"     :     "lat"},
+                   {     "data"     :     "lng"}
+              ]  
+         }); 
+    }); 
+    </script>  
+
+</body>
+</html>

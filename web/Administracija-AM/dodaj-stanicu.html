@@ -22,14 +22,13 @@
               Kategorija
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="dodaj-stanica.html">Dodaj stanica</a>
-              <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
-              <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
-              <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
-              <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
-              <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
-              <a class="dropdown-item" href="dodaj-taxi-vozac.html">Dodaj taxi vozača</a>
-              <a class="dropdown-item" href="dodaj-vozac.html">Dodaj vozača</a>
+              <a class="dropdown-item" href="dodaj-drzavu.html">Dodaj drzavu</a>
+              <a class="dropdown-item" href="dodaj-grad.html">Dodaj grad</a>
+              <a class="dropdown-item" href="dodaj-tip-prevoznika.html">Dodaj tip prevoznika</a>
+              <a class="dropdown-item" href="dodaj-prevoznika.html">Dodaj prevoznika</a>
+              <a class="dropdown-item" href="dodaj-stanicu.html">Dodaj stanicu</a>
+              <a class="dropdown-item" href="dodaj-vozilo.html">Dodaj vozilo</a>
+              <a class="dropdown-item" href="dodaj-relaciju.html">Dodaj relaciju</a>
             </div>
           </div>
 
@@ -41,7 +40,7 @@
         </div>
         <div id="polje">
             <!-- <label for="proizvodjac-stanica">Adresa:</label> -->
-            <input id="proizvodjac-stanica" type="text" placeholder="Adresa">
+            <input id="adresa-stanica" type="text" placeholder="Adresa">
         </div>
         <div id="polje">
             <!-- <label for="lat-stanica">Lat:</label> -->
@@ -51,19 +50,63 @@
             <!-- <label for="lng-stanica">Lng:</label> -->
             <input id="lng-stanica" type="text" placeholder="Lng">
         </div>
+        <div id="polje">
+            <!-- <label for="grad-dropdown">Grad:</label> -->
+            <select id="grad-dropdown" onchange="getIdGradFromSelect()">
+                <option value="" disabled selected hidden>Grad</option>
+            </select>
+        </div>
         
         <button id="btnDodaj" onclick="dodajStanica()" >Dodaj</button>
     </div>
     </div>
     
-    
+    <script>
+        let gradDropdown = document.getElementById('grad-dropdown')
+        gradDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Grad';
+
+        gradDropdown.add(defaultOption)
+        gradDropdown.selectedIndex = 0
+
+        const url = 'http://localhost/PublicTransportCloud/api/Grad/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdGradFromSelect = () => {
+            var g = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        }
+
+    </script>
 
     <script>
     function clearInput(){
         document.getElementById("id-stanica").value="";
-        document.getElementById("proizvodjac-stanica").value="";
+        document.getElementById("adresa-stanica").value="";
         document.getElementById("lat-stanica").value="";
         document.getElementById("lng-stanica").value="";
+        document.getElementById("grad-dropdown").value="Grad";
         location.reload();
     }
 
@@ -71,9 +114,10 @@
     
     const dodajStanica = () => {
         data.naziv = document.querySelector('#id-stanica').value
-        data.marka = document.querySelector('#proizvodjac-stanica').value
+        data.adresa = document.querySelector('#adresa-stanica').value
         data.lat = document.querySelector('#lat-stanica').value
         data.lng = document.querySelector('#lng-stanica').value
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
         fetch('http://localhost/publictransportcloud/api/Stanica/create.php', {
         method: 'POST', 
         headers: {
@@ -101,6 +145,7 @@
               <th>Adresa</th>
               <th>Lat</th>
               <th>Lng</th>
+         
          </tr>  
     </thead>  
 </table>  
@@ -115,6 +160,7 @@
                    {     "data"     :     "adresa"},
                    {     "data"     :     "lat"},
                    {     "data"     :     "lng"}
+        
               ]  
          }); 
     }); 

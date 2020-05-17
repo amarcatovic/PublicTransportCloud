@@ -180,6 +180,13 @@
         }
 
         const loadRelacije = () => {
+            let stanice = document.getElementById("stanice")
+
+             let child = stanice.lastElementChild;  
+             while (child) { 
+                stanice.removeChild(child)
+                child = stanice.lastElementChild
+             }
             relacijaDropdown.length = 0
             prevoznikId = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
             const url = `http://localhost/PublicTransportCloud/api/Relacija/read.php?id=${prevoznikId}`

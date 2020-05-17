@@ -56,7 +56,7 @@
     const dodajDrzava = () => {
         novaDrzava.naziv = document.querySelector('#id-drzava').value
     
-        fetch('http://localhost/publictransportcloud/api/Grad/create.php', {
+        fetch('http://localhost/publictransportcloud/api/Drzava/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -88,7 +88,7 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://localhost/publictransportcloud/api/Grad/read.php",  
+              "ajax":     "http://localhost/publictransportcloud/api/Drzava/read.php",  
               "columns"     :     [  
             
                    {     "data"     :     "id"},

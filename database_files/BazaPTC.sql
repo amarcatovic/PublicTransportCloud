@@ -194,6 +194,9 @@ CREATE TABLE Relacija(
     CONSTRAINT FK_Relacija_TipVozila FOREIGN KEY (tipVozila_id) REFERENCES TipVozila(id_tip)
 );
 
+ALTER TABLE Relacija
+MODIFY cijena FLOAT(7,2) NOT NULL;
+
 /* 20 */
 CREATE TABLE RelacijaStanica(
 	relacija_id INT,

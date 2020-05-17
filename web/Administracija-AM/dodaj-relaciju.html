@@ -35,10 +35,11 @@
         <h2>Dodaj relaciju</h2>
         <div id="unos">
             <div id="polje">
-                <!-- <label for="cijena-relacija">Cijena:</label> -->
-                <input id="cijena-relacija" type="text" placeholder="Cijena">
+                <!-- <label for="prevoznik-dropdown">Prevoznik:</label> -->
+                <select id="prevoznik-dropdown" onchange="getIdPrevoznikFromSelect()">
+                    <option value="" disabled selected hidden>Prevoznik</option>
+                </select>
             </div>
-          
             <div id="polje">
                 <!-- <label for="interval-dropdown">Interval:</label> -->
                 <select id="interval-dropdown" onchange="getIdIntervalFromSelect()">
@@ -52,15 +53,12 @@
                 </select>
             </div>
             <div id="polje">
-                <!-- <label for="prevoznik-dropdown">Prevoznik:</label> -->
-                <select id="prevoznik-dropdown" onchange="getIdPrevoznikFromSelect()">
-                    <option value="" disabled selected hidden>Prevoznik</option>
-                </select>
-            </div>
-            <div id="polje">
                 <!-- <label for="polaziste-dropdown">Polaziste:</label> -->
                 <select id="polaziste-dropdown" onchange="getIdPolazisteFromSelect()">
                     <option value="" disabled selected hidden>Polaziste</option>
+                </select>
+                <select id="polaziste-grad-dropdown" onchange="ucitajStanicePolaziste()">
+                    <option value="" disabled selected hidden>Grad polazišta</option>
                 </select>
             </div>
             <div id="polje">
@@ -68,6 +66,13 @@
                 <select id="odrediste-dropdown" onchange="getIdOdredisteFromSelect()">
                     <option value="" disabled selected hidden>Odrediste</option>
                 </select>
+                <select id="odrediste-grad-dropdown" onchange="ucitajStaniceOdredista()">
+                    <option value="" disabled selected hidden>Grad odredišta</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="cijena-relacija">Cijena:</label> -->
+                <input id="cijena-relacija" type="text" placeholder="Cijena">
             </div>
             
             <button id="btnDodaj" onclick="dodajRelacija()">Dodaj</button>
@@ -75,6 +80,10 @@
     </div>
 
     <script>
+        let polaziste_id = 1
+        let odrediste_id = 1
+
+
         let intervalDropdown = document.getElementById('interval-dropdown')
         intervalDropdown.length = 0
 
@@ -96,7 +105,7 @@
                 let option
                 for (let i = 0; i < data.data.length; i++) {
                 option = document.createElement('option')
-                option.text = data.data[i].cijena
+                option.text = data.data[i].naziv
                 option.value = data.data[i].id
                 intervalDropdown.add(option)
                 }    
@@ -121,7 +130,7 @@
         tipDropdown.add(defaultOptionp)
         tipDropdown.selectedIndex = 0
 
-        const urlp = 'http://localhost/publictransportcloud/api/TipPrevoznika/read.php'
+        const urlp = 'http://localhost/publictransportcloud/api/TipVozila/read.php'
 
         fetch(urlp).then(  
             function(response) {  
@@ -133,7 +142,7 @@
                 let option
                 for (let i = 0; i < data.data.length; i++) {
                 option = document.createElement('option')
-                option.text = data.data[i].cijena
+                option.text = data.data[i].naziv
                 option.value = data.data[i].id
                 tipDropdown.add(option)
                 }    
@@ -149,13 +158,103 @@
     }
     }
 // --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
+        
+{let gradPolazisteDropdown = document.getElementById('polaziste-grad-dropdown')
+     gradPolazisteDropdown.length = 0
 
+        let defaultOptionp = document.createElement('option')
+        gradPolazisteDropdown.text = 'Tip ';
+
+        gradPolazisteDropdown.add(defaultOptionp)
+        gradPolazisteDropdown.selectedIndex = 0
+
+        const urlp = 'http://localhost/publictransportcloud/api/Grad/read.php'
+
+        fetch(urlp).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradPolazisteDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdTipFromSelect = () => {
+            var p = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+    }
+    }
+// --------------------------------------------------------------------------------
+
+    const ucitajStanicePolaziste = () => {
+        polaziste_id = document.getElementById("polaziste-grad-dropdown").options[document.getElementById("polaziste-grad-dropdown").selectedIndex].value
+        ucitajStanicePolazista()
+    } 
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
+        
+{let gradOdredistaDropdown = document.getElementById('odrediste-grad-dropdown')
+     gradOdredistaDropdown.length = 0
+
+        let defaultOptionp = document.createElement('option')
+        gradOdredistaDropdown.text = 'Tip ';
+
+        gradOdredistaDropdown.add(defaultOptionp)
+        gradOdredistaDropdown.selectedIndex = 0
+
+        const urlp = 'http://localhost/publictransportcloud/api/Grad/read.php'
+
+        fetch(urlp).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradOdredistaDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdTipFromSelect = () => {
+            var p = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+    }
+    }
+// --------------------------------------------------------------------------------
+
+    const ucitajStaniceOdredista = () => {
+        odrediste_id = document.getElementById("odrediste-grad-dropdown").options[document.getElementById("odrediste-grad-dropdown").selectedIndex].value
+        ucitajStaniceOdrediste()
+    } 
+
+// --------------------------------------------------------------------------------
     {
         let prevoznikDropdown = document.getElementById('prevoznik-dropdown')
         prevoznikDropdown.length = 0
 
         let defaultOption = document.createElement('option')
-        defaultOption.text = 'Prevoznik';
+        defaultOption.text = 'Izaberite Prevoznika...';
 
         prevoznikDropdown.add(defaultOption)
         prevoznikDropdown.selectedIndex = 0
@@ -172,7 +271,7 @@
                 let option
                 for (let i = 0; i < data.data.length; i++) {
                 option = document.createElement('option')
-                option.text = data.data[i].cijena
+                option.text = data.data[i].naziv
                 option.value = data.data[i].id
                 prevoznikDropdown.add(option)
                 }    
@@ -189,17 +288,17 @@
     }
 
 // --------------------------------------------------------------------------------
-    {
+    const ucitajStanicePolazista = () => {
         let polazisteDropdown = document.getElementById('polaziste-dropdown')
         polazisteDropdown.length = 0
 
         let defaultOption = document.createElement('option')
-        defaultOption.text = 'Polaziste';
+        defaultOption.text = 'Odaberite polazište';
 
         polazisteDropdown.add(defaultOption)
         polazisteDropdown.selectedIndex = 0
 
-        const url = 'http://localhost/publictransportcloud/api/Linija/read.php?g=1&t=1'
+        const url = `http://localhost/publictransportcloud/api/Stanica/read.php?id=${polaziste_id}`
 
         fetch(url).then(  
             function(response) {  
@@ -227,17 +326,18 @@
         }
     }
 // --------------------------------------------------------------------------------
-{
+
+const ucitajStaniceOdrediste = () => {
     let odredisteDropdown = document.getElementById('odrediste-dropdown')
         odredisteDropdown.length = 0
 
         let defaultOption = document.createElement('option')
-        defaultOption.text = 'Odrediste';
+        defaultOption.text = 'Odaberite odredište...';
 
         odredisteDropdown.add(defaultOption)
         odredisteDropdown.selectedIndex = 0
 
-        const url = 'http://localhost/publictransportcloud/api/Linija/read.php?g=1&t=1'
+        const url = `http://localhost/publictransportcloud/api/Stanica/read.php?id=${odrediste_id}`
 
         fetch(url).then(  
             function(response) {  
@@ -287,10 +387,12 @@
     const dodajRelacija = () => {
         data.cijena = document.querySelector('#cijena-relacija').value
         data.interval_id = document.getElementById("interval-dropdown").options[document.getElementById("interval-dropdown").selectedIndex].value;
-        data.tip_id = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+        data.tipVozila_id = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
         data.prevoznik_id = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value
         data.polaziste_id = document.getElementById("polaziste-dropdown").options[document.getElementById("polaziste-dropdown").selectedIndex].value
         data.odrediste_id = document.getElementById("odrediste-dropdown").options[document.getElementById("odrediste-dropdown").selectedIndex].value
+
+        console.log(data)
 
         fetch('http://localhost/publictransportcloud/api/Relacija/create.php', {
         method: 'POST', 
@@ -302,56 +404,13 @@
         .then(response => response.json())
         .then(data => {
         console.log('Success:', data)
-        clearInput();
+        //clearInput();
         })
         .catch((error) => {
         console.error('Error:', error)
         })
-        clearInput()
+        //clearInput()
     }
     </script>
-
-<table id="data-table" class="table table-bordered">  
-    <thead>  
-         <tr>  
-              
-              <th>Cijena</th>
-              <th>Interval_id</th>
-              <th>Interval</th>
-              <th>Polaziste_id</th>
-              <th>Polaziste</th>
-              <th>Odrediste_id</th>
-              <th>Odrediste</th>
-              <th>Prevoznik_id</th>
-              <th>Prevoznik</th>
-           
-             
-         </tr>  
-    </thead>  
-</table>  
-
-<script>  
-    $(document).ready(function(){  
-         $('#data-table').DataTable({  
-              "ajax":     "http://localhost/publictransportcloud/api/Relacija/read.php?id=1",  
-              "columns"     :     [  
-                 
-                   {     "data"     :     "cijena"},
-                   {     "data"     :     "interval_id"},
-                   {     "data"     :     "interval"},
-                   {     "data"     :     "prevoznik_id"},
-                   {     "data"     :     "prevoznik"},
-                   {     "data"     :     "polaziste_id"},
-                   {     "data"     :     "polaziste"},
-                   {     "data"     :     "odrediste_id"},
-                   {     "data"     :     "odrediste"},
-
-                   
-                   
-              ]  
-         }); 
-    }); 
-    </script>
-
 </body>
 </html>

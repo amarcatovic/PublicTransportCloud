@@ -34,6 +34,22 @@ class RelacijaStanica{
       return $stmt;
     }
 
+    public function IzbrisiSve()
+    {
+      $query = 'CALL IzbrisiStaniceRelacije(?)';
+
+      $stmt = $this->conn->prepare($query);
+
+      $stmt-> bindParam(1, $this->relacija_id);
+
+      if($stmt->execute()) {
+        return true;
+      }
+      printf("Greška: $s.\n", $stmt->error);
+
+      return false;
+    }
+    
 
   // POST
   public function create() {

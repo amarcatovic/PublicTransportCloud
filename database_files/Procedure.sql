@@ -531,6 +531,16 @@ DELIMITER;
 DROP PROCEDURE GetStaniceNiz;
 CALL GetStaniceNiz(2); /* Primjer poziva */
 
+DELIMITER //
+CREATE PROCEDURE `IzbrisiStaniceRelacije`(_relacija INT)
+BEGIN
+	DELETE FROM RelacijaStanica
+    WHERE relacija_id = _relacija;
+END//
+DELIMITER;                           
+DROP PROCEDURE IzbrisiStaniceRelacije;
+CALL IzbrisiStaniceRelacije(5); /* Primjer poziva */
+
 /* ---------------------------------------------------------------------------------------------------------------------------
 													VOZAC VOZILO
  ---------------------------------------------------------------------------------------------------------------------------*/

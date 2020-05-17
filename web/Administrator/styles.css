@@ -109,7 +109,7 @@ input{
     padding-left: 5px;
 }
 
-#btnDodaj{
+.btnDodaj{
     width: 80%;
     height: 2.5em;
     margin-top: 15px;
@@ -117,6 +117,14 @@ input{
     background-color: lightskyblue;
     border: 0px;
     font-weight: 500;
+}
+
+.btnIzbrisi{
+    background-color: rgb(250, 108, 108); 
+}
+
+.btnSpasi{
+    background-color: rgb(113, 250, 108); 
 }
 
 #btnDodaj:hover{
@@ -133,6 +141,11 @@ input{
 .data-table_wrapper{
     padding-right: 0px;
     background-color: white;
+}
+
+button img{
+    height: 50px;
+    width: 50px;
 }
 
 @media (max-width: 700px){

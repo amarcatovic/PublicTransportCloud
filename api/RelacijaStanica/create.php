@@ -18,6 +18,10 @@
   $relacija = $data->relacija_id;
   $ids = $data->ids;
 
+  $stations->relacija_id = $relacija;
+  if($stations->IzbrisiSve() == false)  
+    die;
+
   for ($i = 0; $i < sizeof($ids); $i++) {
     $stations->relacija_id = $relacija;
     $stations->stanica_id = $ids[$i];

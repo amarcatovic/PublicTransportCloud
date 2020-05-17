@@ -141,9 +141,10 @@
     const dodajPrevoznik = () => {
         data.naziv = document.querySelector('#naziv-prevoznik').value
         data.telefon = document.querySelector('#telefon-prevoznik').value
+        data.password = "12345"
         data.email = document.querySelector('#email-prevoznik').value
-        data.grad = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
-        data.tipPrevoznika_id = document.getElementById("tipPrevoznika-dropdown").options[document.getElementById("tipPrevoznika-dropdown").selectedIndex].value;
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        data.tip_id = document.getElementById("tipPrevoznika-dropdown").options[document.getElementById("tipPrevoznika-dropdown").selectedIndex].value;
         fetch('http://localhost/publictransportcloud/api/Prevoznik/create.php', {
         method: 'POST', 
         headers: {

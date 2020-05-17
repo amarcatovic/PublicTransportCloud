@@ -8,6 +8,8 @@ class Stanica{
     public $naziv;
     public $lat;
     public $lng;
+    public $tip_id;
+    public $tip;
     public $adresa;
     public $grad_id;
 
@@ -42,12 +44,14 @@ class Stanica{
       $this->lng = $row['lng'];
       $this->adresa = $row['adresa'];
       $this->grad_id = $row['grad_id'];
+      $this->tip_id = $row['tip_id'];
+      $this->tip = $row['tip'];
   }
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv, lat, lng, adresa, grad_id)
-    VALUES(:name, :lat, :lng, :adresa, :city)';
+    $query = 'INSERT INTO ' . $this->table . ' (naziv, lat, lng, adresa, grad_id, tip_id)
+    VALUES(:name, :lat, :lng, :adresa, :city, :type)';
 
   $stmt = $this->conn->prepare($query);
   $this->naziv = htmlspecialchars(strip_tags($this->naziv));
@@ -61,6 +65,7 @@ class Stanica{
   $stmt-> bindParam(':lng', $this->lng);
   $stmt-> bindParam(':adresa', $this->adresa);
   $stmt-> bindParam(':city', $this->grad_id);
+  $stmt-> bindParam(':type', $this->tip_id);
 
   if($stmt->execute()) {
     return true;

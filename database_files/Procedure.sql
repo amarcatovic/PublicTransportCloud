@@ -14,8 +14,8 @@ BEGIN
     ON K.grad_id = G.id_grad;
 END//
 DELIMITER;
-DROP PROCEDURE GetKorisnikeAplikacije
-CALL GetKorisnikeAplikacije()
+#DROP PROCEDURE GetKorisnikeAplikacije;
+#CALL GetKorisnikeAplikacije();
 
 DELIMITER //
 CREATE PROCEDURE `GetKorisnikAplikacije` (_id INT)
@@ -27,8 +27,8 @@ BEGIN
     WHERE K.id_korisnik = _id;
 END//
 DELIMITER;
-DROP PROCEDURE GetKorisnikAplikacije
-CALL GetKorisnikAplikacije(26)
+#DROP PROCEDURE GetKorisnikAplikacije
+#CALL GetKorisnikAplikacije(26)
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 														LOGIN 
@@ -43,8 +43,8 @@ BEGIN
     WHERE _email = K.email;
 END//
 DELIMITER;                           
-DROP PROCEDURE Login;
-CALL Login('amarzenica@gmail.com'); /* Primjer poziva */
+#DROP PROCEDURE Login;
+#CALL Login('amarzenica@gmail.com'); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 														DRŽAVA
@@ -55,8 +55,8 @@ BEGIN
 	SELECT * FROM Drzava;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetDrzave;
-CALL GetDrzave(); /* Primjer poziva */
+#DROP PROCEDURE GetDrzave;
+#CALL GetDrzave(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `NovaDrzava` (_drzava NVARCHAR(30))
@@ -64,8 +64,8 @@ BEGIN
 	INSERT INTO Drzava(naziv) VALUES (_drzava);
 END//
 DELIMITER;                           
-DROP PROCEDURE NovaDrzava;
-CALL NovaDrzava("Austria"); /* Primjer poziva */
+#DROP PROCEDURE NovaDrzava;
+#CALL NovaDrzava("Austria"); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 															GRAD 
@@ -76,8 +76,8 @@ BEGIN
 	SELECT * FROM Grad;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetGradovi;
-CALL GetGradovi(); /* Primjer poziva */
+#DROP PROCEDURE GetGradovi;
+#CALL GetGradovi(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetGrad` (_id INT)
@@ -87,8 +87,8 @@ BEGIN
     WHERE id_grad = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetGrad;
-CALL GetGrad(1); /* Primjer poziva */
+#DROP PROCEDURE GetGrad;
+#CALL GetGrad(1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TIP PREVOZNIKA
@@ -99,8 +99,8 @@ BEGIN
 	SELECT * FROM TipPrevoznika;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTipovePrevoznika;
-CALL GetTipovePrevoznika(); /* Primjer poziva */
+#DROP PROCEDURE GetTipovePrevoznika;
+#CALL GetTipovePrevoznika(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetTipPrevoznika` (_id INT)
@@ -110,8 +110,8 @@ BEGIN
     WHERE id_tip = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTipPrevoznika;
-CALL GetTipPrevoznika(1); /* Primjer poziva */
+#DROP PROCEDURE GetTipPrevoznika;
+#CALL GetTipPrevoznika(1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													PREVOZNIK
@@ -125,8 +125,8 @@ BEGIN
     ON P.tip_id = TP.id_tip;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTipPrevoznika;
-CALL GetTipPrevoznika(1); /* Primjer poziva */
+#DROP PROCEDURE GetTipPrevoznika;
+#CALL GetTipPrevoznika(1); /* Primjer poziva */
  
 DELIMITER //
 CREATE PROCEDURE `GetPrevoznik` (_id INT)
@@ -138,8 +138,8 @@ BEGIN
     WHERE P.id_prevoznik = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetPrevoznik;
-CALL GetPrevoznik(1); /* Primjer poziva */
+#DROP PROCEDURE GetPrevoznik;
+#CALL GetPrevoznik(1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													PRODAJNO MJESTO
@@ -152,8 +152,8 @@ BEGIN
     ON PM.grad_id = G.id_grad;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetProdajnaMjesta;
-CALL GetProdajnaMjesta(); /* Primjer poziva */
+#DROP PROCEDURE GetProdajnaMjesta;
+#CALL GetProdajnaMjesta(); /* Primjer poziva */
  
  DELIMITER //
 CREATE PROCEDURE `GetProdajnoMjesto`(_id INT)
@@ -164,8 +164,8 @@ BEGIN
     WHERE PM.id_prodajnoMjesto = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetProdajnaMjesta;
-CALL GetProdajnoMjesto(1); /* Primjer poziva */
+#DROP PROCEDURE GetProdajnaMjesta;
+#CALL GetProdajnoMjesto(1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													AUTOMOBIL
@@ -177,8 +177,8 @@ BEGIN
     FROM Automobil;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetAutomobili;
-CALL GetAutomobili(); /* Primjer poziva */
+#DROP PROCEDURE GetAutomobili;
+#CALL GetAutomobili(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetAutomobil`(_id CHAR(9))
@@ -188,8 +188,8 @@ BEGIN
     WHERE id_automobil = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetAutomobil;
-CALL GetAutomobil(66); /* Primjer poziva */
+#DROP PROCEDURE GetAutomobil;
+#CALL GetAutomobil(66); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													KORISNIK
@@ -203,8 +203,8 @@ BEGIN
     ON KA.grad_id = G.id_grad;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetKorisnici;
-CALL GetKorisnici(); /* Primjer poziva */
+#DROP PROCEDURE GetKorisnici;
+#CALL GetKorisnici(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetKorisnik`(_id INT)
@@ -216,8 +216,8 @@ BEGIN
     WHERE KA.id_korisnik = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetKorisnik;
-CALL GetKorisnik(2); /* Primjer poziva */
+#DROP PROCEDURE GetKorisnik;
+#CALL GetKorisnik(2); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetStanjeById`(_id INT)
@@ -227,8 +227,8 @@ BEGIN
     WHERE K.id_korisnik = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetStanjeById;
-CALL GetStanjeById(58); /* Primjer poziva */
+#DROP PROCEDURE GetStanjeById;
+#CALL GetStanjeById(58); /* Primjer poziva */
 
 
 
@@ -242,8 +242,8 @@ BEGIN
     WHERE K.brojKartice = _card;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetKorisnikByCard;
-CALL GetKorisnikByCard('100002'); /* Primjer poziva */
+#DROP PROCEDURE GetKorisnikByCard;
+#CALL GetKorisnikByCard('100002'); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `UpdateStanjeByCard`(_card NVARCHAR(10), _stanje FLOAT)
@@ -253,8 +253,8 @@ BEGIN
     WHERE brojKartice = _card;
 END//
 DELIMITER;                           
-DROP PROCEDURE UpdateStanjeByCard;
-CALL UpdateStanjeByCard('100002', -1); /* Primjer poziva */
+#DROP PROCEDURE UpdateStanjeByCard;
+#CALL UpdateStanjeByCard('100002', -1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													BILETAR
@@ -269,8 +269,8 @@ BEGIN
     ON B.prodajnoMjesto_id = PM.id_prodajnoMjesto;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetBiletare;
-CALL GetBiletare(); /* Primjer poziva */
+#DROP PROCEDURE GetBiletare;
+#CALL GetBiletare(); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													BILETAR
@@ -285,8 +285,8 @@ BEGIN
     ON P.id_prevoznik = R.prevoznik_id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetRevizore;
-CALL GetRevizore(); /* Primjer poziva */
+#DROP PROCEDURE GetRevizore;
+#CALL GetRevizore(); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													VOZAC
@@ -301,8 +301,8 @@ BEGIN
     ON P.id_prevoznik = V.prevoznik_id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetVozace;
-CALL GetVozace(); /* Primjer poziva */
+#DROP PROCEDURE GetVozace;
+#CALL GetVozace(); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TAXI VOZAC
@@ -320,8 +320,8 @@ BEGIN
     ON TV.automobil_id = A.id_automobil;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTaxiVozace;
-CALL GetTaxiVozace(); /* Primjer poziva */
+#DROP PROCEDURE GetTaxiVozace;
+#CALL GetTaxiVozace(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetTaxiVozac`(_id INT)
@@ -335,8 +335,8 @@ BEGIN
     WHERE KA.id_korisnik = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTaxiVozac;
-CALL GetTaxiVozac(14); /* Primjer poziva */
+#DROP PROCEDURE GetTaxiVozac;
+#CALL GetTaxiVozac(14); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetTaxiVozacaByRegistracija`(_registracija CHAR(9))
@@ -350,8 +350,8 @@ BEGIN
     WHERE TV.automobil_id = _registracija;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTaxiVozacaByRegistracija;
-CALL GetTaxiVozacaByRegistracija('M66-A-001'); /* Primjer poziva */
+#DROP PROCEDURE GetTaxiVozacaByRegistracija;
+#CALL GetTaxiVozacaByRegistracija('M66-A-001'); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TIP VOZILA
@@ -362,8 +362,8 @@ BEGIN
 	SELECT * FROM TipVozila;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTipoveVozila;
-CALL GetTipoveVozila(); /* Primjer poziva */
+#DROP PROCEDURE GetTipoveVozila;
+#CALL GetTipoveVozila(); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													VOZILO
@@ -377,8 +377,8 @@ BEGIN
     ON V.prevoznik_id = P.id_prevoznik;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetVozila;
-CALL GetVozila(); /* Primjer poziva */
+#DROP PROCEDURE GetVozila;
+#CALL GetVozila(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetVozilo`(_reg CHAR(9))
@@ -390,8 +390,8 @@ BEGIN
     WHERE V.id_vozilo = _reg;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetVozilo;
-CALL GetVozilo('E11-J-133'); /* Primjer poziva */
+#DROP PROCEDURE GetVozilo;
+#CALL GetVozilo('E11-J-133'); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `VoziloUAktivnojLiniji`(_reg CHAR(9))
@@ -401,8 +401,8 @@ BEGIN
     WHERE status = 'U toku' AND L.vozilo_id = _reg;
 END//
 DELIMITER;                           
-DROP PROCEDURE VoziloUAktivnojLiniji;
-CALL VoziloUAktivnojLiniji('E11-J-133'); /* Primjer poziva */
+#DROP PROCEDURE VoziloUAktivnojLiniji;
+#CALL VoziloUAktivnojLiniji('E11-J-133'); /* Primjer poziva */
 
 
 DELIMITER //
@@ -415,8 +415,8 @@ BEGIN
     WHERE V.prevoznik_id = _prevoznik AND V.tip_id = _tip;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetVozilaPrevoznika;
-CALL GetVozilaPrevoznika(2, 2); /* Primjer poziva */
+#DROP PROCEDURE GetVozilaPrevoznika;
+#CALL GetVozilaPrevoznika(2, 2); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `DaLiJeVoziloSlobodno`(_reg CHAR(9))
@@ -427,8 +427,8 @@ BEGIN
     WHERE VV.datumRazduzenja IS NULL AND VV.vozilo_id = _reg;
 END//
 DELIMITER;                           
-DROP PROCEDURE DaLiJeVoziloSlobodno;
-CALL DaLiJeVoziloSlobodno('A15-J-669'); /* Primjer poziva */
+#DROP PROCEDURE DaLiJeVoziloSlobodno;
+#CALL DaLiJeVoziloSlobodno('A15-J-669'); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													INTERVAL RELACIJE
@@ -440,8 +440,8 @@ BEGIN
     FROM IntervalRelacije I;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetIntervali;
-CALL GetIntervali(); /* Primjer poziva */
+#DROP PROCEDURE GetIntervali;
+#CALL GetIntervali(); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													STANICA
@@ -449,24 +449,26 @@ CALL GetIntervali(); /* Primjer poziva */
 DELIMITER //
 CREATE PROCEDURE `GetStanice`(_grad INT)
 BEGIN
-	SELECT *
-    FROM Stanica
+	SELECT S.id_stanica, S.naziv, S.lat, S.lng, S.adresa, S.grad_id, S.tip_id, TV.naziv tip
+    FROM Stanica S JOIN TipVozila TV
+    ON S.tip_id = TV.id_tip
     WHERE grad_id = _grad;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetStanice;
-CALL GetStanice(1); /* Primjer poziva */
+#DROP PROCEDURE GetStanice;
+#CALL GetStanice(1); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetStanica`(_id INT)
 BEGIN
-	SELECT *
-    FROM Stanica
+	SELECT S.id_stanica, S.naziv, S.lat, S.lng, S.adresa, S.grad_id, S.tip_id, TV.naziv tip
+    FROM Stanica S JOIN TipVozila TV
+    ON S.tip_id = TV.id_tip
     WHERE id_stanica = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetStanica;
-CALL GetStanica(1); /* Primjer poziva */
+#DROP PROCEDURE GetStanica;
+#CALL GetStanica(1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													RELACIJA
@@ -486,8 +488,8 @@ BEGIN
     WHERE RP.prevoznik_id = _prevoznik;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetRelacija;
-CALL GetRelacija(3); /* Primjer poziva */
+#DROP PROCEDURE GetRelacija;
+#CALL GetRelacija(3); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetSljedecaStanica`(_rel INT)
@@ -497,8 +499,8 @@ BEGIN
     WHERE id_relacija = _rel;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetSljedecaStanica;
-CALL GetSljedecaStanica(1); /* Primjer poziva */
+#DROP PROCEDURE GetSljedecaStanica;
+#CALL GetSljedecaStanica(1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													RELACIJA STANICA
@@ -515,8 +517,8 @@ BEGIN
     ORDER BY RS.rb_stanice;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetStaniceZaRelaciju;
-CALL GetStaniceZaRelaciju(3); /* Primjer poziva */
+#DROP PROCEDURE GetStaniceZaRelaciju;
+#CALL GetStaniceZaRelaciju(3); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetStaniceNiz`(_relacija INT)
@@ -528,8 +530,8 @@ BEGIN
     ORDER BY RS.rb_stanice;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetStaniceNiz;
-CALL GetStaniceNiz(2); /* Primjer poziva */
+#DROP PROCEDURE GetStaniceNiz;
+#CALL GetStaniceNiz(2); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `IzbrisiStaniceRelacije`(_relacija INT)
@@ -538,13 +540,13 @@ BEGIN
     WHERE relacija_id = _relacija;
 END//
 DELIMITER;                           
-DROP PROCEDURE IzbrisiStaniceRelacije;
-CALL IzbrisiStaniceRelacije(5); /* Primjer poziva */
+#DROP PROCEDURE IzbrisiStaniceRelacije;
+#CALL IzbrisiStaniceRelacije(5); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													VOZAC VOZILO
  ---------------------------------------------------------------------------------------------------------------------------*/
-select * from VozacVozilo;
+#select * from VozacVozilo;
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													NADOPUNE
@@ -560,8 +562,8 @@ BEGIN
     ORDER BY N.datumNadopune DESC;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetNadopune;
-CALL GetNadopune(1); /* Primjer poziva */
+#DROP PROCEDURE GetNadopune;
+#CALL GetNadopune(1); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													LINIJA
@@ -588,8 +590,8 @@ BEGIN
     WHERE NOT L.status = 'Završen' AND S.grad_id = _grad AND TV.id_tip = _tip;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetAktivneLinije;
-CALL GetAktivneLinije(1, 1); /* Primjer poziva */
+#DROP PROCEDURE GetAktivneLinije;
+#CALL GetAktivneLinije(1, 1); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetAktivnaLinija`(_id INT)
@@ -611,8 +613,8 @@ BEGIN
     WHERE L.id_linija = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetAktivnaLinija;
-CALL GetAktivnaLinija(1); /* Primjer poziva */
+#DROP PROCEDURE GetAktivnaLinija;
+#CALL GetAktivnaLinija(1); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetStaniceLinije`(_relacija INT)
@@ -624,8 +626,8 @@ BEGIN
     ORDER BY rb_stanice;
 END//
 DELIMITER;                           
-DROP PROCEDURE GetStaniceLinije;
-CALL GetStaniceLinije(1); /* Primjer poziva */ 
+#DROP PROCEDURE GetStaniceLinije;
+#CALL GetStaniceLinije(1); /* Primjer poziva */ 
 
 DELIMITER //
 CREATE PROCEDURE `UpdateStanicuLinije`(_stanica INT, _linija INT)
@@ -635,8 +637,8 @@ BEGIN
 	WHERE id_linija = _linija;
 END//
 DELIMITER;                           
-DROP PROCEDURE UpdateStanicuLinije;
-CALL UpdateStanicuLinije(14, 5); /* Primjer poziva */ 
+#DROP PROCEDURE UpdateStanicuLinije;
+#CALL UpdateStanicuLinije(14, 5); /* Primjer poziva */ 
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													LINIJA PLACANJE
@@ -650,8 +652,8 @@ BEGIN
 		
 END//
 DELIMITER;                           
-DROP PROCEDURE LinijaPlacena;
-CALL LinijaPlacena(58, 6); /* Primjer poziva */
+#DROP PROCEDURE LinijaPlacena;
+#CALL LinijaPlacena(58, 6); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TAXI ZAHTJEV
@@ -669,8 +671,8 @@ BEGIN
 		
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTaxiZahtjeviKorisnik;
-CALL GetTaxiZahtjeviKorisnik(1); /* Primjer poziva */
+#DROP PROCEDURE GetTaxiZahtjeviKorisnik;
+#CALL GetTaxiZahtjeviKorisnik(1); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetTaxiZahtjeviVozac`()
@@ -680,8 +682,8 @@ BEGIN
     WHERE DATE_SUB(NOW(),INTERVAL 5 MINUTE) < TZ.vrijemeZahtjeva AND NOT status = 'Prihvaćen';		
 END//
 DELIMITER;                           
-DROP PROCEDURE GetTaxiZahtjeviVozac;
-CALL GetTaxiZahtjeviVozac(); /* Primjer poziva */
+#DROP PROCEDURE GetTaxiZahtjeviVozac;
+#CALL GetTaxiZahtjeviVozac(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `PrihvatiTaxiVoznju`(_id INT, _vozac INT, _time DATETIME)
@@ -691,8 +693,8 @@ BEGIN
            WHERE id_zahtjev = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE PrihvatiTaxiVoznju;
-CALL PrihvatiTaxiVoznju(); /* Primjer poziva */
+#DROP PROCEDURE PrihvatiTaxiVoznju;
+#CALL PrihvatiTaxiVoznju(); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `PonistiTaxiVoznju`(_id INT)
@@ -702,8 +704,8 @@ BEGIN
            WHERE id_zahtjev = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE PonistiTaxiVoznju;
-CALL PonistiTaxiVoznju(4); /* Primjer poziva */
+#DROP PROCEDURE PonistiTaxiVoznju;
+#CALL PonistiTaxiVoznju(4); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `NaplatiTaxiVoznju`(_id INT, _cijena FLOAT)
@@ -713,8 +715,8 @@ BEGIN
            WHERE id_zahtjev = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE NaplatiTaxiVoznju;
-CALL NaplatiTaxiVoznju(4); /* Primjer poziva */
+#DROP PROCEDURE NaplatiTaxiVoznju;
+#CALL NaplatiTaxiVoznju(4); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `PlatiTaxiVoznju`(_id INT)
@@ -724,8 +726,8 @@ BEGIN
            WHERE id_zahtjev = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE PlatiTaxiVoznju;
-CALL PlatiTaxiVoznju(4); /* Primjer poziva */
+#DROP PROCEDURE PlatiTaxiVoznju;
+#CALL PlatiTaxiVoznju(4); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `OcijeniTaxiVoznju`(_id INT, _ocjena INT)
@@ -735,8 +737,8 @@ BEGIN
            WHERE id_zahtjev = _id;
 END//
 DELIMITER;                           
-DROP PROCEDURE OcijeniTaxiVoznju;
-CALL OcijeniTaxiVoznju(4); /* Primjer poziva */
+#DROP PROCEDURE OcijeniTaxiVoznju;
+#CALL OcijeniTaxiVoznju(4); /* Primjer poziva */
 
 
 

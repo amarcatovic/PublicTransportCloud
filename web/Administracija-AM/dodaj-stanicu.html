@@ -43,6 +43,12 @@
             <input id="adresa-stanica" type="text" placeholder="Adresa">
         </div>
         <div id="polje">
+            <!-- <label for="proizvodjac-stanica">Adresa:</label> -->
+            <select id="tip-stanice" onchange="getIdGradFromSelect()">
+                <option value="" disabled selected hidden>Grad</option>
+            </select>
+        </div>
+        <div id="polje">
             <!-- <label for="lat-stanica">Lat:</label> -->
             <input id="lat-stanica" type="text" placeholder="Lat">
         </div>
@@ -65,11 +71,20 @@
         let gradDropdown = document.getElementById('grad-dropdown')
         gradDropdown.length = 0
 
+        let tipDropdown = document.getElementById('tip-stanice')
+        tipDropdown.length = 0
+
         let defaultOption = document.createElement('option')
         defaultOption.text = 'Grad';
 
+        let defaultOption2 = document.createElement('option')
+        defaultOption2.text = 'Tip Stanice...';
+
         gradDropdown.add(defaultOption)
         gradDropdown.selectedIndex = 0
+
+        tipDropdown.add(defaultOption2)
+        tipDropdown.selectedIndex = 0
 
         const url = 'http://localhost/PublicTransportCloud/api/Grad/read.php'
 
@@ -98,6 +113,27 @@
             var g = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
         }
 
+        fetch('http://localhost/publictransportcloud/api/TipVozila/read.php').then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                tipDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
     </script>
 
     <script>
@@ -117,7 +153,9 @@
         data.adresa = document.querySelector('#adresa-stanica').value
         data.lat = document.querySelector('#lat-stanica').value
         data.lng = document.querySelector('#lng-stanica').value
-        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value
+        data.tip_id = document.getElementById("tip-stanice").options[document.getElementById("tip-stanice").selectedIndex].value
+        console.log(data)
         fetch('http://localhost/publictransportcloud/api/Stanica/create.php', {
         method: 'POST', 
         headers: {
@@ -133,38 +171,11 @@
         console.error('Error:', error)
         })
 
-        clearInput();
+        //clearInput();
     }
     </script>
 
-<table id="data-table" class="table table-bordered">  
-    <thead>  
-         <tr>
-              <th>id</th>
-              <th>Naziv</th>
-              <th>Adresa</th>
-              <th>Lat</th>
-              <th>Lng</th>
-         
-         </tr>  
-    </thead>  
-</table>  
 
-<script>  
-    $(document).ready(function(){  
-         $('#data-table').DataTable({  
-              "ajax":     "http://localhost/publictransportcloud/api/Stanica/read.php?id=1",  
-              "columns"     :     [
-                   {     "data"     :     "id"},
-                   {     "data"     :     "naziv"},
-                   {     "data"     :     "adresa"},
-                   {     "data"     :     "lat"},
-                   {     "data"     :     "lng"}
-        
-              ]  
-         }); 
-    }); 
-    </script>  
 
 </body>
 </html>

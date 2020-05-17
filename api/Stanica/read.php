@@ -27,7 +27,8 @@
             'naziv' => $naziv,
             'lat' => $lat,
             'lng' => $lng,
-            'adresa' => $adresa
+            'adresa' => $adresa,
+            'tip' => $tip
           );
 
           array_push($cat_arr['data'], $cat_item);

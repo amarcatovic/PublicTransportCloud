@@ -20,6 +20,7 @@
   $station->lng = $data->lng;
   $station->adresa = $data->adresa;
   $station->grad_id = $data->grad_id;
+  $station->tip_id = $data->tip_id;
 
   if($station->naziv == '')
     die;

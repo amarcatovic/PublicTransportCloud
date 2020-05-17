@@ -20,7 +20,8 @@
     'lat' =>  $station->lat,
     'lng' =>  $station->lng,
     'adresa' =>  $station->adresa,
-    'grad_id' =>  $station->grad_id
+    'grad_id' =>  $station->grad_id,
+    'tip' => $station->tip
   );
 
   print_r(json_encode($category_arr));

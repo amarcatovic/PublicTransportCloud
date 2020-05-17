@@ -175,8 +175,10 @@ CREATE TABLE Stanica(
 	lng FLOAT(10, 6) NOT NULL,
     adresa NVARCHAR(50) NOT NULL,
     grad_id INT NOT NULL,
+    tip_id INT NOT NULL,
     CONSTRAINT PK_Stanica PRIMARY KEY (id_stanica),
-    CONSTRAINT FK_stanica_grad FOREIGN KEY (grad_id) REFERENCES Grad(id_grad)
+    CONSTRAINT FK_stanica_grad FOREIGN KEY (grad_id) REFERENCES Grad(id_grad),
+    CONSTRAINT FK_stanica_tipVozila FOREIGN KEY (tip_id) REFERENCES TipVozila(id_tip)
 );
 
 /* 19 */
@@ -184,7 +186,7 @@ CREATE TABLE Relacija(
 	id_relacija INT AUTO_INCREMENT,
     polaziste_id INT NOT NULL,
     odrediste_id INT NOT NULL,
-    cijena FLOAT(3,2) NOT NULL,
+    cijena FLOAT(7,2) NOT NULL,
     interval_id INT NOT NULL,
     tipVozila_id INT NOT NULL,
     CONSTRAINT PK_Relacija PRIMARY KEY (id_relacija),
@@ -193,9 +195,6 @@ CREATE TABLE Relacija(
     CONSTRAINT FK_Relacija_TipRelacije FOREIGN KEY (interval_id) REFERENCES IntervalRelacije(id_interval),
     CONSTRAINT FK_Relacija_TipVozila FOREIGN KEY (tipVozila_id) REFERENCES TipVozila(id_tip)
 );
-
-ALTER TABLE Relacija
-MODIFY cijena FLOAT(7,2) NOT NULL;
 
 /* 20 */
 CREATE TABLE RelacijaStanica(

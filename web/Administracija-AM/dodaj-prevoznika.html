@@ -32,7 +32,11 @@
                 <!-- <label for="email-prevoznik">Email adresa:</label> -->
                 <input id="email-prevoznik" type="email" placeholder="Email adresa">
             </div>
-   
+            <div id="polje">
+                <!-- <label for="password-prevoznik">Password:</label> -->
+                <input id="password-prevoznik" type="password" placeholder="Password">
+            </div>
+        
             <div id="polje">
                 <!-- <label for="grad-dropdown">Grad:</label> -->
                 <select id="grad-dropdown" onchange="getIdGradFromSelect()">
@@ -40,9 +44,9 @@
                 </select>
             </div>
             <div id="polje">
-                <!-- <label for="tipPrevoznika-dropdown">Tip prevoznika:</label> -->
+                <!-- <label for="tipPrevoznika-dropdown">Prodajno mjesto:</label> -->
                 <select id="tipPrevoznika-dropdown" onchange="getIdTipPrevoznikaFromSelect()">
-                    <option value="" disabled selected hidden>Tip prevoznika</option>
+                    <option value="" disabled selected hidden>Prodajno mjesto</option>
                 </select>
             </div>
             
@@ -129,12 +133,12 @@
         document.getElementById("naziv-prevoznik").value="";
         document.getElementById("telefon-prevoznik").value="";
         document.getElementById("email-prevoznik").value="";
+        document.getElementById("password-prevoznik").value="";
         document.getElementById("grad-dropdown").value="Grad";
         document.getElementById("tipPrevoznika-dropdown").value="Tip prevoznika";
         location.reload();
     }
     
-
 
     const data = {}
 
@@ -142,8 +146,9 @@
         data.naziv = document.querySelector('#naziv-prevoznik').value
         data.telefon = document.querySelector('#telefon-prevoznik').value
         data.email = document.querySelector('#email-prevoznik').value
-        data.grad = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
-        data.tipPrevoznika_id = document.getElementById("tipPrevoznika-dropdown").options[document.getElementById("tipPrevoznika-dropdown").selectedIndex].value;
+        data.password = document.querySelector('#password-prevoznik').value
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
+        data.tip_id = document.getElementById("tipPrevoznika-dropdown").options[document.getElementById("tipPrevoznika-dropdown").selectedIndex].value;
         fetch('http://localhost/publictransportcloud/api/Prevoznik/create.php', {
         method: 'POST', 
         headers: {
@@ -159,6 +164,7 @@
         .catch((error) => {
         console.error('Error:', error)
         })
+        clearInput()
     }
     </script>
 
@@ -169,10 +175,11 @@
               <th>Naziv</th>
               <th>Telefon</th>
               <th>Email</th>
-              <th>Tip_Id</th>
-              <th>Tip</th>
-              <th>Grad_Id</th>
+              <th>Grad_id</th>
               <th>Grad</th>
+              <th>Tip_id</th>
+              <th>Tip</th>
+             
          </tr>  
     </thead>  
 </table>  
@@ -180,16 +187,18 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://localhost/publictransportcloud/api/Prevoznik/read.php",  
+              "ajax":     "http://localhost/PublicTransportCloud/api/Prevoznik/read.php",  
               "columns"     :     [  
                    {     "data"     :     "id"     },  
                    {     "data"     :     "naziv"},
                    {     "data"     :     "telefon"},
                    {     "data"     :     "email"},
-                   {     "data"     :     "tip_id"},
-                   {     "data"     :     "tip"},
                    {     "data"     :     "grad_id"},
-                   {     "data"     :     "grad"}
+                   {     "data"     :     "grad"},
+                   {     "data"     :     "tip_id"},
+                   {     "data"     :     "tip"}
+                   
+                   
               ]  
          }); 
     }); 

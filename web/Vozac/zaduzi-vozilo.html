@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Zaduži vozilo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div id="top">
+        <nav id="navigacija"><img src="../images/logo.svg" alt="ATPT logo" width="50px">Vozač</nav>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategorija
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="zaduzi-vozilo.html">Zaduži vozilo</a>
+              <a class="dropdown-item" href="odabir-relacije.html">Odaberi relaciju</a>
+              <a class="dropdown-item" href="zapocni-liniju.html">Započni liniju</a>
+              <a class="dropdown-item" href="update-stanice.html">Ažuriraj stanicu</a>
+              <a class="dropdown-item" href="zavrsi-liniju.html">Završi liniju</a>
+            </div>
+          </div>
+
+        <h2 id="naslov">Zaduži vozilo</h2>
+        <div id="unos">
+            <div id="polje">
+                <!-- <label for="vozac-dropdown">Vozač:</label> -->
+                <select id="vozac-dropdown">
+                    <option value="" disabled selected hidden>Vozač</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="prevoznik-dropdown">Prevoznik:</label> -->
+                <select id="prevoznik-dropdown" onchange="updateVozilo(); updateRelacija()">
+                    <option value="" disabled selected hidden>Prevoznik</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="tip-dropdown">Tip vozila:</label> -->
+                <select id="tip-dropdown" onchange="updateVozilo()">
+                    <option value="" disabled selected hidden>Tip vozila</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="vozila-dropdown">Vozilo:</label> -->
+                <select id="vozila-dropdown">
+                    <option value="" disabled selected hidden>Vozilo</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="relacija-dropdown">Relacija:</label> -->
+                <select id="relacija-dropdown">
+                    <option value="" disabled selected hidden>Relacija</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="polazak">Polazak:</label> -->
+                <input id="polazak" placeholder="Polazak" class="textbox-n" type="text" onfocus="(this.type='datetime-local')" onblur="(this.type='text')">
+            </div>
+            <div id="polje">
+                <!-- <label for="dolazak">Dolazak:</label> -->
+                <input id="dolazak" placeholder="Dolazak" class="textbox-n" type="text" onfocus="(this.type='datetime-local')" onblur="(this.type='text')">
+            </div>
+            <p id="zaduzeno"></p>
+            <button id="btnDodaj" onclick="zaduziVozilo(); zapocniLiniju(); staniceUpdateZavrsi()">Zaduži vozilo i započni liniju</button>
+        </div>
+    </div>
+    
+    <script>
+        const getIdPrevoznikFromSelect = () => {
+            var p = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
+        }
+        
+        const getIdTipFromSelect = () => {
+            var t = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+        }
+        
+        const getIdVozilaFromSelect = () => {
+            var v = document.getElementById("vozila-dropdown").options[document.getElementById("vozila-dropdown").selectedIndex].value;
+        }
+
+        {
+            let vozacDropdown = document.getElementById('vozac-dropdown')
+            vozacDropdown.length = 0
+
+            let defaultOption = document.createElement('option')
+            defaultOption.text = 'Vozač';
+
+            vozacDropdown.add(defaultOption)
+            vozacDropdown.selectedIndex = 0
+
+            const url = 'http://localhost/PublicTransportCloud/api/Vozac/read.php'
+
+            fetch(url).then(  
+                function(response) {  
+                if (response.status !== 200) {  
+                    console.warn('Error: ' + response.status)  
+                    return 
+                }
+                response.json().then(function(data) {  
+                    let option
+                    for (let i = 0; i < data.data.length; i++) {
+                    option = document.createElement('option')
+                    option.text = data.data[i].ime + ' ' + data.data[i].prezime
+                    option.value = data.data[i].id
+                    vozacDropdown.add(option)
+                    }    
+                });  
+                }  
+            )  
+            .catch(function(err) {  
+                console.error('Error -', err)
+            })
+        }
+
+        {
+            let prevoznikDropdown = document.getElementById('prevoznik-dropdown')
+            prevoznikDropdown.length = 0
+
+            let defaultOption = document.createElement('option')
+            defaultOption.text = 'Prevoznik';
+
+            prevoznikDropdown.add(defaultOption)
+            prevoznikDropdown.selectedIndex = 0
+
+            const url = 'http://localhost/PublicTransportCloud/api/Prevoznik/read.php'
+
+            fetch(url).then(  
+                function(response) {  
+                if (response.status !== 200) {  
+                    console.warn('Error: ' + response.status)  
+                    return 
+                }
+                response.json().then(function(data) {  
+                    let option
+                    for (let i = 0; i < data.data.length; i++) {
+                    option = document.createElement('option')
+                    option.text = data.data[i].naziv
+                    option.value = data.data[i].id
+                    prevoznikDropdown.add(option)
+                    }    
+                });  
+                }  
+            )  
+            .catch(function(err) {  
+                console.error('Error -', err)
+            })
+            
+        }
+        
+        {
+            let tipDropdown = document.getElementById('tip-dropdown')
+            tipDropdown.length = 0
+
+            let defaultOption = document.createElement('option')
+            defaultOption.text = 'Tip vozila';
+
+            tipDropdown.add(defaultOption)
+            tipDropdown.selectedIndex = 0
+
+            const url = 'http://localhost/PublicTransportCloud/api/TipVozila/read.php'
+
+            fetch(url).then(  
+                function(response) {  
+                if (response.status !== 200) {  
+                    console.warn('Error: ' + response.status)  
+                    return 
+                }
+                response.json().then(function(data) {  
+                    let option
+                    for (let i = 0; i < data.data.length; i++) {
+                    option = document.createElement('option')
+                    option.text = data.data[i].naziv
+                    option.value = data.data[i].id
+                    tipDropdown.add(option)
+                    }    
+                });  
+                }  
+            )  
+            .catch(function(err) {  
+                console.error('Error -', err)
+            })
+
+        }
+
+        let vozilaDropdown = document.getElementById('vozila-dropdown')
+        vozilaDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Vozilo';
+
+        vozilaDropdown.add(defaultOption)
+        vozilaDropdown.selectedIndex = 0
+
+        var url = 'http://localhost/publictransportcloud/api/Vozilo/read-prevoznik.php?p=' + document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value + '&t=' + document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value
+
+        function updateVozilo(){
+            url = 'http://localhost/publictransportcloud/api/Vozilo/read-prevoznik.php?p=' + document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value + '&t=' + document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value
+
+            if(document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].text!="Prevoznik" && document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].text!="Tip vozila"){
+                    fetch(url).then(  
+                        function(response) {  
+                        if (response.status !== 200) {  
+                        console.warn('Error: ' + response.status)  
+                        return 
+                    }
+                    response.json().then(function(data) {  
+                        let option
+                        for (let i = 0; i < data.data.length; i++) {
+                        option = document.createElement('option')
+                        option.text = data.data[i].registracija
+                        option.value = data.data[i].registracija
+                        vozilaDropdown.add(option)
+                        }    
+                    });  
+                    }  
+                )  
+                .catch(function(err) {  
+                    console.error('Error -', err)
+                })
+            }
+        }
+
+        let relacijaDropdown = document.getElementById('relacija-dropdown')
+        relacijaDropdown.length = 0
+
+        let defaultOptionr = document.createElement('option')
+        defaultOptionr.text = 'Relacija';
+
+        relacijaDropdown.add(defaultOptionr)
+        relacijaDropdown.selectedIndex = 0
+
+        var urlr = 'http://localhost/publictransportcloud/api/Relacija/read.php?id=' + document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value
+
+        function updateRelacija(){
+            urlr = 'http://localhost/publictransportcloud/api/Relacija/read.php?id=' + document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value
+
+            if(document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].text!="Prevoznik"){
+                    fetch(urlr).then(  
+                        function(response) {  
+                        if (response.status !== 200) {  
+                        console.warn('Error: ' + response.status)  
+                        return 
+                    }
+                    response.json().then(function(data) {  
+                        let option
+                        for (let i = 0; i < data.data.length; i++) {
+                        option = document.createElement('option')
+                        option.text = data.data[i].polaziste + " - " + data.data[i].odrediste
+                        option.value = data.data[i].id
+                        relacijaDropdown.add(option)
+                        }    
+                    });  
+                    }  
+                )  
+                .catch(function(err) {  
+                    console.error('Error -', err)
+                })
+            }
+        }
+
+    </script>
+
+    <script>
+    function clearInput(){
+        document.getElementById("prevoznik-dropdown").value="Prevoznik";
+        document.getElementById("tip-dropdown").value="Tip vozila";
+        document.getElementById("vozila-dropdown").value="Vozilo";
+        document.getElementById("relacija-dropdown").value="Relacija";
+        location.reload();
+    }
+
+    const data = {}
+    const zaduziVozilo = () => {
+		let r = document.getElementById("vozila-dropdown").options[document.getElementById("vozila-dropdown").selectedIndex].value;
+
+		const slob = 'http://localhost/publictransportcloud/api/Vozilo/slobodno.php?reg=' + r;
+		console.log(slob)
+
+		fetch(slob).then(  
+					function(response) {  
+					if (response.status !== 200) {  
+					console.warn('Error: ' + response.status)  
+					return 
+				}
+				response.json().then(function(data) {
+					if(data.message = "Slobodno"){
+						data.vozac_id = document.querySelector('#vozac-dropdown').value
+						data.vozilo_id = document.querySelector('#vozila-dropdown').value
+						fetch('http://localhost/publictransportcloud/api/VozacVozilo/create.php', {
+						method: 'POST', 
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(data),
+						})
+						.then(response => response.json())
+						.then(data => {
+						console.log('Success:', data)
+						})
+						.catch((error) => {
+						console.error('Error:', error)
+						})
+					}else{
+						document.getElementById("zaduzeno").innerText="Odabrano vozilo je već zaduženo. Molimo da odaberete drugo vozilo."
+					}
+				});  
+				}  
+			)  
+			.catch(function(err) {  
+				console.error('Error -', err)
+			})
+    }
+
+    const zapocniLiniju = () => {
+        data.vozac_id = document.querySelector('#vozac-dropdown').value
+		data.vozilo_id = document.querySelector('#vozila-dropdown').value
+        data.relacija_id = document.querySelector('#relacija-dropdown').value
+        data.polazak = document.querySelector('#polazak').value
+        data.dolazak = document.querySelector('#dolazak').value
+        fetch('http://localhost/publictransportcloud/api/Linija/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+    }
+
+    function staniceUpdateZavrsi(){
+        document.getElementById("vozac-dropdown").remove()
+        document.getElementById("prevoznik-dropdown").remove()
+        document.getElementById("tip-dropdown").remove()
+        document.getElementById("vozila-dropdown").remove()
+        document.getElementById("relacija-dropdown").style="display: none"
+        document.getElementById("polazak").remove()
+        document.getElementById("dolazak").remove()
+
+        document.getElementById("naslov").innerText="Stanice"
+        urls = 'http://localhost/publictransportcloud/api/RelacijaStanica/readNiz.php?id=' + document.getElementById("relacija-dropdown").value
+        fetch(urls).then(  
+                        function(response) {  
+                        if (response.status !== 200) {  
+                        console.warn('Error: ' + response.status)  
+                        return 
+                    }
+                    response.json().then(function(data) {  
+                        // ovdje bih ispisao niz stanica
+                    });  
+                    }  
+                )
+    }
+    </script>
+</body>
+</html>

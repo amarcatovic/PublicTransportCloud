@@ -8,6 +8,10 @@
   include_once '../../config/Database.php';
   include_once '../../models/KorisnikAplikacije.php';
 
+  include_once '../../models/Korisnik.php';
+  include_once '../../models/Vozac.php';
+  include_once '../../models/TaxiVozac.php';
+
   $database = new Database();
   $db = $database->connect();
 
@@ -21,7 +25,77 @@
   $user->login();
 
   if(password_verify($passwordRaw, $user->passwordHash)) {
-    echo json_encode(
+
+    if($user->uloga == "Korisnik")
+    {
+      $korisnik = new Korisnik($db);
+      $korisnik->id_korisnik = $user->id_korisnik;
+      $korisnik->read_single();
+
+      echo json_encode(
+        array('login' => 'OK',
+        'id' => $user->id_korisnik,
+        'ime' => $user->ime,
+        'prezime' => $user->prezime,
+        'emai' => $user->email,
+        'datumRodjenja' => $user->datumRodjenja,
+        'grad_id' => $user->grad_id,
+        'grad' => $user->grad,
+        'uloga' => $user->uloga,
+        'brojKartice' => $korisnik->brojKartice,
+        'stanje' => $korisnik->stanje
+        )
+      );
+    }
+    else if($user->uloga == "Vozač")
+    {
+      $vozac = new Vozac($db);
+      $vozac->id_vozac = $user->id_korisnik;
+      $vozac->read_single();
+
+      echo json_encode(
+        array('login' => 'OK',
+        'id' => $user->id_korisnik,
+        'ime' => $user->ime,
+        'prezime' => $user->prezime,
+        'emai' => $user->email,
+        'datumRodjenja' => $user->datumRodjenja,
+        'grad_id' => $user->grad_id,
+        'grad' => $user->grad,
+        'uloga' => $user->uloga,
+        'prevoznik_id' => $vozac->prevoznik_id,
+        'prevoznik' => $vozac->prevoznik
+        )
+      );
+    }
+    else if($user->uloga == "Taxi")
+    {
+      $taxi = new TaxiVozac($db);
+      $taxi->id_vozac = $user->id_korisnik;
+      $taxi->read_single();
+
+      echo json_encode(
+        array('login' => 'OK',
+        'id' => $user->id_korisnik,
+        'ime' => $user->ime,
+        'prezime' => $user->prezime,
+        'emai' => $user->email,
+        'datumRodjenja' => $user->datumRodjenja,
+        'grad_id' => $user->grad_id,
+        'grad' => $user->grad,
+        'uloga' => $user->uloga,
+        'prevoznik_id' => $taxi->prevoznik_id,
+        'registracija' => $taxi->automobil_id,
+        'marka' => $taxi->marka,
+        'model' => $taxi->model,
+        'boja' => $taxi->boja,
+        'brojTaxiDozvole' => $taxi->brojTaxiDozvole,
+        'ocjena' => $taxi->ocjena
+        )
+      );
+    }
+
+    /*echo json_encode(
       array('login' => 'OK',
       'id' => $user->id_korisnik,
       'ime' => $user->ime,
@@ -32,7 +106,7 @@
       'grad' => $user->grad,
       'uloga' => $user->uloga
       )
-    );
+    );*/
   } else {
     echo json_encode(
       array('login' => 'Error')

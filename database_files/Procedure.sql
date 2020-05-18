@@ -304,6 +304,20 @@ DELIMITER;
 #DROP PROCEDURE GetVozace;
 #CALL GetVozace(); /* Primjer poziva */
 
+DELIMITER //
+CREATE PROCEDURE `GetVozac`(_id INT)
+BEGIN
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, V.prevoznik_id, P.naziv prevoznik
+    FROM KorisnikAplikacije KA JOIN Vozac V
+    ON KA.id_korisnik = V.id_vozac JOIN Grad G
+    ON KA.grad_id = G.id_grad JOIN Prevoznik P
+    ON P.id_prevoznik = V.prevoznik_id
+    WHERE KA.id_korisnik = _id;
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetVozac;
+#CALL GetVozac(4); /* Primjer poziva */
+
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TAXI VOZAC
  ---------------------------------------------------------------------------------------------------------------------------*/
@@ -336,7 +350,7 @@ BEGIN
 END//
 DELIMITER;                           
 #DROP PROCEDURE GetTaxiVozac;
-#CALL GetTaxiVozac(14); /* Primjer poziva */
+#CALL GetTaxiVozac(3); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetTaxiVozacaByRegistracija`(_registracija CHAR(9))

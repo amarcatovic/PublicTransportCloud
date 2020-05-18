@@ -7,6 +7,7 @@ private $table='Vozac';
 
 public $id_vozac;
 public $prevoznik_id;
+public $prevoznik;
 
 // METODE
 public function __construct($db) {
@@ -22,6 +23,19 @@ public function get() {
 
   return $stmt;
 }
+
+public function read_single(){
+  $query = 'CALL GetVozac(?)';
+  
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $this->id_vozac);
+    $stmt->execute();
+  
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+    $this->prevoznik_id = $row['prevoznik_id'];
+    $this->prevoznik = $row['prevoznik'];
+  }
 
 // POST
 public function create() {

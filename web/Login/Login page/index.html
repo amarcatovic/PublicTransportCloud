@@ -14,7 +14,7 @@
 			<img src="img/man.svg">
 		</div>
 		<div class="login-content">
-			<form action="index.html">
+			<form id="login-form" onsubmit="return false;">
 				<img src="img/logo.svg">
 				<h2 class="title">Welcome</h2>
            		<div class="input-div one">
@@ -23,7 +23,7 @@
            		   </div>
            		   <div class="div">
            		   		<h5>Email</h5>
-           		   		<input type="text" class="input">
+           		   		<input id="email-input" type="email" class="input">
            		   </div>
            		</div>
            		<div class="input-div pass">
@@ -32,13 +32,15 @@
            		   </div>
            		   <div class="div">
            		    	<h5>Password</h5>
-           		    	<input type="password" class="input">
+           		    	<input id="password-input" type="password" class="input">
             	   </div>
             	</div>
-            	<input type="submit" class="btn" value="Login">
+				<button class="btn" onclick="login()">LOGIN</button>
+				<p id="error"></p>
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/login.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@
 
   $data = json_decode(file_get_contents("php://input"));
 
-  $razduzi->vozilo_id = $data->registracija;
+  $razduzi->vozilo_id = $data->vozilo_id;
 
   if($razduzi->update()) {
     echo json_encode(

@@ -318,6 +318,29 @@ DELIMITER;
 #DROP PROCEDURE GetVozac;
 #CALL GetVozac(4); /* Primjer poziva */
 
+DELIMITER //
+CREATE PROCEDURE `GetTrenutnaLinija`(_id INT)
+BEGIN
+	SELECT id_linija, vozilo_id, relacija_id, vozac_id
+    FROM Linija
+    WHERE vozac_id = _id AND NOT status = 'Završen'  ;
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetTrenutnaLinija;
+#CALL GetTrenutnaLinija(4); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `GetZaduzenaVozila`(_id INT)
+BEGIN
+	SELECT vozilo_id
+    FROM VozacVozilo
+    WHERE vozac_id = _id AND datumRazduzenja IS NULL  ;
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetZaduzenaVozila;
+#CALL GetZaduzenaVozila(4); /* Primjer poziva */
+
+
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TAXI VOZAC
  ---------------------------------------------------------------------------------------------------------------------------*/

@@ -24,8 +24,10 @@
           $cat_item = array(
             'id' => $id_grad,
             'naziv' => $naziv,
-            'drzava_Id' => $drzava_id 
-          );
+            'drzava_Id' => $drzava_id,
+            'lat' => $lat,
+            'lng' => $lng
+           );
 
           array_push($cat_arr['data'], $cat_item);
         }

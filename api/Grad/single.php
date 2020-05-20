@@ -17,7 +17,9 @@
   $category_arr = array(
     'id' => $city->id_grad,
     'naziv' => $city->naziv,
-    'drzava_id' => $city->drzava_id
+    'drzava_id' => $city->drzava_id,
+    'lat' => $city->lat,
+    'lng' => $city->lng
   );
 
   print_r(json_encode($category_arr));

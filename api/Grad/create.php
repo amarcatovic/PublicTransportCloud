@@ -17,6 +17,8 @@
 
   $city->naziv = $data->naziv;
   $city->drzava_id = $data->drzava_id;
+  $city->lat = $data->lat;
+  $city->lng = $data->lng;
 
   if($city->naziv == '')
     die;

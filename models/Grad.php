@@ -8,6 +8,9 @@ class Grad{
     public $naziv;
     public $drzava_id;
 
+    public $lat;
+    public $lng;
+
     // METODE
     public function __construct($db) {
       $this->conn = $db;
@@ -35,17 +38,23 @@ class Grad{
       $this->id_grad = $row['id_grad'];
       $this->naziv = $row['naziv'];
       $this->drzava_id = $row['drzava_id'];
+      $this->lat = $row['lat'];
+      $this->lng = $row['lng'];
   }
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (naziv, drzava_id) VALUES(:name, :country)';
+    $query = 'INSERT INTO ' . $this->table . ' (naziv, drzava_id, lat, lng) VALUES(:name, :country, :lat, :lng)';
 
   $stmt = $this->conn->prepare($query);
   $this->naziv = htmlspecialchars(strip_tags($this->naziv));
+  $this->lat = htmlspecialchars(strip_tags($this->lat));
+  $this->lng = htmlspecialchars(strip_tags($this->lng));
 
   $stmt-> bindParam(':name', $this->naziv);
   $stmt-> bindParam(':country', $this->drzava_id);
+  $stmt-> bindParam(':lat', $this->lat);
+  $stmt-> bindParam(':lng', $this->lng);
 
   if($stmt->execute()) {
     return true;

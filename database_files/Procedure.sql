@@ -690,7 +690,7 @@ BEGIN
 END//
 DELIMITER;                           
 #DROP PROCEDURE LinijaPlacena;
-#CALL LinijaPlacena(58, 6); /* Primjer poziva */
+#CALL LinijaPlacena(5, 23); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TAXI ZAHTJEV

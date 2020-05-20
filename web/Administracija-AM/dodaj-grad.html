@@ -45,6 +45,14 @@
             <!-- <label for="id-grad">Naziv:</label> -->
             <input id="id-grad" type="text" placeholder="Naziv">
         </div>
+        <div id="polje">
+            <!-- <label for="id-grad">Naziv:</label> -->
+            <input id="id-lat" type="text" placeholder="Latitude">
+        </div>
+        <div id="polje">
+            <!-- <label for="id-grad">Naziv:</label> -->
+            <input id="id-lng" type="text" placeholder="Longitude">
+        </div>
         
         <button id="btnDodaj" onclick="dodajGrad()" >Dodaj</button>
     </div>
@@ -100,6 +108,8 @@
     
     const dodajGrad = () => {
         noviGrad.naziv = document.querySelector('#id-grad').value
+        noviGrad.lat = document.querySelector('#id-lat').value
+        noviGrad.lng = document.querySelector('#id-lng').value
         noviGrad.drzava_id = document.getElementById("drzava-dropdown").options[document.getElementById("drzava-dropdown").selectedIndex].value
     
         fetch('http://localhost/publictransportcloud/api/Grad/create.php', {
@@ -127,6 +137,8 @@
               <th>Id</th>
               <th>Naziv</th>
               <th>Drzava_id</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
          
          </tr>  
     </thead>  
@@ -141,6 +153,8 @@
                    {     "data"     :     "id"},
                    {     "data"     :     "naziv"},
                    {     "data"     :     "drzava_Id"},
+                   {     "data"     :     "lat"},
+                   {     "data"     :     "lng"},
               ]  
          }); 
     }); 

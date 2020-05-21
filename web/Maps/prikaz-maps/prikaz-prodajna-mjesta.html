@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prodajna mjesta</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+
+</head>
+<body>
+    <div id="top">
+        <nav id="navigacija"><img src="../images/logo.svg" alt="ATPT logo" width="50px">Prodajna mjesta</nav>
+
+        <div id="unos">
+            
+        </div>
+    </div>
+
+<script>
+
+    var karta = L.map('unos').setView([43.9159, 17.6791], 7);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 20,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: 'pk.eyJ1IjoiYWxtaXJidW5qYWt1IiwiYSI6ImNrYWduY3YzNTA1OXgyeG1vaXNncW15ZmUifQ.zvNcmeUBhhEtb1ukoFpTrQ'
+    }).addTo(karta);
+
+    
+
+    // prodajnaMjesta.map(pMjesto => marker = new google.maps.Marker({
+    //             position: {lat: parseFloat(pMjesto.lat), lng: parseFloat(pMjesto.lng)},
+    //             map: karta,
+    //             title: pMjesto.naziv
+    //         })
+
+    $(document).ready(function(){
+        prodajnaMjesta=[]
+        
+        const url = 'http://localhost/PublicTransportCloud/api/ProdajnoMjesto/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                if(data.message){
+                    console.log("Nema prodajnih mjesta")
+                }else{
+                    prodajnaMjesta = data.data
+                }
+                var ikona = L.icon({
+                        iconUrl: '../images/ProdajnoMjesto.png',
+
+                        iconSize:     [36, 36],
+                        iconAnchor:   [18, 18],
+                        popupAnchor:  [0, 0]
+                });
+
+                prodajnaMjesta.map(function(pMjesto){
+                    var marker = L.marker([parseFloat(pMjesto.lat), parseFloat(pMjesto.lng)], {icon: ikona}).addTo(karta)
+                    marker.bindPopup(pMjesto.naziv+'<br>'+pMjesto.adresa)
+                })
+                    
+                } 
+            );  
+            })  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+        
+    })
+    
+</script>
+
+    <table id="data-table" class="table table-bordered">  
+        <thead>  
+            <tr>  
+                <th>Id</th>  
+                <th>Naziv</th>
+                <th>Geografska širina</th>
+                <th>Geografska dužina</th>
+                <th>Adresa</th>
+                <th>Grad ID</th>
+                <th>Grad</th>
+            </tr>  
+        </thead>  
+    </table>  
+
+<script>  
+    $(document).ready(function(){  
+        $('#data-table').DataTable({  
+            "ajax":     "http://localhost/publictransportcloud/api/ProdajnoMjesto/read.php",  
+            "columns"     :     [  
+                {     "data"     :     "id"},  
+                {     "data"     :     "naziv"},
+                {     "data"     :     "lat"},
+                {     "data"     :     "lng"},
+                {     "data"     :     "adresa"},
+                {     "data"     :     "grad_id"},
+                {     "data"     :     "grad"},
+            ]  
+        }); 
+    }); 
+</script>  
+
+</body>
+</html>
+

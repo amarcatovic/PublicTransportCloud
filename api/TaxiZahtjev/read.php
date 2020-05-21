@@ -23,12 +23,17 @@
           extract($row);
 
           $cat_item = array(
+            'id' => $id_zahtjev,
             'lokacija' => $lokacija,
             'vrijeme' => $vrijeme,
             'ocjena' => $ocjena,
             'cijena' => $cijena,
             'vrijemeDolaska' => $vrijemeDolaska,
-            'status' => $status
+            'status' => $status,
+            'marka' => $marka,
+            'model' => $model,
+            'boja' => $boja,
+            'ocjenaVozac' => $ocjenaVozac,
           );
 
           array_push($cat_arr['data'], $cat_item);

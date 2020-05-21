@@ -19,7 +19,7 @@
   $taxi->opis = $data->opis;
   $taxi->korisnik_id = $data->id;
 
-  if($taxi->opis == '')
+  if($taxi->lokacija == '')
     die;
     
   if($taxi->create()) {

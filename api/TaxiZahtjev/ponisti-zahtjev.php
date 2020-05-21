@@ -16,7 +16,6 @@
   $data = json_decode(file_get_contents("php://input"));
 
   $taxi->id_zahtjev = $data->id;
-  $taxi->status = 'Na Čekanju';
 
   if($taxi->cancel()) {
     echo json_encode(

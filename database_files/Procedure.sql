@@ -212,15 +212,16 @@ DELIMITER;
 DELIMITER //
 CREATE PROCEDURE `GetKorisnik`(_id INT)
 BEGIN
-	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, K.brojKartice, K.stanje
+	SELECT KA.id_korisnik, KA.ime, KA.prezime, KA.email, KA.datumRodjenja, KA.grad_id, G.naziv grad, K.brojKartice, K.stanje, D.naziv drzava
     FROM KorisnikAplikacije KA JOIN Korisnik K
     ON KA.id_korisnik = K.id_korisnik JOIN Grad G
-    ON KA.grad_id = G.id_grad
+    ON KA.grad_id = G.id_grad JOIN Drzava D
+    ON D.id_drzava = G.drzava_id
     WHERE KA.id_korisnik = _id;
 END//
 DELIMITER;                           
 #DROP PROCEDURE GetKorisnik;
-#CALL GetKorisnik(2); /* Primjer poziva */
+#CALL GetKorisnik(7); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetStanjeById`(_id INT)
@@ -720,16 +721,20 @@ DELIMITER;
 DELIMITER //
 CREATE PROCEDURE `GetTaxiZahtjeviKorisnik`(_korisnik INT)
 BEGIN
-	SELECT TZ.lokacija, 
+	SELECT TZ.id_zahtjev, TZ.lokacija, A.marka, A.model, A.boja, TZ.vozac_id IS NOT NULL,
+		   (SELECT AVG(ocjena) FROM TaxiZahtjev WHERE vozac_id = TZ.vozac_id) ocjenaVozac,
 		   IF((DATE_SUB(NOW(),INTERVAL 5 MINUTE) < TZ.vrijemeZahtjeva) OR TZ.vozac_id IS NOT NULL, TZ.vrijemeZahtjeva, 'Istekao') vrijeme, 
 		   TZ.ocjena, TZ.cijena, TZ.vrijemeDolaska, TZ.status
-    FROM TaxiZahtjev TZ
-    WHERE korisnik_id = _korisnik;
+    FROM TaxiZahtjev TZ LEFT JOIN TaxiVozac TV 
+    ON TZ.vozac_id = TV.id_vozac LEFT JOIN Automobil A
+    ON TV.automobil_id = A.id_automobil
+    WHERE korisnik_id = _korisnik
+    ORDER BY TZ.vrijemeZahtjeva DESC;
 		
 END//
 DELIMITER;                           
 #DROP PROCEDURE GetTaxiZahtjeviKorisnik;
-#CALL GetTaxiZahtjeviKorisnik(1); /* Primjer poziva */
+#CALL GetTaxiZahtjeviKorisnik(7); /* Primjer poziva */
 
 DELIMITER //
 CREATE PROCEDURE `GetTaxiZahtjeviVozac`()

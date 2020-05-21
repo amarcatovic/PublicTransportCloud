@@ -8,6 +8,7 @@ private $table='Korisnik';
 public $id_korisnik;
 public $brojKartice;
 public $stanje;
+public $drzava;
 
 
 // METODE
@@ -43,6 +44,7 @@ $query = 'CALL GetKorisnik(?)';
   $this->grad = $row['grad'];
   $this->brojKartice = $row['brojKartice'];
   $this->stanje = $row['stanje'];
+  $this->drzava = $row['drzava'];
 }
 
 public function getIdFromKartica(){

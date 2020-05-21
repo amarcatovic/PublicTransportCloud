@@ -23,7 +23,8 @@
     'grad_id' => $user->grad_id,
     'grad' => $user->grad,
     'brojKartice' => $user->brojKartice,
-    'stanje' => $user->stanje
+    'stanje' => $user->stanje,
+    'drzava' => $user->drzava
   );
 
   print_r(json_encode($category_arr));

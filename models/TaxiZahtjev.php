@@ -58,7 +58,7 @@ class TaxiZahtjev{
 }
 
 public function cancel() {
-  $query = 'CALL PonistiTaxiVoznju(?)';
+  $query = 'DELETE FROM TaxiZahtjev WHERE id_zahtjev = ?';
 
   $stmt = $this->conn->prepare($query);
 

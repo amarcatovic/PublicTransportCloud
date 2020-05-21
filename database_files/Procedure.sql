@@ -692,6 +692,22 @@ DELIMITER;
 #DROP PROCEDURE LinijaPlacena;
 #CALL LinijaPlacena(5, 23); /* Primjer poziva */
 
+DELIMITER //
+CREATE PROCEDURE `GetPlaceneLinije`(_korisnik INT)
+BEGIN
+	SELECT S1.naziv polaziste, S2.naziv odrediste, LP.vrijemePlacanja, LP.kolicina
+    FROM LinijaPlacanje LP JOIN Linija L 
+    ON 	 LP.linija_id = L.id_linija	JOIN Relacija R
+    ON   L.relacija_id = R.id_relacija JOIN Stanica S1
+    ON   R.polaziste_id = S1.id_stanica JOIN Stanica S2
+    ON   R.odrediste_id = S2.id_stanica
+    WHERE LP.korisnik_id = _korisnik
+    ORDER BY LP.vrijemePlacanja DESC;		
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetPlaceneLinije;
+#CALL GetPlaceneLinije(7); /* Primjer poziva */
+
 /* ---------------------------------------------------------------------------------------------------------------------------
 													TAXI ZAHTJEV
  ---------------------------------------------------------------------------------------------------------------------------*/ 

@@ -41,6 +41,7 @@
         'datumRodjenja' => $user->datumRodjenja,
         'grad_id' => $user->grad_id,
         'grad' => $user->grad,
+        'drzava' => $user->drzava,
         'uloga' => $user->uloga,
         'brojKartice' => $korisnik->brojKartice,
         'stanje' => $korisnik->stanje

@@ -26,7 +26,8 @@
             'polaziste' => $polaziste,
             'odrediste' => $odrediste,
             'datum' => $vrijemePlacanja,
-            'cijena' => $kolicina
+            'cijena' => $kolicina,
+            'vozilo' => $vozilo
           );
 
           array_push($cat_arr['data'], $cat_item);

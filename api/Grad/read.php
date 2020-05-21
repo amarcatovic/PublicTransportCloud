@@ -26,7 +26,8 @@
             'naziv' => $naziv,
             'drzava_Id' => $drzava_id,
             'lat' => $lat,
-            'lng' => $lng
+            'lng' => $lng,
+            'drzava' => $drzava
            );
 
           array_push($cat_arr['data'], $cat_item);

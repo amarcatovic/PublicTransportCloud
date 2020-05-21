@@ -36,10 +36,11 @@ DELIMITER;
 DELIMITER //
 CREATE PROCEDURE `Login` (_email NVARCHAR(100))
 BEGIN
-	SELECT K.id_korisnik, K.ime, K.prezime, K.email, K.passwordHash, K.datumRodjenja, K.grad_id, G.naziv grad, U.naziv uloga
+	SELECT K.id_korisnik, K.ime, K.prezime, K.email, K.passwordHash, K.datumRodjenja, K.grad_id, G.naziv grad, U.naziv uloga, D.naziv drzava
     FROM Uloga U JOIN KorisnikAplikacije K 
     ON K.uloga_id = U.id_uloga JOIN Grad G
-    ON K.grad_id = G.id_grad
+    ON K.grad_id = G.id_grad JOIN Drzava D
+    ON D.id_drzava = G.drzava_id
     WHERE _email = K.email;
 END//
 DELIMITER;                           
@@ -73,7 +74,9 @@ DELIMITER;
 DELIMITER //
 CREATE PROCEDURE `GetGradovi` ()
 BEGIN
-	SELECT * FROM Grad;
+	SELECT G.id_grad, G.naziv, G.lat, G.lng, G.drzava_id, D.naziv drzava 
+    FROM Grad G JOIN Drzava D
+    ON G.drzava_id = D.id_drzava;
 END//
 DELIMITER;                           
 #DROP PROCEDURE GetGradovi;
@@ -695,10 +698,11 @@ DELIMITER;
 DELIMITER //
 CREATE PROCEDURE `GetPlaceneLinije`(_korisnik INT)
 BEGIN
-	SELECT S1.naziv polaziste, S2.naziv odrediste, LP.vrijemePlacanja, LP.kolicina
+	SELECT S1.naziv polaziste, S2.naziv odrediste, LP.vrijemePlacanja, LP.kolicina, TV.naziv vozilo
     FROM LinijaPlacanje LP JOIN Linija L 
     ON 	 LP.linija_id = L.id_linija	JOIN Relacija R
-    ON   L.relacija_id = R.id_relacija JOIN Stanica S1
+    ON   L.relacija_id = R.id_relacija JOIN TipVozila TV
+    ON   R.tipVozila_id = TV.id_tip JOIN Stanica S1
     ON   R.polaziste_id = S1.id_stanica JOIN Stanica S2
     ON   R.odrediste_id = S2.id_stanica
     WHERE LP.korisnik_id = _korisnik

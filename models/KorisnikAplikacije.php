@@ -14,6 +14,7 @@ class KorisnikAplikacije {
     public $grad;
     public $uloga_id;
     public $uloga;
+    public $drzava;
 
     // METODE
     public function __construct($db) {
@@ -47,6 +48,7 @@ class KorisnikAplikacije {
     $this->passwordHash = $row['passwordHash'];
     $this->grad_id = $row['grad_id'];
     $this->grad = $row['grad'];
+    $this->drzava = $row['drzava'];
     $this->uloga = $row['uloga'];
       
   }

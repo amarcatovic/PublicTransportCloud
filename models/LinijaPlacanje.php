@@ -8,6 +8,7 @@ class LinijaPlacanje{
     public $korisnik_id;
     public $vrijemePlacanja;
     public $kolicina;
+    public $vozilo;
 
     // METODE
     public function __construct($db) {

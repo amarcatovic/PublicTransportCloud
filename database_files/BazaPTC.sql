@@ -19,6 +19,12 @@ CREATE TABLE Grad(
     CONSTRAINT FK_grad_drzava FOREIGN KEY (drzava_id) REFERENCES Drzava(id_drzava)
 );
 
+ALTER TABLE Grad
+ADD lat FLOAT(10, 6) NOT NULL;
+
+ALTER TABLE Grad
+ADD	lng FLOAT(10, 6) NOT NULL;
+
 /* 3 */
 CREATE TABLE Uloga(
 	id_uloga INT AUTO_INCREMENT,

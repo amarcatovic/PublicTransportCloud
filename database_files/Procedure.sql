@@ -737,16 +737,28 @@ DELIMITER;
 #CALL GetTaxiZahtjeviKorisnik(7); /* Primjer poziva */
 
 DELIMITER //
-CREATE PROCEDURE `GetTaxiZahtjeviVozac`()
+CREATE PROCEDURE `GetTaxiZahtjeviVozac`(_grad INT)
 BEGIN
 	SELECT TZ.id_zahtjev, TZ.lokacija, TZ.opis, TZ.vrijemeZahtjeva, TZ.status
     FROM TaxiZahtjev TZ
-    WHERE DATE_SUB(NOW(),INTERVAL 5 MINUTE) < TZ.vrijemeZahtjeva AND NOT status = 'Prihvaćen';		
+    WHERE DATE_SUB(NOW(),INTERVAL 5 MINUTE) < TZ.vrijemeZahtjeva AND status = 'Na Čekanju' AND TZ.grad_id = _grad;		
 END//
 DELIMITER;                           
 #DROP PROCEDURE GetTaxiZahtjeviVozac;
-#CALL GetTaxiZahtjeviVozac(); /* Primjer poziva */
+#CALL GetTaxiZahtjeviVozac(1); /* Primjer poziva */
 
+DELIMITER //
+CREATE PROCEDURE `GetAllZahtjeviVozac`(_vozac INT)
+BEGIN
+	SELECT id_zahtjev, status, ocjena
+    FROM TaxiZahtjev 
+    WHERE vozac_id = _vozac
+    ORDER BY vrijemeZahtjeva DESC
+    LIMIT 1;
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetAllZahtjeviVozac;
+#CALL GetAllZahtjeviVozac(3); /* Primjer poziva */
 DELIMITER //
 CREATE PROCEDURE `PrihvatiTaxiVoznju`(_id INT, _vozac INT, _time DATETIME)
 BEGIN

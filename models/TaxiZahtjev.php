@@ -13,6 +13,7 @@ class TaxiZahtjev{
     public $vrijemeDolaska;
     public $ocjena;
     public $cijena;
+    public $grad_id;
 
     // METODE
     public function __construct($db) {
@@ -30,10 +31,22 @@ class TaxiZahtjev{
       return $stmt;
     }
 
-    public function GetAktivni() {
-      $query = 'CALL GetTaxiZahtjeviVozac()';
+    public function getStatus() {
+      $query = 'CALL GetAllZahtjeviVozac(?)';
 
       $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->vozac_id);
+      $stmt->execute();
+
+      return $stmt;
+    }
+
+
+    public function GetAktivni() {
+      $query = 'CALL GetTaxiZahtjeviVozac(?)';
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->grad_id);
       $stmt->execute();
 
       return $stmt;
@@ -137,14 +150,15 @@ public function GetCijenaVoznje(){
 
   // POST
   public function create() {
-    $query = 'INSERT INTO ' . $this->table . ' (korisnik_id, lokacija, opis, vrijemeZahtjeva)
-    VALUES(:id, :loc, :opis, CURRENT_TIMESTAMP())';
+    $query = 'INSERT INTO ' . $this->table . ' (korisnik_id, grad_id, lokacija, opis, vrijemeZahtjeva)
+    VALUES(:id, :city, :loc, :opis, CURRENT_TIMESTAMP())';
 
   $stmt = $this->conn->prepare($query);
   $this->lokacija = htmlspecialchars(strip_tags($this->lokacija));
   $this->opis = htmlspecialchars(strip_tags($this->opis));
 
   $stmt-> bindParam(':id', $this->korisnik_id);
+  $stmt-> bindParam(':city', $this->grad_id);
   $stmt-> bindParam(':loc', $this->lokacija);
   $stmt-> bindParam(':opis', $this->opis);
 

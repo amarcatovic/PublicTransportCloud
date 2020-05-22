@@ -288,3 +288,9 @@ CREATE TABLE TaxiZahtjev(
     CONSTRAINT FK_TZ_Korisnik FOREIGN KEY (korisnik_id) REFERENCES Korisnik(id_korisnik),
     CONSTRAINT FK_TZ_TaxiVozac FOREIGN KEY (vozac_id) REFERENCES TaxiVozac(id_vozac)
 );
+
+ALTER TABLE TaxiZahtjev
+ADD grad_id INT NOT NULL;
+
+ALTER TABLE TaxiZahtjev
+ADD CONSTRAINT FK_TZ_Grad FOREIGN KEY (grad_id) REFERENCES Grad(id_grad);

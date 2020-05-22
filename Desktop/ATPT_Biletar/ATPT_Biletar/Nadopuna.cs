@@ -48,7 +48,7 @@ namespace ATPT_Biletar
                 {
                     brojKartice = textBox1.Text,
                     kolicina = textBox2.Text,
-                    prodajnoMjesto_id = "1"
+                    prodajnoMjesto_id = "2"
                 });
                 streamWriter.Write(json);
                 streamWriter.Flush();

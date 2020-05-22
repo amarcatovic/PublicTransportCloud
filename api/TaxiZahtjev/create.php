@@ -18,6 +18,7 @@
   $taxi->lokacija = $data->lokacija;
   $taxi->opis = $data->opis;
   $taxi->korisnik_id = $data->id;
+  $taxi->grad_id = $data->grad_id;
 
   if($taxi->lokacija == '')
     die;

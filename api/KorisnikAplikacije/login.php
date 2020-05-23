@@ -109,6 +109,20 @@
           'uloga' => $user->uloga
           )
       );
+    }else
+    {
+      echo json_encode(
+        array('login' => 'OK',
+        'id' => $user->id_korisnik,
+        'ime' => $user->ime,
+        'prezime' => $user->prezime,
+        'emai' => $user->email,
+        'datumRodjenja' => $user->datumRodjenja,
+        'grad_id' => $user->grad_id,
+        'grad' => $user->grad,
+        'uloga' => $user->uloga
+        )
+      );
     }
 
     /*echo json_encode(

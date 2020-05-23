@@ -277,7 +277,7 @@ DELIMITER;
 #CALL GetBiletare(); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
-													BILETAR
+													REVIZOR
  ---------------------------------------------------------------------------------------------------------------------------*/
 DELIMITER //
 CREATE PROCEDURE `GetRevizore`()
@@ -291,6 +291,17 @@ END//
 DELIMITER;                           
 #DROP PROCEDURE GetRevizore;
 #CALL GetRevizore(); /* Primjer poziva */
+
+DELIMITER //
+CREATE PROCEDURE `ProvjeraKarte`(_linija INT, _id INT)
+BEGIN 
+	SELECT COUNT(*) broj
+    FROM LinijaPlacanje
+    WHERE linija_id = _linija AND korisnik_id = _id;
+END//
+DELIMITER;                           
+#DROP PROCEDURE ProvjeraKarte;
+#CALL ProvjeraKarte(23, 7); /* Primjer poziva */
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													VOZAC
@@ -680,6 +691,19 @@ END//
 DELIMITER;                           
 #DROP PROCEDURE UpdateStanicuLinije;
 #CALL UpdateStanicuLinije(14, 5); /* Primjer poziva */ 
+
+DELIMITER //
+CREATE PROCEDURE `GetLinijaVozila`(_vozilo CHAR(9))
+BEGIN
+	SELECT id_linija 
+    FROM Linija 
+    WHERE vozilo_id = _vozilo AND status = "U toku"
+    LIMIT 1;
+    
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetLinijaVozila;
+#CALL GetLinijaVozila('A00-A-001'); /* Primjer poziva */ 
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													LINIJA PLACANJE

@@ -8,7 +8,9 @@ private $table='Revizor';
 public $id_revizor;
 public $prevoznik_id;
 public $brojDozvole;
-
+public $vozilo_id;
+public $linija_id;
+public $korisnik_id;
 
 // METODE
 public function __construct($db) {
@@ -20,6 +22,27 @@ public function get() {
   $query = 'CALL GetRevizore()';
 
   $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+
+  return $stmt;
+}
+
+public function getLinijaID() {
+  $query = 'CALL GetLinijaVozila(?)';
+
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(1, $this->vozilo_id);
+  $stmt->execute();
+
+  return $stmt;
+}
+
+public function provjera() {
+  $query = 'CALL ProvjeraKarte(?, ?)';
+
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(1, $this->linija_id);
+  $stmt->bindParam(2, $this->korisnik_id);
   $stmt->execute();
 
   return $stmt;

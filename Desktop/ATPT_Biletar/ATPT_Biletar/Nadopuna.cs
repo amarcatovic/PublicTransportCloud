@@ -22,7 +22,7 @@ namespace ATPT_Biletar
         }
         private void Ucitaj()
         {
-            SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
             if (!port.IsOpen)
             {
                 port.Open();

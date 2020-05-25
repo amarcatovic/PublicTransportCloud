@@ -37,6 +37,17 @@ class Linija{
       return $stmt;
     }
 
+    // GET
+    public function getStaniceRelacije() {
+      $query = 'CALL GetStaniceRelacije(?)';
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->relacija_id);
+      $stmt->execute();
+
+      return $stmt;
+    }
+
   public function read_single(){
     $query = 'CALL GetAktivnaLinija(?)';
 

@@ -29,6 +29,17 @@ class Stanica{
       return $stmt;
     }
 
+    // GET
+    public function getRelacije() {
+      $query = 'CALL GetRelacijePoStanici(?)';
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(1, $this->id_stanica);
+      $stmt->execute();
+
+      return $stmt;
+    }
+
   public function read_single(){
     $query = 'CALL GetStanica(?)';
 

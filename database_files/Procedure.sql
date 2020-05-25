@@ -627,6 +627,7 @@ CREATE PROCEDURE `GetAktivneLinije`(_grad INT, _tip INT)
 BEGIN
 	SELECT 
 		L.id_linija,
+        L.relacija_id,
 		(SELECT naziv FROM Stanica WHERE id_stanica = R.polaziste_id) polaziste, 
         (SELECT naziv FROM Stanica WHERE id_stanica = R.odrediste_id) odrediste,
         L.planiraniPolazak,
@@ -699,6 +700,21 @@ BEGIN
     FROM Linija 
     WHERE vozilo_id = _vozilo AND status = "U toku"
     LIMIT 1;
+    
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetLinijaVozila;
+#CALL GetLinijaVozila('A00-A-001'); /* Primjer poziva */ 
+
+DELIMITER //
+CREATE PROCEDURE `GetStaniceLinije`(_vozilo CHAR(9))
+BEGIN
+	SELECT *
+    FROM Linija L JOIN Relacija R
+    ON L.relacija_id = R.id_relacija JOIN RelacijaStanica RS
+    ON R.id_relacija = RS.relacija_id JOIN Stanica S
+    ON RS.stanica_id = S.id_stanica
+    WHERE vozilo_id = _vozilo AND status = "U toku"
     
 END//
 DELIMITER;                           

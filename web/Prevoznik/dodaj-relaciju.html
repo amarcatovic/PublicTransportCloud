@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dodaj relaciju</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div id="top">
+        <nav id="navigacija"><img src="../images/logo.svg" alt="ATPT logo" width="50px">Administracija</nav>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategorija
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="dodaj-drzavu.html">Dodaj drzavu</a>
+              <a class="dropdown-item" href="dodaj-grad.html">Dodaj grad</a>
+              <a class="dropdown-item" href="dodaj-tip-prevoznika.html">Dodaj tip prevoznika</a>
+              <a class="dropdown-item" href="dodaj-prevoznika.html">Dodaj prevoznika</a>
+              <a class="dropdown-item" href="dodaj-stanicu.html">Dodaj stanicu</a>
+              <a class="dropdown-item" href="dodaj-vozilo.html">Dodaj vozilo</a>
+              <a class="dropdown-item" href="dodaj-relaciju.html">Dodaj relaciju</a>
+            </div>
+          </div>
+
+        <h2>Dodaj relaciju</h2>
+        <div id="unos">
+            <div id="polje">
+                <!-- <label for="prevoznik-dropdown">Prevoznik:</label> -->
+                <select id="prevoznik-dropdown" onchange="getIdPrevoznikFromSelect()">
+                    <option value="" disabled selected hidden>Prevoznik</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="interval-dropdown">Interval:</label> -->
+                <select id="interval-dropdown" onchange="getIdIntervalFromSelect()">
+                    <option value="" disabled selected hidden>Interval</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="tip-dropdown">Tip:</label> -->
+                <select id="tip-dropdown" onchange="getIdTipFromSelect()">
+                    <option value="" disabled selected hidden>Tip</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="polaziste-dropdown">Polaziste:</label> -->
+                <select id="polaziste-dropdown" onchange="getIdPolazisteFromSelect()">
+                    <option value="" disabled selected hidden>Polaziste</option>
+                </select>
+                <select id="polaziste-grad-dropdown" onchange="ucitajStanicePolaziste()">
+                    <option value="" disabled selected hidden>Grad polazišta</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="odrediste-dropdown">Odrediste:</label> -->
+                <select id="odrediste-dropdown" onchange="getIdOdredisteFromSelect()">
+                    <option value="" disabled selected hidden>Odrediste</option>
+                </select>
+                <select id="odrediste-grad-dropdown" onchange="ucitajStaniceOdredista()">
+                    <option value="" disabled selected hidden>Grad odredišta</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="cijena-relacija">Cijena:</label> -->
+                <input id="cijena-relacija" type="text" placeholder="Cijena">
+            </div>
+            
+            <button id="btnDodaj" onclick="dodajRelacija()">Dodaj</button>
+        </div>
+    </div>
+
+    <script>
+        let polaziste_id = 1
+        let odrediste_id = 1
+
+
+        let intervalDropdown = document.getElementById('interval-dropdown')
+        intervalDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Interval';
+
+        intervalDropdown.add(defaultOption)
+        intervalDropdown.selectedIndex = 0
+
+        const url = 'http://localhost/publictransportcloud/api/IntervalRelacije/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                intervalDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdIntervalFromSelect = () => {
+            var g = document.getElementById("intervla-dropdown").options[document.getElementById("interval-dropdown").selectedIndex].value;
+        }
+// --------------------------------------------------------------------------------
+        
+        {let tipDropdown = document.getElementById('tip-dropdown')
+        tipDropdown.length = 0
+
+        let defaultOptionp = document.createElement('option')
+        defaultOptionp.text = 'Tip ';
+
+        tipDropdown.add(defaultOptionp)
+        tipDropdown.selectedIndex = 0
+
+        const urlp = 'http://localhost/publictransportcloud/api/TipVozila/read.php'
+
+        fetch(urlp).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                tipDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdTipFromSelect = () => {
+            var p = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+    }
+    }
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
+        
+{let gradPolazisteDropdown = document.getElementById('polaziste-grad-dropdown')
+     gradPolazisteDropdown.length = 0
+
+        let defaultOptionp = document.createElement('option')
+        gradPolazisteDropdown.text = 'Tip ';
+
+        gradPolazisteDropdown.add(defaultOptionp)
+        gradPolazisteDropdown.selectedIndex = 0
+
+        const urlp = 'http://localhost/publictransportcloud/api/Grad/read.php'
+
+        fetch(urlp).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradPolazisteDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdTipFromSelect = () => {
+            var p = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+    }
+    }
+// --------------------------------------------------------------------------------
+
+    const ucitajStanicePolaziste = () => {
+        polaziste_id = document.getElementById("polaziste-grad-dropdown").options[document.getElementById("polaziste-grad-dropdown").selectedIndex].value
+        ucitajStanicePolazista()
+    } 
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
+        
+{let gradOdredistaDropdown = document.getElementById('odrediste-grad-dropdown')
+     gradOdredistaDropdown.length = 0
+
+        let defaultOptionp = document.createElement('option')
+        gradOdredistaDropdown.text = 'Tip ';
+
+        gradOdredistaDropdown.add(defaultOptionp)
+        gradOdredistaDropdown.selectedIndex = 0
+
+        const urlp = 'http://localhost/publictransportcloud/api/Grad/read.php'
+
+        fetch(urlp).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradOdredistaDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdTipFromSelect = () => {
+            var p = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+    }
+    }
+// --------------------------------------------------------------------------------
+
+    const ucitajStaniceOdredista = () => {
+        odrediste_id = document.getElementById("odrediste-grad-dropdown").options[document.getElementById("odrediste-grad-dropdown").selectedIndex].value
+        ucitajStaniceOdrediste()
+    } 
+
+// --------------------------------------------------------------------------------
+    {
+        let prevoznikDropdown = document.getElementById('prevoznik-dropdown')
+        prevoznikDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Izaberite Prevoznika...';
+
+        prevoznikDropdown.add(defaultOption)
+        prevoznikDropdown.selectedIndex = 0
+
+        const url = 'http://localhost/publictransportcloud/api/Prevoznik/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                prevoznikDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdPrevoznikFromSelect = () => {
+            var r = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
+        }
+    }
+
+// --------------------------------------------------------------------------------
+    const ucitajStanicePolazista = () => {
+        let polazisteDropdown = document.getElementById('polaziste-dropdown')
+        polazisteDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Odaberite polazište';
+
+        polazisteDropdown.add(defaultOption)
+        polazisteDropdown.selectedIndex = 0
+
+        const url = `http://localhost/publictransportcloud/api/Stanica/read.php?id=${polaziste_id}`
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                polazisteDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdPolazisteFromSelect = () => {
+            var r = document.getElementById("polaziste-dropdown").options[document.getElementById("polaziste-dropdown").selectedIndex].value;
+        }
+    }
+// --------------------------------------------------------------------------------
+
+const ucitajStaniceOdrediste = () => {
+    let odredisteDropdown = document.getElementById('odrediste-dropdown')
+        odredisteDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Odaberite odredište...';
+
+        odredisteDropdown.add(defaultOption)
+        odredisteDropdown.selectedIndex = 0
+
+        const url = `http://localhost/publictransportcloud/api/Stanica/read.php?id=${odrediste_id}`
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                odredisteDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdOdredisteFromSelect = () => {
+            var r = document.getElementById("odrediste-dropdown").options[document.getElementById("odrediste-dropdown").selectedIndex].value;
+        }
+}
+    </script>
+
+  
+    <script>
+    function clearInput(){
+        document.getElementById("cijena-relacija").value="";
+        document.getElementById("interval-dropdown").value="interval";
+        document.getElementById("tip-dropdown").value="Tip";
+        document.getElementById("prevoznik-dropdown").value="Prevoznik";
+        document.getElementById("polaziste-dropdown").value="Polaziste";
+        document.getElementById("odrediste-dropdown").value="Odrediste";
+
+
+
+        location.reload();
+    }
+    
+
+    const data = {}
+
+    const dodajRelacija = () => {
+        data.cijena = document.querySelector('#cijena-relacija').value
+        data.interval_id = document.getElementById("interval-dropdown").options[document.getElementById("interval-dropdown").selectedIndex].value;
+        data.tipVozila_id = document.getElementById("tip-dropdown").options[document.getElementById("tip-dropdown").selectedIndex].value;
+        data.prevoznik_id = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value
+        data.polaziste_id = document.getElementById("polaziste-dropdown").options[document.getElementById("polaziste-dropdown").selectedIndex].value
+        data.odrediste_id = document.getElementById("odrediste-dropdown").options[document.getElementById("odrediste-dropdown").selectedIndex].value
+
+        console.log(data)
+
+        fetch('http://localhost/publictransportcloud/api/Relacija/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        //clearInput();
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+        //clearInput()
+    }
+    </script>
+</body>
+</html>

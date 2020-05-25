@@ -10,9 +10,8 @@
 
   $linija = new Linija($db);
 
-  $linija->grad = isset($_GET['g']) ? $_GET['g'] : die();
-  $linija->tip = isset($_GET['t']) ? $_GET['t'] : die();
-  $result = $linija->get();
+  $linija->relacija_id = isset($_GET['id']) ? $_GET['id'] : die();
+  $result = $linija->getStaniceRelacije();
   
   $num = $result->rowCount();
 
@@ -24,16 +23,10 @@
           extract($row);
 
           $cat_item = array(
-            'id' => $id_linija,
-            'relacija_id' => $relacija_id,
-            'polaziste' => $polaziste,
-            'odrediste' => $odrediste,
-            'planiraniPolazak' => $planiraniPolazak,
-            'planiraniDolazak' => $planiraniDolazak,
-            'sljedecaStanica' => $sljedecaStanica,
-            'cijena' => $cijena,
-            'tip' => $tip,
-            'status' => $status, 
+            'naziv' => $naziv,
+            'lat' => $lat,
+            'lng' => $lng,
+            'tip' => $tip
           );
 
           array_push($cat_arr['data'], $cat_item);
@@ -43,6 +36,6 @@
 
   } else {
         echo json_encode(
-          array('message' => 'Nije pronađena ni jedna aktivna linija')
+          array('message' => 'Nije pronađena ni jedna stanica')
         );
   }

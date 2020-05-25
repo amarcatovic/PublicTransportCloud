@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dodaj stanice relaciji</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css"/>  
+    <script type="text/javascript" src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div id="top">
+        <nav id="navigacija"><img src="../images/logo.svg" alt="ATPT logo" width="50px">Administracija</nav>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kategorija
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="dodaj-automobil.html">Dodaj automobil</a>
+              <a class="dropdown-item" href="dodaj-biletar.html">Dodaj biletara</a>
+              <a class="dropdown-item" href="dodaj-korisnik.html">Dodaj korisnika</a>
+              <a class="dropdown-item" href="dodaj-korisnik-aplikacije.html">Dodaj korisnika aplikacije</a>
+              <a class="dropdown-item" href="dodaj-prodajno-mjesto.html">Dodaj prodajno mjesto</a>
+              <a class="dropdown-item" href="dodaj-relacija-stanica.html">Dodaj stanice relaciji</a>
+              <a class="dropdown-item" href="dodaj-revizor.html">Dodaj revizora</a>
+              <a class="dropdown-item" href="dodaj-taxi-vozac.html">Dodaj taxi vozača</a>
+              <a class="dropdown-item" href="dodaj-vozac.html">Dodaj vozača</a>
+            </div>
+          </div>
+
+        <h2>Dodaj stanice relaciji</h2>
+        <div id="unos">
+            <div id="polje">
+                <!-- <label for="relacija-dropdown">Relacija:</label> -->
+                <select id="prevoznik-dropdown" onchange="loadRelacije()">
+                    <option value="" disabled selected hidden>Prevoznik</option>
+                </select>
+            </div>
+            <div id="polje">
+                <!-- <label for="relacija-dropdown">Relacija:</label> -->
+                <select id="relacija-dropdown" onchange="loadStanice()">
+                    <option value="" disabled selected hidden>Relacija</option>
+                </select>
+            </div>
+            <h3>Stanice:</h3>
+            <div id="polje">
+                <!-- Ovdje idu sve informacije o stanicama -->
+                <div id="stanice"></div>
+            </div>
+
+            <div id="polje">
+                <!-- <label for="relacija-dropdown">Relacija:</label> -->
+                <select id="grad-dropdown" onchange="promijeniGrad()">
+                    <option value="" disabled selected hidden>Grad Stanice</option>
+                </select>
+            </div>
+
+            <button class="btnDodaj" onclick="novaStanica()">Nova Stanica</button>
+            <button class="btnDodaj btnIzbrisi" onclick="brisiZadnjuStanicu()">Izbriši Zadnju Stanicu</button>
+            <button class="btnDodaj btnSpasi" onclick="spasiPromjene()">Spasi Promjene</button>
+        </div>
+    </div>
+    
+    <script>
+        let prevoznikId = 0
+        let relacija_id = 0
+        let staniceGrad = []
+        let ids = []
+        let velicina = 0
+        let grad_id = 1
+
+        let relacijaDropdown = document.getElementById('relacija-dropdown')
+        let prevoznikDropdown = document.getElementById('prevoznik-dropdown')
+        let gradDropdown = document.getElementById('grad-dropdown')
+        relacijaDropdown.length = 0
+        prevoznikDropdown.length = 0
+        gradDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Odaberi relaciju';
+
+        let defaultOption2 = document.createElement('option')
+        defaultOption2.text = 'Prevoznik';
+
+        let defaultOption3 = document.createElement('option')
+        defaultOption3.text = 'Odeberi Grad...';
+
+        relacijaDropdown.add(defaultOption)
+        relacijaDropdown.selectedIndex = 0
+
+        prevoznikDropdown.add(defaultOption2)
+        prevoznikDropdown.selectedIndex = 0
+
+        gradDropdown.add(defaultOption3)
+        gradDropdown.selectedIndex = 0
+
+        const url = 'http://localhost/PublicTransportCloud/api/Relacija/read.php'
+        const url2 = 'http://localhost/publictransportcloud/api/Prevoznik/read.php'
+
+        //Za Prevoznika
+        fetch(url2).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                prevoznikDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        //Za Grad
+        fetch('http://localhost/publictransportcloud/api/Grad/read.php').then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                gradDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        
+        const loadStaniceZaGrad = (id) => {
+            //Za Stanice
+        fetch(`http://localhost/publictransportcloud/api/Stanica/read.php?id=${id}`).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                  staniceGrad = data.data 
+            })  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+        }
+
+        const promijeniGrad = () => {
+            grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value
+            loadStanice()
+        }
+
+        const getIdRelacijaFromSelect = () => {
+            var r = document.getElementById("relacija-dropdown").options[document.getElementById("relacija-dropdown").selectedIndex].value;
+        }
+
+        const getIdPrevoznikFromSelect = () => {
+            prevoznikId = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
+        }
+
+        const loadRelacije = () => {
+            let stanice = document.getElementById("stanice")
+
+             let child = stanice.lastElementChild;  
+             while (child) { 
+                stanice.removeChild(child)
+                child = stanice.lastElementChild
+             }
+            relacijaDropdown.length = 0
+            prevoznikId = document.getElementById("prevoznik-dropdown").options[document.getElementById("prevoznik-dropdown").selectedIndex].value;
+            const url = `http://localhost/PublicTransportCloud/api/Relacija/read.php?id=${prevoznikId}`
+            //Za Relaciju
+            fetch(url).then(  
+                function(response) {  
+                    if (response.status !== 200) {  
+                        console.warn('Error: ' + response.status)  
+                        return 
+                    }
+                response.json().then(function(data) {  
+                    let option
+
+                    option = document.createElement('option')
+                    option.text = "Odaberite Relaciju..."
+                    relacijaDropdown.add(option)
+                    for (let i = 0; i < data.data.length; i++) {
+                    option = document.createElement('option')
+                    option.text = data.data[i].polaziste + " - " + data.data[i].odrediste
+                    option.value = data.data[i].id
+                    relacijaDropdown.add(option)
+                    }    
+                });  
+                }  
+            )  
+            .catch(function(err) {  
+                console.error('Error -', err)
+          })
+          loadStanice()
+         }
+
+         const loadStanice = () => {
+            fetch(`http://localhost/publictransportcloud/api/Stanica/read.php?id=${grad_id}`).then(  
+                function(response) {  
+                if (response.status !== 200) {  
+                    console.warn('Error: ' + response.status)  
+                    return 
+                }
+                response.json().then(function(data) {  
+                    staniceGrad = data.data
+             relacija_id = document.getElementById("relacija-dropdown").options[document.getElementById("relacija-dropdown").selectedIndex].value
+             console.log(relacija_id)
+             let stanice = document.getElementById("stanice")
+
+             let child = stanice.lastElementChild;  
+             while (child) { 
+                stanice.removeChild(child)
+                child = stanice.lastElementChild
+             }
+
+
+            const url = `http://localhost/publictransportcloud/api/RelacijaStanica/readNiz.php?id=${relacija_id}`
+            //Za Stanice Prevoznika
+            fetch(url).then(  
+                function(response) {  
+                    if (response.status !== 200) {  
+                        console.warn('Error: ' + response.status)  
+                        return 
+                    }
+                response.json().then(function(data) {  
+                    try{
+                        ids = data.data[1]
+                        console.log("ids: " + ids)
+                    }
+                    catch(err)
+                    {
+                        ids = []
+                        velicina = 0
+                    }
+                    console.log("vel: " + velicina)
+                    for(let i = 0; i < ids.length; i++)
+                    {
+                        ids[i] = parseInt(ids[i])
+                    }
+                    let option
+                    velicina = data.data[0].length
+
+                    const imena = data.data[0]
+                    const idImena = data.data[1]
+                    console.log(imena[0], idImena)
+                    for (let i = 0; i < velicina; i++) {
+                        div = document.createElement('div')
+                        select = document.createElement('select')
+                        select.setAttribute("data-select-id", i)
+                        select.setAttribute("onChange", "updateNizStanica(this)")
+                        option1 = document.createElement('option')
+                        option1.setAttribute("data-id", 0)
+                        option1.text = imena[i]
+                        option1.value = idImena[i]
+                        select.add(option1)
+                        for(let j = 0; j < staniceGrad.length; j++){
+                            option = document.createElement('option')
+                            option.setAttribute("data-id", j)
+                            option.text = staniceGrad[j].naziv
+                            option.value = staniceGrad[j].id
+                            select.add(option)
+                        }
+                        div.appendChild(select)
+                        stanice.appendChild(div)
+                    }    
+                })}     
+            )  
+                .catch(function(err) {  
+                    console.error('Error -', err)
+                })
+                })  
+                }  
+            )  
+            .catch(function(err) {  
+                console.error('Error -', err)
+            })             
+         }
+
+         const updateNizStanica = (select) => {
+            console.log(ids)
+            let selected = select.options[select.selectedIndex];
+            ids[parseInt(select.getAttribute('data-select-id'))] = parseInt(selected.getAttribute('value'))
+            console.log(ids)
+             
+         }
+
+         const novaStanica = () => {
+            div = document.createElement('div')
+            select = document.createElement('select')
+            select.setAttribute("data-select-id", velicina++)
+            select.setAttribute("onChange", "updateNizStanica(this)")
+            for(let j = 0; j < staniceGrad.length; j++){
+                option = document.createElement('option')
+                option.setAttribute("data-id", j)
+                option.text = staniceGrad[j].naziv
+                option.value = staniceGrad[j].id
+                select.add(option)
+            }
+            ids.push(parseInt(staniceGrad[0].id))
+            div.appendChild(select)
+            stanice.appendChild(div)
+         } 
+
+         const brisiZadnjuStanicu = () => {
+             if(ids.length === 0)
+                return
+
+            velicina--
+             ids.pop()
+             let stanice = document.getElementById("stanice")
+             let child = stanice.lastElementChild;  
+             stanice.removeChild(child)
+             console.log(ids)
+         }
+
+    </script>
+
+    <script>
+    function clearInput(){
+        document.getElementById("relacija-dropdown").value="Relacija";
+        document.getElementById("stanica-relacija").value="";
+    }
+
+    function dodajStanica(){
+        let nizStanica = [];
+        nizStanica.add(option.dataset.stanicaID);
+    }
+
+    
+    const spasiPromjene = () => {
+
+        if(!confirm("Da li ste sigurni da želite spasiti promjene?"))
+            return;
+
+        const data = {}
+        data.ids = ids
+        data.relacija_id = relacija_id
+
+        console.log(data)
+
+        function onlyUnique(value, index, self) { 
+            return self.indexOf(value) === index;
+        }
+        var unique = ids.filter(onlyUnique)
+
+        if(unique.length != ids.length)
+        {
+            console.log("Različite veličine")
+            return;
+        }
+
+        fetch('http://localhost/publictransportcloud/api/RelacijaStanica/create.php', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data)
+        })
+        .catch((error) => {
+        console.error('Error:', error)
+        })
+    }
+
+    </script>
+
+</body>
+</html>

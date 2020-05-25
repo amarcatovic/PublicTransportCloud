@@ -25,7 +25,8 @@ namespace ATPT_Biletar
         public static string stanje = "";
         private void Ucitaj()
         {
-            SerialPort port = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
+            textBox8.Text = "";
+            SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
             if (!port.IsOpen)
             {
                 port.Open();

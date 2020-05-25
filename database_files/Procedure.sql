@@ -522,6 +522,21 @@ DELIMITER;
 #DROP PROCEDURE GetStanica;
 #CALL GetStanica(1); /* Primjer poziva */
 
+DELIMITER //
+CREATE PROCEDURE `GetRelacijePoStanici`(_id INT)
+BEGIN
+	SELECT S1.naziv polaziste, S2.naziv odrediste
+    FROM RelacijaStanica RS JOIN Stanica S
+    ON S.id_stanica = RS.stanica_id JOIN Relacija R
+    ON RS.relacija_id = R.id_relacija JOIN Stanica S1
+    ON R.polaziste_id = S1.id_stanica JOIN Stanica S2 
+    ON R.odrediste_id = S2.id_stanica
+    WHERE S.id_stanica = _id;
+END//
+DELIMITER;                           
+#DROP PROCEDURE GetRelacijePoStanici;
+#CALL GetRelacijePoStanici(1); /* Primjer poziva */
+
 /* ---------------------------------------------------------------------------------------------------------------------------
 													RELACIJA
  ---------------------------------------------------------------------------------------------------------------------------*/
@@ -707,19 +722,18 @@ DELIMITER;
 #CALL GetLinijaVozila('A00-A-001'); /* Primjer poziva */ 
 
 DELIMITER //
-CREATE PROCEDURE `GetStaniceLinije`(_vozilo CHAR(9))
+CREATE PROCEDURE `GetStaniceRelacije`(_relacija INT)
 BEGIN
-	SELECT *
-    FROM Linija L JOIN Relacija R
-    ON L.relacija_id = R.id_relacija JOIN RelacijaStanica RS
+	SELECT S.naziv, S.lat, S.lng, TV.naziv tip
+	FROM Relacija R JOIN RelacijaStanica RS
     ON R.id_relacija = RS.relacija_id JOIN Stanica S
-    ON RS.stanica_id = S.id_stanica
-    WHERE vozilo_id = _vozilo AND status = "U toku"
-    
+    ON RS.stanica_id = S.id_stanica JOIN TipVozila TV
+    ON S.tip_id = TV.id_tip
+    WHERE R.id_relacija = _relacija;
 END//
 DELIMITER;                           
-#DROP PROCEDURE GetLinijaVozila;
-#CALL GetLinijaVozila('A00-A-001'); /* Primjer poziva */ 
+#DROP PROCEDURE GetStaniceRelacije;
+#CALL GetStaniceRelacije(1); /* Primjer poziva */ 
 
 /* ---------------------------------------------------------------------------------------------------------------------------
 													LINIJA PLACANJE

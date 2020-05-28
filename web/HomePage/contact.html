@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" media="screen and (max-width: 768px)" href="css/mobile.css">
+    <title>ATPT | Kontakt</title>
+</head>
+
+<body>
+
+    <header>
+        <nav id="navbar">
+            <div class="container">
+                <h1 class="logo"><a href="index.html"><span class="text-primary">ATPT</span> Application That Provides Transport</a></h1>
+                <ul>
+                    <li><a href="index.html">Početna</a></li>
+                    <li><a href="about.html">O nama</a></li>
+                    <li><a class="current" href="contact.html">Kontakt</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section id="contact-form" class="py-3">
+        <div class="container">
+            <h1 class="l-heading"><span class="text-primary">Kontaktirajte</span> nas</h1>
+            <p>Unesite Vaše podatke i poruku</p>
+            <form action="process.php">
+                <div class="form-group">
+                    <label for="name">Ime</label>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="message">Poruka</label>
+                    <textarea name="message" id="message"></textarea>
+                </div>
+                <button type="submit" class="btn">Pošalji</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="contact-info" class="bg-dark">
+        <div class="container">
+
+            <div class="box">
+                <img class="icon" src="http://pngimg.com/uploads/facebook_logos/facebook_logos_PNG19754.png" alt="">
+                <h3>Facebook</h3>
+                <button class="btn-fb"><a href="https://www.facebook.com/">Profil</a></button>
+            </div>
+
+            <div class="box">
+                <img class="icon" src="http://pngimg.com/uploads/instagram/instagram_PNG10.png" alt="">
+                <h3>Instagram</h3>
+                <button class="btn-fb"><a href="https://www.instagram.com/">Profil</a></button>
+            </div>
+
+            <div class="box">
+                <img class="icon" src="http://pngimg.com/uploads/gmail_logo/gmail_logo_PNG6.png" alt="">
+                <h3>Email Address</h3>
+                <p>tim2_atpt@size.ba</p>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
+</html>

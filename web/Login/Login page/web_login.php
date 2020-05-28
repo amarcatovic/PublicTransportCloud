@@ -2,6 +2,6 @@
 
 if($_POST["email"] == "admin@atpt.com")
 {
-    $url = 'http://localhost/publictransportcloud/web/Administracija-AM/dodaj-drzavu.html';
+    $url = 'http://localhost/publictransportcloud/web/Administrator/dodaj-prevoznika.html';
     header( "Location: $url" );
 }

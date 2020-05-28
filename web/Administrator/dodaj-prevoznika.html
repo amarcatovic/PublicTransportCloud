@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dodaj biletara</title>
+    <title>Dodaj prevoznika</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
@@ -39,28 +39,25 @@
             </div>
           </div>
 
-        <h2>Dodaj biletara</h2>
+        <h2>Dodaj prevoznika</h2>
         <div id="unos">
             <div id="polje">
-                <!-- <label for="ime-korisnikAplikacije">Ime:</label> -->
-                <input id="ime-korisnikAplikacije" type="text" placeholder="Ime">
+                <!-- <label for="naziv-prevoznik">Naziv:</label> -->
+                <input id="naziv-prevoznik" type="text" placeholder="Naziv">
             </div>
             <div id="polje">
-                <!-- <label for="prezime-korisnikAplikacije">Prezime:</label> -->
-                <input id="prezime-korisnikAplikacije" type="text" placeholder="Prezime">
+                <!-- <label for="telefon-prevoznik">Telefon:</label> -->
+                <input id="telefon-prevoznik" type="text" placeholder="Telefon">
             </div>
             <div id="polje">
-                <!-- <label for="email-korisnikAplikacije">Email adresa:</label> -->
-                <input id="email-korisnikAplikacije" type="email" placeholder="Email adresa">
+                <!-- <label for="email-prevoznik">Email adresa:</label> -->
+                <input id="email-prevoznik" type="email" placeholder="Email adresa">
             </div>
             <div id="polje">
-                <!-- <label for="password-korisnikAplikacije">Password:</label> -->
-                <input id="password-korisnikAplikacije" type="password" placeholder="Password">
+                <!-- <label for="password-prevoznik">Password:</label> -->
+                <input id="password-prevoznik" type="password" placeholder="Password">
             </div>
-            <div id="polje">
-                <!-- <label for="datumRodjenja-korisnikAplikacije">Datum rođenja:</label> -->
-                <input id="datumRodjenja-korisnikAplikacije" placeholder="Datum rođenja" class="textbox-n" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
-            </div>
+        
             <div id="polje">
                 <!-- <label for="grad-dropdown">Grad:</label> -->
                 <select id="grad-dropdown" onchange="getIdGradFromSelect()">
@@ -68,13 +65,13 @@
                 </select>
             </div>
             <div id="polje">
-                <!-- <label for="prodajnoMjesto-dropdown">Prodajno mjesto:</label> -->
-                <select id="prodajnoMjesto-dropdown" onchange="getIdProdajnoMjestoFromSelect()">
+                <!-- <label for="tipPrevoznika-dropdown">Prodajno mjesto:</label> -->
+                <select id="tipPrevoznika-dropdown" onchange="getIdTipPrevoznikaFromSelect()">
                     <option value="" disabled selected hidden>Prodajno mjesto</option>
                 </select>
             </div>
             
-            <button id="btnDodaj" onclick="dodajBiletar()">Dodaj</button>
+            <button id="btnDodaj" onclick="dodajPrevoznik()">Dodaj</button>
         </div>
     </div>
 
@@ -115,16 +112,16 @@
             var g = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
         }
 
-        let prodajnoMjestoDropdown = document.getElementById('prodajnoMjesto-dropdown')
-        prodajnoMjestoDropdown.length = 0
+        let tipPrevoznikaDropdown = document.getElementById('tipPrevoznika-dropdown')
+        tipPrevoznikaDropdown.length = 0
 
         let defaultOptionp = document.createElement('option')
-        defaultOptionp.text = 'Prodajno mjesto';
+        defaultOptionp.text = 'Tip prevoznika';
 
-        prodajnoMjestoDropdown.add(defaultOptionp)
-        prodajnoMjestoDropdown.selectedIndex = 0
+        tipPrevoznikaDropdown.add(defaultOptionp)
+        tipPrevoznikaDropdown.selectedIndex = 0
 
-        const urlp = 'http://localhost/PublicTransportCloud/api/ProdajnoMjesto/read.php'
+        const urlp = 'http://localhost/PublicTransportCloud/api/TipPrevoznika/read.php'
 
         fetch(urlp).then(  
             function(response) {  
@@ -138,7 +135,7 @@
                 option = document.createElement('option')
                 option.text = data.data[i].naziv
                 option.value = data.data[i].id
-                prodajnoMjestoDropdown.add(option)
+                tipPrevoznikaDropdown.add(option)
                 }    
             });  
             }  
@@ -147,58 +144,33 @@
             console.error('Error -', err)
         })
 
-        const getIdProdajnoMjestoFromSelect = () => {
-            var p = document.getElementById("prodajnoMjesto-dropdown").options[document.getElementById("prodajnoMjesto-dropdown").selectedIndex].value;
+        const getIdTipPrevoznikaFromSelect = () => {
+            var p = document.getElementById("tipPrevoznika-dropdown").options[document.getElementById("tipPrevoznika-dropdown").selectedIndex].value;
     }
     </script>
 
     <script>
     function clearInput(){
-        document.getElementById("ime-korisnikAplikacije").value="";
-        document.getElementById("prezime-korisnikAplikacije").value="";
-        document.getElementById("email-korisnikAplikacije").value="";
-        document.getElementById("password-korisnikAplikacije").value="";
-        document.getElementById("datumRodjenja-korisnikAplikacije").value="";
+        document.getElementById("naziv-prevoznik").value="";
+        document.getElementById("telefon-prevoznik").value="";
+        document.getElementById("email-prevoznik").value="";
+        document.getElementById("password-prevoznik").value="";
         document.getElementById("grad-dropdown").value="Grad";
-        document.getElementById("prodajnoMjesto-dropdown").value="Prodajno mjesto";
+        document.getElementById("tipPrevoznika-dropdown").value="Tip prevoznika";
         location.reload();
     }
     
-    // const dodajKorisnikAplikacije = () => {
-    //     data.ime = document.querySelector('#ime-korisnikAplikacije').value
-    //     data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
-    //     data.email = document.querySelector('#email-korisnikAplikacije').value
-    //     data.password = document.querySelector('#password-korisnikAplikacije').value
-    //     data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-    //     data.grad_id = g;
-    //     fetch('http://localhost/PublicTransportCloud/api/Biletar/create.php', {
-    //     method: 'POST', 
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data),
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //     console.log('Success:', data)
-    //     })
-    //     .catch((error) => {
-    //     console.error('Error:', error)
-    //     })
-    //     clearInput();
-    // }
 
     const data = {}
 
-    const dodajBiletar = () => {
-        data.ime = document.querySelector('#ime-korisnikAplikacije').value
-        data.prezime = document.querySelector('#prezime-korisnikAplikacije').value
-        data.email = document.querySelector('#email-korisnikAplikacije').value
-        data.password = document.querySelector('#password-korisnikAplikacije').value
+    const dodajPrevoznik = () => {
+        data.naziv = document.querySelector('#naziv-prevoznik').value
+        data.telefon = document.querySelector('#telefon-prevoznik').value
+        data.email = document.querySelector('#email-prevoznik').value
+        data.password = document.querySelector('#password-prevoznik').value
         data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
-        data.datum = document.querySelector('#datumRodjenja-korisnikAplikacije').value
-        data.prodajnoMjesto_id = document.getElementById("prodajnoMjesto-dropdown").options[document.getElementById("prodajnoMjesto-dropdown").selectedIndex].value;
-        fetch('http://localhost/publictransportcloud/api/Biletar/create.php', {
+        data.tip_id = document.getElementById("tipPrevoznika-dropdown").options[document.getElementById("tipPrevoznika-dropdown").selectedIndex].value;
+        fetch('http://localhost/publictransportcloud/api/Prevoznik/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -213,6 +185,7 @@
         .catch((error) => {
         console.error('Error:', error)
         })
+        clearInput()
     }
     </script>
 
@@ -220,12 +193,14 @@
     <thead>  
          <tr>  
               <th>Id</th>  
-              <th>Ime</th>
-              <th>Prezime</th>
+              <th>Naziv</th>
+              <th>Telefon</th>
               <th>Email</th>
-              <th>Datum rođenja</th>
+              <th>Grad_id</th>
               <th>Grad</th>
-              <th>Prodajno mjesto</th>
+              <th>Tip_id</th>
+              <th>Tip</th>
+             
          </tr>  
     </thead>  
 </table>  
@@ -233,15 +208,18 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://localhost/PublicTransportCloud/api/Biletar/read.php",  
+              "ajax":     "http://localhost/PublicTransportCloud/api/Prevoznik/read.php",  
               "columns"     :     [  
                    {     "data"     :     "id"     },  
-                   {     "data"     :     "ime"},
-                   {     "data"     :     "prezime"},
+                   {     "data"     :     "naziv"},
+                   {     "data"     :     "telefon"},
                    {     "data"     :     "email"},
-                   {     "data"     :     "datumRodjenja"},
                    {     "data"     :     "grad_id"},
-                   {     "data"     :     "prodajnoMjesto_id"}
+                   {     "data"     :     "grad"},
+                   {     "data"     :     "tip_id"},
+                   {     "data"     :     "tip"}
+                   
+                   
               ]  
          }); 
     }); 

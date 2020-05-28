@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dodaj automobil</title>
+    <title>Dodaj grad</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
@@ -38,54 +38,93 @@
 			  <a class="dropdown-item" href="dodaj-vozilo.html">Dodaj Vozilo</a>
             </div>
           </div>
+    
 
-    <h2>Dodaj automobil</h2>
+    <h2>Dodaj grad</h2>
     <div id="unos">
         <div id="polje">
-            <!-- <label for="id-automobil">Registracija:</label> -->
-            <input id="id-automobil" type="text" placeholder="Registracija">
+            <!-- <label for="drzava-dropdown">Drzava:</label> -->
+            <select id="drzava-dropdown" onchange="getIdDrzavaFromSelect()">
+                <option value="" disabled selected hidden>Drzava</option>
+            </select>
         </div>
         <div id="polje">
-            <!-- <label for="proizvodjac-automobil">Proizvođač:</label> -->
-            <input id="proizvodjac-automobil" type="text" placeholder="Proizvođač">
+            <!-- <label for="id-grad">Naziv:</label> -->
+            <input id="id-grad" type="text" placeholder="Naziv">
         </div>
         <div id="polje">
-            <!-- <label for="model-automobil">Model:</label> -->
-            <input id="model-automobil" type="text" placeholder="Model">
+            <!-- <label for="id-grad">Naziv:</label> -->
+            <input id="id-lat" type="text" placeholder="Latitude">
         </div>
         <div id="polje">
-            <!-- <label for="boja-automobil">Boja:</label> -->
-            <input id="boja-automobil" type="text" placeholder="Boja">
+            <!-- <label for="id-grad">Naziv:</label> -->
+            <input id="id-lng" type="text" placeholder="Longitude">
         </div>
         
-        <button id="btnDodaj" onclick="dodajAutomobil()" >Dodaj</button>
+        <button id="btnDodaj" onclick="dodajGrad()" >Dodaj</button>
     </div>
     </div>
     
+    <script>
+        let drzavaDropdown = document.getElementById('drzava-dropdown')
+        drzavaDropdown.length = 0
+
+        let defaultOption = document.createElement('option')
+        defaultOption.text = 'Drzava';
+
+        drzavaDropdown.add(defaultOption)
+        drzavaDropdown.selectedIndex = 0
+
+        const url = 'http://localhost/publictransportcloud/api/Drzava/read.php'
+
+        fetch(url).then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                drzavaDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+        const getIdDrzavaFromSelect = () => {
+            var r = document.getElementById("drzava-dropdown").options[document.getElementById("drzava-dropdown").selectedIndex].value;
+        }
+
+    </script>
     
 
     <script>
     function clearInput(){
-        document.getElementById("id-automobil").value="";
-        document.getElementById("proizvodjac-automobil").value="";
-        document.getElementById("model-automobil").value="";
-        document.getElementById("boja-automobil").value="";
-        location.reload();
+        document.getElementById("drzava-dropdown").value="Drzava";
+        document.getElementById("id-grad").value="";
     }
 
-    const data = {}
+    const noviGrad = {}
     
-    const dodajAutomobil = () => {
-        data.registracija = document.querySelector('#id-automobil').value
-        data.marka = document.querySelector('#proizvodjac-automobil').value
-        data.model = document.querySelector('#model-automobil').value
-        data.boja = document.querySelector('#boja-automobil').value
-        fetch('http://localhost/publictransportcloud/api/Automobil/create.php', {
+    const dodajGrad = () => {
+        noviGrad.naziv = document.querySelector('#id-grad').value
+        noviGrad.lat = document.querySelector('#id-lat').value
+        noviGrad.lng = document.querySelector('#id-lng').value
+        noviGrad.drzava_id = document.getElementById("drzava-dropdown").options[document.getElementById("drzava-dropdown").selectedIndex].value
+    
+        fetch('http://localhost/publictransportcloud/api/Grad/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(noviGrad),
         })
         .then(response => response.json())
         .then(data => {
@@ -95,17 +134,19 @@
         console.error('Error:', error)
         })
 
-        clearInput();
+        clearInput()
     }
     </script>
 
 <table id="data-table" class="table table-bordered">  
     <thead>  
-         <tr>
-              <th>Registracija</th>
-              <th>Proizvođač</th>
-              <th>Model</th>
-              <th>Boja</th>
+         <tr>    
+              <th>Id</th>
+              <th>Naziv</th>
+              <th>Drzava_id</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+         
          </tr>  
     </thead>  
 </table>  
@@ -113,12 +154,14 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://localhost/publictransportcloud/api/Automobil/read.php",  
-              "columns"     :     [
-                   {     "data"     :     "registracija"},
-                   {     "data"     :     "marka"},
-                   {     "data"     :     "model"},
-                   {     "data"     :     "boja"},
+              "ajax":     "http://localhost/publictransportcloud/api/Grad/read.php",  
+              "columns"     :     [  
+            
+                   {     "data"     :     "id"},
+                   {     "data"     :     "naziv"},
+                   {     "data"     :     "drzava_Id"},
+                   {     "data"     :     "lat"},
+                   {     "data"     :     "lng"},
               ]  
          }); 
     }); 

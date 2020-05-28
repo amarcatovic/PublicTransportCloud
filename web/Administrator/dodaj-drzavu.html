@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dodaj automobil</title>
+    <title>Dodaj drzavu</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
@@ -38,27 +38,15 @@
 			  <a class="dropdown-item" href="dodaj-vozilo.html">Dodaj Vozilo</a>
             </div>
           </div>
-
-    <h2>Dodaj automobil</h2>
+          
+    <h2>Dodaj drzavu</h2>
     <div id="unos">
         <div id="polje">
-            <!-- <label for="id-automobil">Registracija:</label> -->
-            <input id="id-automobil" type="text" placeholder="Registracija">
-        </div>
-        <div id="polje">
-            <!-- <label for="proizvodjac-automobil">Proizvođač:</label> -->
-            <input id="proizvodjac-automobil" type="text" placeholder="Proizvođač">
-        </div>
-        <div id="polje">
-            <!-- <label for="model-automobil">Model:</label> -->
-            <input id="model-automobil" type="text" placeholder="Model">
-        </div>
-        <div id="polje">
-            <!-- <label for="boja-automobil">Boja:</label> -->
-            <input id="boja-automobil" type="text" placeholder="Boja">
+            <!-- <label for="id-automobil">Naziv:</label> -->
+            <input id="id-drzava" type="text" placeholder="Naziv">
         </div>
         
-        <button id="btnDodaj" onclick="dodajAutomobil()" >Dodaj</button>
+        <button id="btnDodaj" onclick="dodajDrzava()" >Dodaj</button>
     </div>
     </div>
     
@@ -66,26 +54,21 @@
 
     <script>
     function clearInput(){
-        document.getElementById("id-automobil").value="";
-        document.getElementById("proizvodjac-automobil").value="";
-        document.getElementById("model-automobil").value="";
-        document.getElementById("boja-automobil").value="";
-        location.reload();
+        document.getElementById("id-drzava").value="";
+  
     }
 
-    const data = {}
+    const novaDrzava = {}
     
-    const dodajAutomobil = () => {
-        data.registracija = document.querySelector('#id-automobil').value
-        data.marka = document.querySelector('#proizvodjac-automobil').value
-        data.model = document.querySelector('#model-automobil').value
-        data.boja = document.querySelector('#boja-automobil').value
-        fetch('http://localhost/publictransportcloud/api/Automobil/create.php', {
+    const dodajDrzava = () => {
+        novaDrzava.naziv = document.querySelector('#id-drzava').value
+    
+        fetch('http://localhost/publictransportcloud/api/Drzava/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(novaDrzava),
         })
         .then(response => response.json())
         .then(data => {
@@ -95,17 +78,16 @@
         console.error('Error:', error)
         })
 
-        clearInput();
+        clearInput()
     }
     </script>
 
 <table id="data-table" class="table table-bordered">  
     <thead>  
-         <tr>
-              <th>Registracija</th>
-              <th>Proizvođač</th>
-              <th>Model</th>
-              <th>Boja</th>
+         <tr>    
+              <th>Id</th>
+              <th>Naziv</th>
+         
          </tr>  
     </thead>  
 </table>  
@@ -113,12 +95,11 @@
 <script>  
     $(document).ready(function(){  
          $('#data-table').DataTable({  
-              "ajax":     "http://localhost/publictransportcloud/api/Automobil/read.php",  
-              "columns"     :     [
-                   {     "data"     :     "registracija"},
-                   {     "data"     :     "marka"},
-                   {     "data"     :     "model"},
-                   {     "data"     :     "boja"},
+              "ajax":     "http://localhost/publictransportcloud/api/Drzava/read.php",  
+              "columns"     :     [  
+            
+                   {     "data"     :     "id"},
+                   {     "data"     :     "naziv"},
               ]  
          }); 
     }); 

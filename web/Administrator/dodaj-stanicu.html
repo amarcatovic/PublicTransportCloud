@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dodaj prodajno mjesto</title>
+    <title>Dodaj stanicu</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>  
@@ -39,23 +39,29 @@
             </div>
           </div>
 
-    <h2>Dodaj prodajno mjesto</h2>
+    <h2>Dodaj stanica</h2>
     <div id="unos">
         <div id="polje">
-            <!-- <label for="naziv-prodajnoMjesto">Naziv:</label> -->
-            <input id="naziv-prodajnoMjesto" type="text" placeholder="Naziv">
+            <!-- <label for="id-stanica">Naziv:</label> -->
+            <input id="id-stanica" type="text" placeholder="Naziv">
         </div>
         <div id="polje">
-            <!-- <label for="adresa-prodajnoMjesto">Adresa:</label> -->
-            <input id="adresa-prodajnoMjesto" type="text" placeholder="Adresa">
+            <!-- <label for="proizvodjac-stanica">Adresa:</label> -->
+            <input id="adresa-stanica" type="text" placeholder="Adresa">
         </div>
         <div id="polje">
-            <!-- <label for="lat-prodajnoMjesto">Geografska širina:</label> -->
-            <input id="lat-prodajnoMjesto" type="text" placeholder="Geografska širina">
+            <!-- <label for="proizvodjac-stanica">Adresa:</label> -->
+            <select id="tip-stanice" onchange="getIdGradFromSelect()">
+                <option value="" disabled selected hidden>Grad</option>
+            </select>
         </div>
         <div id="polje">
-            <!-- <label for="lon-prodajnoMjesto">Geografska dužina:</label> -->
-            <input id="lon-prodajnoMjesto" type="text" placeholder="Geografska dužina">
+            <!-- <label for="lat-stanica">Lat:</label> -->
+            <input id="lat-stanica" type="text" placeholder="Lat">
+        </div>
+        <div id="polje">
+            <!-- <label for="lng-stanica">Lng:</label> -->
+            <input id="lng-stanica" type="text" placeholder="Lng">
         </div>
         <div id="polje">
             <!-- <label for="grad-dropdown">Grad:</label> -->
@@ -64,19 +70,28 @@
             </select>
         </div>
         
-        <button id="btnDodaj" onclick="dodajProdajnoMjesto()">Dodaj</button>
+        <button id="btnDodaj" onclick="dodajStanica()" >Dodaj</button>
     </div>
     </div>
-
+    
     <script>
         let gradDropdown = document.getElementById('grad-dropdown')
         gradDropdown.length = 0
 
+        let tipDropdown = document.getElementById('tip-stanice')
+        tipDropdown.length = 0
+
         let defaultOption = document.createElement('option')
         defaultOption.text = 'Grad';
 
+        let defaultOption2 = document.createElement('option')
+        defaultOption2.text = 'Tip Stanice...';
+
         gradDropdown.add(defaultOption)
         gradDropdown.selectedIndex = 0
+
+        tipDropdown.add(defaultOption2)
+        tipDropdown.selectedIndex = 0
 
         const url = 'http://localhost/PublicTransportCloud/api/Grad/read.php'
 
@@ -105,24 +120,50 @@
             var g = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
         }
 
+        fetch('http://localhost/publictransportcloud/api/TipVozila/read.php').then(  
+            function(response) {  
+            if (response.status !== 200) {  
+                console.warn('Error: ' + response.status)  
+                return 
+            }
+            response.json().then(function(data) {  
+                let option
+                for (let i = 0; i < data.data.length; i++) {
+                option = document.createElement('option')
+                option.text = data.data[i].naziv
+                option.value = data.data[i].id
+                tipDropdown.add(option)
+                }    
+            });  
+            }  
+        )  
+        .catch(function(err) {  
+            console.error('Error -', err)
+        })
+
+    </script>
+
+    <script>
     function clearInput(){
-        document.getElementById("naziv-prodajnoMjesto").value="";
-        document.getElementById("adresa-prodajnoMjesto").value="";
-        document.getElementById("lat-prodajnoMjesto").value="";
-        document.getElementById("lon-prodajnoMjesto").value="";
+        document.getElementById("id-stanica").value="";
+        document.getElementById("adresa-stanica").value="";
+        document.getElementById("lat-stanica").value="";
+        document.getElementById("lng-stanica").value="";
         document.getElementById("grad-dropdown").value="Grad";
         location.reload();
     }
 
     const data = {}
     
-    const dodajProdajnoMjesto = () => {
-        data.naziv = document.querySelector('#naziv-prodajnoMjesto').value
-        data.adresa = document.querySelector('#adresa-prodajnoMjesto').value
-        data.lat = document.querySelector('#lat-prodajnoMjesto').value
-        data.lng = document.querySelector('#lon-prodajnoMjesto').value
-        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value;
-        fetch('http://localhost/PublicTransportCloud/api/ProdajnoMjesto/create.php', {
+    const dodajStanica = () => {
+        data.naziv = document.querySelector('#id-stanica').value
+        data.adresa = document.querySelector('#adresa-stanica').value
+        data.lat = document.querySelector('#lat-stanica').value
+        data.lng = document.querySelector('#lng-stanica').value
+        data.grad_id = document.getElementById("grad-dropdown").options[document.getElementById("grad-dropdown").selectedIndex].value
+        data.tip_id = document.getElementById("tip-stanice").options[document.getElementById("tip-stanice").selectedIndex].value
+        console.log(data)
+        fetch('http://localhost/publictransportcloud/api/Stanica/create.php', {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
@@ -132,44 +173,16 @@
         .then(response => response.json())
         .then(data => {
         console.log('Success:', data)
-        clearInput();
         })
         .catch((error) => {
         console.error('Error:', error)
         })
+
+        //clearInput();
     }
     </script>
 
-<table id="data-table" class="table table-bordered">  
-    <thead>  
-         <tr>  
-              <th>Id</th>  
-              <th>Naziv</th>
-              <th>Geografska širina</th>
-              <th>Geografska dužina</th>
-              <th>Adresa</th>
-              <th>Grad ID</th>
-              <th>Grad</th>
-         </tr>  
-    </thead>  
-</table>  
 
-<script>  
-    $(document).ready(function(){  
-         $('#data-table').DataTable({  
-              "ajax":     "http://localhost/publictransportcloud/api/ProdajnoMjesto/read.php",  
-              "columns"     :     [  
-                   {     "data"     :     "id"},  
-                   {     "data"     :     "naziv"},
-                   {     "data"     :     "lat"},
-                   {     "data"     :     "lng"},
-                   {     "data"     :     "adresa"},
-                   {     "data"     :     "grad_id"},
-                   {     "data"     :     "grad"},
-              ]  
-         }); 
-    }); 
-    </script>  
 
 </body>
 </html>

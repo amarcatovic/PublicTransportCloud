@@ -14,16 +14,16 @@
 			<img src="img/man.svg">
 		</div>
 		<div class="login-content">
-			<form id="login-form" onsubmit="return false;">
+			<form id="login-form" action="web_login.php" method="post">
 				<img src="img/logo.svg">
-				<h2 class="title">Welcome</h2>
+				<h2 class="title">Zdravo</h2>
            		<div class="input-div one">
            		   <div class="i">
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
            		   		<h5>Email</h5>
-           		   		<input id="email-input" type="email" class="input">
+           		   		<input id="email-input" type="email" class="input" name="email">
            		   </div>
            		</div>
            		<div class="input-div pass">
@@ -32,10 +32,10 @@
            		   </div>
            		   <div class="div">
            		    	<h5>Password</h5>
-           		    	<input id="password-input" type="password" class="input">
+           		    	<input id="password-input" type="password" class="input" name="password">
             	   </div>
             	</div>
-				<button class="btn" onclick="login()">LOGIN</button>
+				<button class="btn" onclick="login()">PRIJAVI SE</button>
 				<p id="error"></p>
             </form>
         </div>

@@ -47,7 +47,7 @@ void sendRfidLog(long cardId) {
   
   if(WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
-    String postData = "reg=E11-J-133&card=" + String(cardId);
+    String postData = "reg=A00-A-001&card=" + String(cardId);
     
     Serial.println("KarticaID:");
     Serial.println(String(cardId));

@@ -31,6 +31,11 @@ namespace ATPT_Biletar
             {
                 port.Open();
             }
+            else
+            {
+                port.Close();
+                port.Open();
+            }
 
             //while (true)
             //{

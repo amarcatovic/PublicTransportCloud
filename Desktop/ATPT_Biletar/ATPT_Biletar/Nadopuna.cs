@@ -32,6 +32,7 @@ namespace ATPT_Biletar
             //{
             string brojKartice = port.ReadLine();
             textBox1.Text = brojKartice;
+            port.Close();
             //}
         }
 

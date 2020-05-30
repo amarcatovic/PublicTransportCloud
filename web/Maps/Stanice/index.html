@@ -62,7 +62,7 @@
                     stanice = data.data
                 }
                 var ikona = L.icon({
-                        iconUrl: '../images/Autobuss.png',
+                        iconUrl: '../images/bus.png',
 
                         iconSize:     [36, 36],
                         iconAnchor:   [18, 18],
@@ -70,6 +70,7 @@
                 });
 
                 stanice.map(function(stnc){
+                    console.log(stnc.naziv)
                     var marker = L.marker([parseFloat(stnc.lat), parseFloat(stnc.lng)], {icon: ikona}).addTo(karta)
                     marker.bindPopup(stnc.naziv+'<br>'+stnc.adresa)
                 })

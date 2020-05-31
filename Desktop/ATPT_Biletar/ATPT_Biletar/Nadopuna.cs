@@ -95,5 +95,12 @@ namespace ATPT_Biletar
         {
             Ucitaj();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OptionForm of = new OptionForm();
+            of.Show();
+            this.Close();
+        }
     }
 }

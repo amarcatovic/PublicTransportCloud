@@ -23,6 +23,8 @@ namespace ATPT_Biletar
         public static string dob = "";
         public static string card = "";
         public static string stanje = "";
+
+
         private void Ucitaj()
         {
             textBox8.Text = "";
@@ -81,15 +83,7 @@ namespace ATPT_Biletar
                 if (result.Substring(11, 2) == "OK")
                 {
                     Potvrda1 form = new Potvrda1();
-                    AddUser.ime = textBox1.Text;
-                    AddUser.prezime = textBox2.Text;
-                    AddUser.email = textBox3.Text;
-                    AddUser.pw = textBox5.Text + textBox7.Text + textBox6.Text;
-                    AddUser.dob = textBox5.Text + "-" + textBox7.Text + "-" + textBox6.Text;
-                    AddUser.card = textBox8.Text;
-                    AddUser.stanje = textBox9.Text;
                     form.Show();
-                    this.Close();
                 }
                 else
                 {
@@ -118,12 +112,26 @@ namespace ATPT_Biletar
         private void button1_Click(object sender, EventArgs e)
         {
             textBox8.Text = textBox8.Text.Replace("\r", "");
+            AddUser.ime = textBox1.Text;
+            AddUser.prezime = textBox2.Text;
+            AddUser.email = textBox3.Text;
+            AddUser.pw = textBox5.Text + textBox7.Text + textBox6.Text;
+            AddUser.dob = textBox5.Text + "-" + textBox7.Text + "-" + textBox6.Text;
+            AddUser.card = textBox8.Text;
+            AddUser.stanje = textBox9.Text;
             Add();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Ucitaj();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OptionForm of = new OptionForm();
+            of.Show();
+            this.Close();
         }
     }
 }

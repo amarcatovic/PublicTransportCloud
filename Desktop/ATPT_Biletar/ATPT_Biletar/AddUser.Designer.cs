@@ -52,6 +52,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -262,11 +263,25 @@
             this.label11.Size = new System.Drawing.Size(0, 20);
             this.label11.TabIndex = 24;
             // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.SystemColors.Highlight;
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.ForeColor = System.Drawing.SystemColors.Control;
+            this.button3.Location = new System.Drawing.Point(55, 591);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(164, 42);
+            this.button3.TabIndex = 25;
+            this.button3.Text = "Nazad";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // AddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1048, 644);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label12);
@@ -290,8 +305,9 @@
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddUser";
-            this.Text = "AddUser";
+            this.Text = "Dodaj Korisnika";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -323,5 +339,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button3;
     }
 }

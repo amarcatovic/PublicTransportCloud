@@ -21,6 +21,7 @@ void loop()
         code=((code+mfrc522.uid.uidByte[i])*10);
       }
       Serial.println(String(code));
+      delay(1000);
     }
   }
 } 

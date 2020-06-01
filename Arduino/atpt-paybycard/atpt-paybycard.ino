@@ -11,8 +11,8 @@
 
 
 
-const char *ssid = "Nigga get yo own WiFi"; 
-const char *password = "putinpeder";
+const char *ssid = "Amar"; 
+const char *password = "wifi1234";
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 void setup() {
@@ -52,7 +52,7 @@ void sendRfidLog(long cardId) {
     Serial.println("KarticaID:");
     Serial.println(String(cardId));
      
-    http.begin("http://192.168.0.16/publictransportcloud/api/LinijaPlacanje/card.php");   
+    http.begin("http://192.168.43.141/publictransportcloud/api/LinijaPlacanje/card.php");   
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");  
 
     Serial.println(postData);

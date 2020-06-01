@@ -28,7 +28,7 @@ namespace ATPT_Biletar
         private void Ucitaj()
         {
             textBox8.Text = "";
-            SerialPort port = new SerialPort("COM4", 9600, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One);
             if (!port.IsOpen)
             {
                 port.Open();

@@ -28,3 +28,17 @@ C:\xampp\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug
 C:\xampp\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.csproj.CoreCompileInputs.cache
 C:\xampp\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.exe
 C:\xampp\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.pdb
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\bin\Debug\ATPT_Biletar.exe.config
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\bin\Debug\ATPT_Biletar.exe
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\bin\Debug\ATPT_Biletar.pdb
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.csprojAssemblyReference.cache
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.AddUser.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Form1.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.LoginForm.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Nadopuna.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.OptionForm.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Potvrda1.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.Properties.Resources.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.csproj.GenerateResource.cache
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.exe
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Debug\ATPT_Biletar.pdb

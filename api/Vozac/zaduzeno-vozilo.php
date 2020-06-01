@@ -14,7 +14,7 @@
 
   $user->read_zaduzena();
 
-  if(strlen($user->vozilo_id) > 3){
+  if(strlen($user->vozilo_id) > 2){
     $category_arr = array(
         'status' => 'YES',
         'vozilo_id' => $user->vozilo_id,

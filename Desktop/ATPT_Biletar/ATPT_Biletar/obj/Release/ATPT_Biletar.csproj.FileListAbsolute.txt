@@ -1,0 +1,14 @@
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\bin\Release\ATPT_Biletar.exe.config
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\bin\Release\ATPT_Biletar.exe
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\bin\Release\ATPT_Biletar.pdb
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.csprojAssemblyReference.cache
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.AddUser.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.Form1.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.LoginForm.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.Nadopuna.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.OptionForm.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.Potvrda1.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.Properties.Resources.resources
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.csproj.GenerateResource.cache
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.exe
+C:\Apache24\htdocs\PublicTransportCloud\Desktop\ATPT_Biletar\ATPT_Biletar\obj\Release\ATPT_Biletar.pdb

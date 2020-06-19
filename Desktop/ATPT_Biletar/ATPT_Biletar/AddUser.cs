@@ -46,6 +46,10 @@ namespace ATPT_Biletar
             port.Close();
             //}
         }
+        private void UcitajFix()
+        {
+            textBox8.Text = "245160";
+        }
         public AddUser()
         {
             InitializeComponent();
@@ -124,7 +128,7 @@ namespace ATPT_Biletar
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Ucitaj();
+            UcitajFix();
         }
 
         private void button3_Click(object sender, EventArgs e)

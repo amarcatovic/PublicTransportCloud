@@ -67,6 +67,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(222, 20);
             this.textBox1.TabIndex = 2;
+            this.textBox1.Text = "harun.smriko2018@size.ba";
             // 
             // textBox2
             // 

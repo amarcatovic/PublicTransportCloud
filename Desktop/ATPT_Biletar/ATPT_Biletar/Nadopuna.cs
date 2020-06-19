@@ -22,9 +22,15 @@ namespace ATPT_Biletar
         }
         private void Ucitaj()
         {
+            textBox1.Text = "";
             SerialPort port = new SerialPort("COM5", 9600, Parity.None, 8, StopBits.One);
             if (!port.IsOpen)
             {
+                port.Open();
+            }
+            else
+            {
+                port.Close();
                 port.Open();
             }
 
@@ -34,6 +40,11 @@ namespace ATPT_Biletar
             textBox1.Text = brojKartice;
             port.Close();
             //}
+        }
+
+        private void UcitajFix()
+        {
+            textBox1.Text = "245160";
         }
 
         private void Add()
@@ -93,7 +104,7 @@ namespace ATPT_Biletar
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Ucitaj();
+            UcitajFix();
         }
 
         private void button3_Click(object sender, EventArgs e)

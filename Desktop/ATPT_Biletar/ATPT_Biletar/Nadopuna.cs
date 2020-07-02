@@ -44,7 +44,8 @@ namespace ATPT_Biletar
 
         private void UcitajFix()
         {
-            textBox1.Text = "245160";
+            System.Threading.Thread.Sleep(1000);
+            textBox1.Text = "1870590";
         }
 
         private void Add()

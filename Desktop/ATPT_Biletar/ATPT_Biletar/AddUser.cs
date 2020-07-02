@@ -48,7 +48,8 @@ namespace ATPT_Biletar
         }
         private void UcitajFix()
         {
-            textBox8.Text = "245160";
+            System.Threading.Thread.Sleep(1000);
+            textBox8.Text = "1870590";
         }
         public AddUser()
         {
